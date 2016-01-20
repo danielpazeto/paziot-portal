@@ -13,10 +13,10 @@ import com.googlecode.objectify.annotation.Index;
 public class Device implements Serializable {
 
 	@Index
-	@Id long chipId;
-	Date createDate;
-	@Index
-	private Ref<User> user;
+	@Id
+	private long chipId;
+	@Index private Date createDate;
+	@Index private Ref<User> user;
 
 	public long getChipId() {
 		return chipId;
@@ -39,7 +39,7 @@ public class Device implements Serializable {
 	}
 
 	public void setUser(User user) {
-		this.user =  Ref.create(user);
+		this.user = Ref.create(user);
 	}
 
 }

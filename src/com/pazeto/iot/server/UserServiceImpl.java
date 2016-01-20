@@ -15,7 +15,8 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 
 	DAO db = new DAO();
 	
-	public void addUser(User user) {
-		db.persistObject(user);
+	public void addUser(User user) throws Exception {
+		db.addNewUser(user);
 	}
+
 }

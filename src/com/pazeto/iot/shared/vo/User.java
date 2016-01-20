@@ -7,11 +7,14 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@Index
 public class User implements Serializable {
 
+	@Id
+	Long id;
 	private String name, lastName;
-	@Id	private String email;
+	@Index
+	private String email;
+	@Index
 	private String pwd;
 
 	public String getName() {
@@ -44,6 +47,14 @@ public class User implements Serializable {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

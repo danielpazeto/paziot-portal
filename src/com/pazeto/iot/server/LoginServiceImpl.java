@@ -19,18 +19,18 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-	private void storeUserInSession(User user) {
-		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-		HttpSession session = httpServletRequest.getSession(true);
-//		user.setSessionId(session.getId());
-		session.setAttribute("user", user);
-	}
-
-	private void deleteUserFromSession() {
-		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-		HttpSession session = httpServletRequest.getSession();
-		session.removeAttribute("user");
-	}
+//	private void storeUserInSession(User user) {
+//		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+//		HttpSession session = httpServletRequest.getSession(true);
+////		user.setSessionId(session.getId());
+//		session.setAttribute("user", user);
+//	}
+//
+//	private void deleteUserFromSession() {
+//		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+//		HttpSession session = httpServletRequest.getSession();
+//		session.removeAttribute("user");
+//	}
 
 	private User getUserAlreadyFromSession() {
 		User user = null;
@@ -43,9 +43,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 		return user;
 	}
 
-	public void logout() {
-		deleteUserFromSession();
-	}
+//	public void logout() {
+//		deleteUserFromSession();
+//	}
 
 	@Override
 	public User loginFromSessionServer() {

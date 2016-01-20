@@ -2,7 +2,7 @@ package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
 
-public class MonitoredValues implements Serializable {
+public class MonitoredValues extends Value {
 
 	long ioPortId;
 	String value;

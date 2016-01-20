@@ -2,6 +2,14 @@ package com.pazeto.iot.client.ui;
 
 import java.util.logging.Logger;
 
+import com.pazeto.iot.shared.Util;
+
+/**
+ * Class to handle open/close views
+ * 
+ * @author dpazeto
+ *
+ */
 public class UiViewHandler {
 
 	private static final Logger LOG = Logger.getLogger(UiViewHandler.class
@@ -23,10 +31,11 @@ public class UiViewHandler {
 	}
 
 	public void openMainPage() {
-		// checkUserLogged();
-		mainScreen.bodyView.clear();
-		HomePage mainPage = HomePage.getInstance();
-		mainScreen.bodyView.add(mainPage);
+		if (checkUserLogged()) {
+			mainScreen.bodyView.clear();
+			HomePage mainPage = HomePage.getInstance();
+			mainScreen.bodyView.add(mainPage);
+		}
 	}
 
 	public void openLoginPage() {
@@ -42,13 +51,13 @@ public class UiViewHandler {
 	// mainScreen.bodyView.add(productsPage);
 	// }
 
-	// private void checkUserLogged() {
-	// LOG.info("Usuario logado : " + Util.getUserLogged().toString());
-	// if (Util.getUserLogged() != null)
-	//
-	// return;
-	// openLoginPage();
-	// }
+	private boolean checkUserLogged() {
+		LOG.info("Usuario logado : " + Util.getUserLogged().toString());
+		if (Util.getUserLogged() != null)
+			return true;
+		openLoginPage();
+		return false;
+	}
 
 	// public void openCompanysPage() {
 	// checkUserLogged();

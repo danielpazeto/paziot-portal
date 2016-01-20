@@ -11,7 +11,7 @@ import com.pazeto.iot.shared.vo.User;
 public interface UserService extends RemoteService {
 
 	
-	void addUser(User user);
+	void addUser(User user) throws Exception;
 
 	
 	

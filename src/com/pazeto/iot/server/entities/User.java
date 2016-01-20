@@ -12,7 +12,8 @@ import com.googlecode.objectify.annotation.Id;
 public class User implements Serializable {
 
 	@Id private long id;
-	private String name, lastname, email, pwd;
+	private String name, lastname;
+	@Index private String email, pwd;
 
 	public long getId() {
 		return id;

@@ -22,15 +22,12 @@ import com.pazeto.iot.client.LoginService;
 import com.pazeto.iot.client.LoginServiceAsync;
 import com.pazeto.iot.client.UserService;
 import com.pazeto.iot.client.UserServiceAsync;
+import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.User;
 
 public class LoginPage extends Composite {
 
 	private static final int COOKIE_TIMEOUT = 1000 * 60 * 60 * 24;
-
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
 
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
@@ -55,7 +52,7 @@ public class LoginPage extends Composite {
 	private Label errorLabel;
 	private Button loginButton, newUserButton;
 
-	private Label textToServerLabel;
+	private Label textLabelDialogBox;
 	private Button closeButton;
 
 	private DialogBox dialogBox;
@@ -68,10 +65,10 @@ public class LoginPage extends Composite {
 		dialogBox.setAnimationEnabled(true);
 		closeButton = new Button("Close");
 		closeButton.getElement().setId("closeButton");
-		textToServerLabel = new Label();
+		textLabelDialogBox = new Label();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(textToServerLabel);
+		dialogVPanel.add(textLabelDialogBox);
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 		dialogVPanel.add(closeButton);
 		dialogBox.setWidget(dialogVPanel);
@@ -135,26 +132,27 @@ public class LoginPage extends Composite {
 				@Override
 				public void onSuccess(User result) {
 					if (result != null) {
-						textToServerLabel.setText("Logado com sucesso");
+						//textToServerLabel.setText("Logado com sucesso");
 //						String sessionID = result.getSessionId();
 //						final long DURATION = 1000 * 60 * 60 * 24 * 1;
 //						Date expires = new Date(System.currentTimeMillis()
 //								+ DURATION);
 //						Cookies.setCookie("sid", sessionID, expires, null, "/",
 //								false);
-//						new Util().setUserLogged(result);
+						new Util().setUserLogged(result);
 						uiHandler.openMainPage();
-
 					} else {
-						textToServerLabel.setText("Nome e/ou senha inválidos");
+						textLabelDialogBox.setText("Nome e/ou senha inválidos");
+						dialogBox.center();
+						closeButton.setFocus(true);
 					}
-					dialogBox.center();
-					closeButton.setFocus(true);
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
-					textToServerLabel.setText("Nome e/ou senha inv�lidos");
+					caught.printStackTrace();
+					textLabelDialogBox.setText("Erro ao executar o login.");
+					dialogBox.center();
 				}
 
 				@Override
@@ -167,9 +165,7 @@ public class LoginPage extends Composite {
 
 	/**
 	 * Create new user handle button
-	 * 
 	 * @author dpazeto
-	 *
 	 */
 	class NewUserButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
@@ -180,32 +176,32 @@ public class LoginPage extends Composite {
 
 	}
 
-	public void checkWithServerIfSessionIdIsStillLegal() {
-
-		new CustomAsyncCall<User>() {
-
-			@Override
-			public void onSuccess(User result) {
-				if (result == null) {
-					uiHandler.openLoginPage();
-				} else {
-					textToServerLabel.setText("Logado com sucesso");
-					dialogBox.center();
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				textToServerLabel.setText("Falha enquanto logando...");
-				dialogBox.center();
-			}
-
-			@Override
-			protected void callService(AsyncCallback<User> cb) {
-				loginService.loginFromSessionServer(cb);
-			}
-		}.go(1);
-	}
+//	public void checkWithServerIfSessionIdIsStillLegal() {
+//
+//		new CustomAsyncCall<User>() {
+//
+//			@Override
+//			public void onSuccess(User result) {
+//				if (result == null) {
+//					uiHandler.openLoginPage();
+//				} else {
+//					textToServerLabel.setText("Logado com sucesso");
+//					dialogBox.center();
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				textToServerLabel.setText("Falha enquanto logando...");
+//				dialogBox.center();
+//			}
+//
+//			@Override
+//			protected void callService(AsyncCallback<User> cb) {
+//				loginService.loginFromSessionServer(cb);
+//			}
+//		}.go(1);
+//	}
 
 	final static String COOKIE_NAME = "__user_logged";
 
