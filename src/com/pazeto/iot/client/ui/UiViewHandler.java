@@ -2,6 +2,7 @@ package com.pazeto.iot.client.ui;
 
 import java.util.logging.Logger;
 
+import com.pazeto.iot.client.ui.views.MenuView;
 import com.pazeto.iot.shared.Util;
 
 /**
@@ -15,10 +16,10 @@ public class UiViewHandler {
 	private static final Logger LOG = Logger.getLogger(UiViewHandler.class
 			.getName());
 
-	private MainScreen mainScreen;
+	private MainRootScreen mainScreen;
 
 	public UiViewHandler() {
-		mainScreen = MainScreen.getInstance();
+		mainScreen = MainRootScreen.getInstance();
 	}
 
 	private static UiViewHandler uniqueInstance;
@@ -32,16 +33,16 @@ public class UiViewHandler {
 
 	public void openMainPage() {
 		if (checkUserLogged()) {
-			mainScreen.bodyView.clear();
-			HomePage mainPage = HomePage.getInstance();
-			mainScreen.bodyView.add(mainPage);
+			mainScreen.getContentView().clear();
+			mainScreen.getContentView().add(HomePage.getInstance());
 		}
 	}
 
 	public void openLoginPage() {
-		mainScreen.bodyView.clear();
+		mainScreen.getContentView().clear();
+		MenuView.getInstance().setVisible(false);
 		LoginPage loginPage = LoginPage.getInstance();
-		mainScreen.bodyView.add(loginPage);
+		mainScreen.getContentView().add(loginPage);
 	}
 
 	// public void openProductsPage() {
@@ -53,8 +54,12 @@ public class UiViewHandler {
 
 	private boolean checkUserLogged() {
 		LOG.info("Usuario logado : " + Util.getUserLogged().toString());
-		if (Util.getUserLogged() != null)
+		if (Util.getUserLogged() != null) {
+			if (!MenuView.getInstance().isVisible()) {
+				MenuView.getInstance().setVisible(true);
+			}
 			return true;
+		}
 		openLoginPage();
 		return false;
 	}

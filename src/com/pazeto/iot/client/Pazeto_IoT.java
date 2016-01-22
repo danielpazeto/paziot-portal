@@ -4,7 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.pazeto.iot.client.ui.LoginPage;
-import com.pazeto.iot.client.ui.MainScreen;
+import com.pazeto.iot.client.ui.MainRootScreen;
 import com.pazeto.iot.client.ui.UiViewHandler;
 
 /**
@@ -17,7 +17,7 @@ public class Pazeto_IoT implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		MainScreen mainScreen = MainScreen.getInstance();
+		MainRootScreen mainScreen = MainRootScreen.getInstance();
 
 		RootPanel.get().add(mainScreen);
 		RootPanel.get().setStyleName("main-div");

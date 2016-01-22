@@ -22,6 +22,7 @@ import com.pazeto.iot.client.LoginService;
 import com.pazeto.iot.client.LoginServiceAsync;
 import com.pazeto.iot.client.UserService;
 import com.pazeto.iot.client.UserServiceAsync;
+import com.pazeto.iot.client.ui.views.UserInfoForm;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.User;
 
@@ -31,6 +32,7 @@ public class LoginPage extends Composite {
 
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
+	
 	private final UserServiceAsync userService = GWT.create(UserService.class);
 
 	private static final Logger LOG = Logger.getLogger(LoginPage.class
@@ -61,7 +63,7 @@ public class LoginPage extends Composite {
 		uiHandler = UiViewHandler.getInstance();
 
 		dialogBox = new DialogBox();
-		dialogBox.setText("Login result");
+		dialogBox.setText("Login");
 		dialogBox.setAnimationEnabled(true);
 		closeButton = new Button("Close");
 		closeButton.getElement().setId("closeButton");

@@ -1,5 +1,7 @@
 package com.pazeto.iot.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.pazeto.iot.shared.vo.User;
@@ -12,6 +14,7 @@ public interface UserService extends RemoteService {
 
 	
 	void addUser(User user) throws Exception;
+	ArrayList<User> listAll() throws Exception;
 
 	
 	

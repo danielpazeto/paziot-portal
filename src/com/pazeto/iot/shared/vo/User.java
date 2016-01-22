@@ -10,7 +10,7 @@ import com.googlecode.objectify.annotation.Index;
 public class User implements Serializable {
 
 	@Id
-	Long id;
+	private Long id;
 	private String name, lastName;
 	@Index
 	private String email;

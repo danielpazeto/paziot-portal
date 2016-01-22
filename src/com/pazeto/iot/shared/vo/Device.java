@@ -1,10 +1,8 @@
 package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -14,15 +12,25 @@ public class Device implements Serializable {
 
 	@Index
 	@Id
-	private long chipId;
-	@Index private Date createDate;
-	@Index private Ref<User> user;
+	private String chipId;
+	private String name;
+	@Index
+	private Date createDate;
+	@Index
+	private Long userId;
 
-	public long getChipId() {
+	public Device(User userLogged) {
+		setUserId(userLogged.getId());
+	}
+
+	public Device() {
+	}
+
+	public String getChipId() {
 		return chipId;
 	}
 
-	public void setChipId(long chipId) {
+	public void setChipId(String chipId) {
 		this.chipId = chipId;
 	}
 
@@ -34,12 +42,20 @@ public class Device implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public User getUser() {
-		return user.get();
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = Ref.create(user);
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

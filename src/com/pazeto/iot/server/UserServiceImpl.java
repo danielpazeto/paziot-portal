@@ -1,5 +1,6 @@
 package com.pazeto.iot.server;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -17,6 +18,11 @@ public class UserServiceImpl extends RemoteServiceServlet implements
 	
 	public void addUser(User user) throws Exception {
 		db.addNewUser(user);
+	}
+
+	@Override
+	public ArrayList<User> listAll() throws Exception {
+		return (ArrayList<User>) db.listOjects(User.class, null);
 	}
 
 }

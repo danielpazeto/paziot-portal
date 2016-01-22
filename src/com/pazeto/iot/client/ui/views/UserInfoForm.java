@@ -1,4 +1,6 @@
-package com.pazeto.iot.client.ui;
+package com.pazeto.iot.client.ui.views;
+
+import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,6 +31,8 @@ public class UserInfoForm extends PopupPanel {
 
 	private final UserServiceAsync userService = GWT.create(UserService.class);
 
+    private static final Logger logger = Logger.getLogger(UserInfoForm.class.getName());
+	
 	private TextBox nameField;
 	private TextBox pwdField;
 	private TextBox emailField;
@@ -130,6 +134,8 @@ public class UserInfoForm extends PopupPanel {
 
 				@Override
 				public void onFailure(Throwable caught) {
+					caught.printStackTrace();
+					logger.info(caught.getMessage());
 					textToServerLabel.setText("Erro ao criar usuário");
 					dialogBox.center();
 				}

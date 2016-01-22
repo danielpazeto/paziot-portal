@@ -11,9 +11,11 @@ import com.googlecode.objectify.annotation.Index;
 @Index
 public class IoPort implements Serializable {
 
-	@Id String id;
-	long IONumber;
-	Ref<Device> deviceId;
-	String type;
+	@Id private  Long id;
+	private String iONumber;
+	private Long deviceId;
+	private String type;
+	
+	
 
 }

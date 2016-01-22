@@ -26,7 +26,18 @@
 		<servlet-name>userServlet</servlet-name>
 		<url-pattern>/pazeto_iot/user</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Device -->
+	<servlet>
+		<servlet-name>deviceServlet</servlet-name>
+		<servlet-class>com.pazeto.iot.server.DeviceServiceImpl</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>deviceServlet</servlet-name>
+		<url-pattern>/pazeto_iot/device</url-pattern>
+	</servlet-mapping>
+	
 	<!-- monitoredValues -->
 	<servlet>
 		<servlet-name>addMonitoredValue</servlet-name>

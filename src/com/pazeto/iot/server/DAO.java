@@ -1,10 +1,13 @@
 package com.pazeto.iot.server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.cmd.Query;
 import com.pazeto.iot.shared.vo.Device;
 import com.pazeto.iot.shared.vo.IoPort;
 import com.pazeto.iot.shared.vo.User;
@@ -38,41 +41,38 @@ public class DAO {
 		return user;
 	}
 
-	// List<Product> listProducts(User user) {
-	// Iterable<Product> list = ofy().load().type(Product.class)
-	// .filter("idUser", user.getId());
-	//
-	// List<Product> prods = new ArrayList<Product>();
-	// for (Product product : list) {
-	// prods.add(product);
-	// }
-	// return prods;
-	// }
+	/**
+	 * List all objects of determined type
+	 * 
+	 * @param type
+	 * @param user
+	 *            - whether is not null filter user objects
+	 * @return
+	 */
+	<T> List<T> listOjects(Class<T> type, User user) {
 
-	// <T> List<T> listOjects(Class<T> type, User user) {
-	//
-	// LOG.info(type.getName());
-	// LOG.info(type.getClass().toString());
-	// Iterable<T> list = ofy().load().type(type)
-	// .filter("idUser", user.getId()).list();
-	//
-	// List<T> objs = new ArrayList<T>();
-	// for (T obj : list) {
-	// objs.add(obj);
-	// if (obj instanceof Company) {
-	// LOG.info("Company  : " + ((Company) obj).getName());
-	// } else if (obj instanceof Product) {
-	// LOG.info("Product  : " + ((Product) obj).getName());
-	// }
-	// }
-	// LOG.info("" + objs.size());
-	// return objs;
-	// }
+		LOG.info(type.getName());
+		LOG.info(type.getClass().toString());
 
-	// public void saveProducts(List<Product> list) {
-	// LOG.info("Salvando PRODUCTS = " + list.size());
-	// ofy().save().entities(list).now();
-	// }
+		Query<T> q = ofy().load().type(type);
+
+		if (user != null) {
+			q = q.filter("idUser", user.getId());
+		}
+		Iterable<T> list = q.list();
+
+		List<T> objs = new ArrayList<T>();
+		for (T obj : list) {
+			objs.add(obj);
+			if (obj instanceof Device) {
+				LOG.info("Company  : " + ((Device) obj).getName());
+			} else if (obj instanceof User) {
+				LOG.info("Product  : " + ((User) obj).getName());
+			}
+		}
+		LOG.info("" + objs.size());
+		return objs;
+	}
 
 	/**
 	 * Persist any type object
@@ -86,7 +86,9 @@ public class DAO {
 	}
 
 	public void addNewUser(User user) throws Exception {
-		if (ofy().load().filterKey("email", user.getEmail()).first().now() == null) {
+		LOG.info(user.getEmail());
+		if (ofy().load().type(User.class).filter("email", user.getEmail())
+				.first().now() == null) {
 			save(user);
 		} else {
 			throw new Exception("User already exists!");
@@ -97,8 +99,11 @@ public class DAO {
 		save(user);
 	}
 
-	public void addNewDevice(Device dev) throws Exception {
-		if (ofy().load().filterKey("chipId", dev.getChipId()).first().now() == null) {
+	public void persistDevice(Device dev) throws Exception {
+		LOG.info(dev.getChipId()+"");
+		
+		if (ofy().load().type(Device.class).filter("chipId", dev.getChipId())
+				.first().now() == null) {
 			save(dev);
 		} else {
 			throw new Exception("Device already exists!");
