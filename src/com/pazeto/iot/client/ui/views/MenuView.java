@@ -10,6 +10,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
@@ -22,8 +24,6 @@ public class MenuView extends Composite {
 
 	private final DeviceServiceAsync deviceService = GWT
 			.create(DeviceService.class);
-
-
 	private static MenuView uniqueInstance;
 
 	public static MenuView getInstance() {
@@ -46,19 +46,20 @@ public class MenuView extends Composite {
 		p.add(devicesItemMenu, new HTML("Dispositivos"), 3);
 		p.add(reportsItemMenu, new HTML("Relatórios"), 3);
 
+		// TODO if(admin)
 		devicesItemMenu.add(btnAddNewDevice);
-
-		loadMyDevicesItemMenu();
-
+		devicesItemMenu.add(makeRefreshButton());
+		devicesItemMenu.setWidth("100%");
 		btnAddNewDevice.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				DeviceEditorView.getInstance().center();
-				;
-
 			}
 		});
+
+		loadMyDevicesItemMenu();
+
 		initWidget(p);
 	}
 
@@ -69,11 +70,10 @@ public class MenuView extends Composite {
 
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
+				GWT.log(String.valueOf(result.size()));
 				if (result != null && result.size() > 0) {
-					// TODO carregar todos os devices e colocar aqui com o nome
-					// que o
 					for (Device device : result) {
-						myDevicesList.add(new HTML(device.getChipId()));
+						myDevicesList.add(createMenuDeviceItem(device));
 					}
 					devicesItemMenu.add(myDevicesList);
 				} else {
@@ -92,9 +92,49 @@ public class MenuView extends Composite {
 
 			@Override
 			protected void callService(AsyncCallback<ArrayList<Device>> cb) {
+				if (Util.getUserLogged() != null) {
+					GWT.log(Util.getUserLogged().getEmail());
+				}
 				deviceService.listAll(Util.getUserLogged(), cb);
 			}
 		}.go(0);
+	}
 
+	private HorizontalPanel createMenuDeviceItem(final Device dev) {
+		HorizontalPanel hPanel = new HorizontalPanel();
+		HTML hmtlDevName = new HTML(dev.getName());
+		hPanel.add(hmtlDevName);
+		hmtlDevName.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				DeviceEditorView.getInstance(dev).center();
+			}
+		});
+		hPanel.setWidth("100%");
+		return hPanel;
+	}
+
+	private Button makeRefreshButton() {
+
+		Button btnRefresh = new Button(
+				"Atualizar<img src=res/refresh_icon.png>", new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						loadMyDevicesItemMenu();
+					}
+				});
+
+		// HorizontalPanel hPanel = new HorizontalPanel();
+		//
+		// Image refreshImg = new Image("res/refresh_icon.png");
+		// refreshImg.setHeight("20px");
+		// refreshImg.setWidth("20px");
+		// refreshImg.addClickHandler();
+		// hPanel.add(refreshImg);
+		// hPanel.add(new HTML("Atualizar"));
+		// hPanel.setWidth("100%");
+		return btnRefresh;
 	}
 }

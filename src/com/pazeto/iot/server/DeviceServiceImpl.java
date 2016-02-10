@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.pazeto.iot.client.DeviceService;
-import com.pazeto.iot.client.UserService;
 import com.pazeto.iot.shared.vo.Device;
 import com.pazeto.iot.shared.vo.User;
 

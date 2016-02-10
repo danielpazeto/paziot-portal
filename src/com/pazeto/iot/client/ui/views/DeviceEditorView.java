@@ -2,6 +2,7 @@ package com.pazeto.iot.client.ui.views;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -49,11 +50,19 @@ public class DeviceEditorView extends PopupPanel {
 		} else {
 			chipIdField.setEnabled(false);
 		}
+		chipIdField.setText(currentDev.getChipId());
+		nameField.setText(currentDev.getName());
+		
+		//TODO if(admin)
 		refreshUserComboBox();
-
+		for (User u : userList) {
+			if(u.getId().equals(currentDev.getUserId())){
+				dropBoxUser.setSelectedIndex(userList.indexOf(u));
+			}
+		}
 	}
 
-	static Map<Long, User> userList = new HashMap<Long, User>();
+	static List<User> userList = new ArrayList<User>();
 
 	private static void refreshUserComboBox() {
 		new CustomAsyncCall<ArrayList<User>>() {
@@ -62,9 +71,10 @@ public class DeviceEditorView extends PopupPanel {
 				dropBoxUser.clear();
 				userList.clear();
 				for (User user : result) {
-					userList.put(user.getId(), user);
+					userList.add(user);
 					dropBoxUser.addItem(user.getEmail(),
 							String.valueOf(user.getId()));
+					GWT.log(user.getId().toString());
 				}
 			}
 
@@ -81,13 +91,9 @@ public class DeviceEditorView extends PopupPanel {
 
 	private final static UserServiceAsync userService = GWT
 			.create(UserService.class);
-	
+
 	private final DeviceServiceAsync deviceService = GWT
 			.create(DeviceService.class);
-
-
-	private static final Logger logger = Logger
-			.getLogger(DeviceEditorView.class.getName());
 
 	private static Device currentDev;
 	private static TextBox chipIdField = new TextBox();
@@ -164,8 +170,10 @@ public class DeviceEditorView extends PopupPanel {
 	 */
 	class SaveDeviceButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			final Device dev = new Device(userList.get(dropBoxUser
-					.getSelectedValue()));
+			GWT.log("AQUI PORRA");
+			GWT.log(dropBoxUser.getSelectedValue());
+			final Device dev = new Device(userList.get(dropBoxUser.getSelectedIndex()));
+			GWT.log("AQUI PORRA aeeeeeee");
 			dev.setName(nameField.getText());
 			dev.setChipId(chipIdField.getText());
 
@@ -185,7 +193,7 @@ public class DeviceEditorView extends PopupPanel {
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					logger.info(caught.getMessage());
+					GWT.log(caught.getMessage());
 					textToServerLabel.setText("Erro ao criar usuário");
 					dialogBox.center();
 				}

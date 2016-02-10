@@ -69,13 +69,14 @@ public class MainRootScreen extends Composite {
 		bodyView = new LayoutPanel();
 
 		bodyView.setWidth("100%");
+		bodyView.setHeight("300px");
 		bodyView.setStyleName("body");
 
 		contentView = new LayoutPanel();
 		bodyView.add(MenuView.getInstance());
 		bodyView.add(contentView);
-		bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 15, Unit.PCT);
-		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 85, Unit.PCT);
+		bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20, Unit.PCT);
+		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80, Unit.PCT);
 		rootPanel.add(bodyView);
 	}
 
@@ -89,8 +90,7 @@ public class MainRootScreen extends Composite {
 
 
 	Image createBackgroundImage() {
-		Image img = new Image(
-				"http://www.planwallpaper.com/static/images/Light-Wood-Background-Wallpaper.jpg");
+		Image img = new Image();
 		img.setStyleName("background-image");
 		return img;
 	}

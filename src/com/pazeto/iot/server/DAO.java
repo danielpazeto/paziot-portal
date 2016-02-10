@@ -55,9 +55,9 @@ public class DAO {
 		LOG.info(type.getClass().toString());
 
 		Query<T> q = ofy().load().type(type);
-
 		if (user != null) {
-			q = q.filter("idUser", user.getId());
+			LOG.info("listando "+type.getName()+" de "+user.getEmail());
+			q = q.filter("userId", user.getId());
 		}
 		Iterable<T> list = q.list();
 
@@ -65,7 +65,7 @@ public class DAO {
 		for (T obj : list) {
 			objs.add(obj);
 			if (obj instanceof Device) {
-				LOG.info("Company  : " + ((Device) obj).getName());
+				LOG.info("Device  : " + ((Device) obj).getName());
 			} else if (obj instanceof User) {
 				LOG.info("Product  : " + ((User) obj).getName());
 			}
@@ -102,12 +102,11 @@ public class DAO {
 	public void persistDevice(Device dev) throws Exception {
 		LOG.info(dev.getChipId()+"");
 		
-		if (ofy().load().type(Device.class).filter("chipId", dev.getChipId())
-				.first().now() == null) {
+//		if (ofy().load().type(Device.class).id(dev.getChipId()).now() == null) {
 			save(dev);
-		} else {
-			throw new Exception("Device already exists!");
-		}
+//		} else {
+//			throw new Exception("Device already exists!");
+//		}
 	}
 
 	public void updateDevice(Device dev) throws Exception {
