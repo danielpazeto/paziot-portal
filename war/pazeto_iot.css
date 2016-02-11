@@ -81,3 +81,12 @@ h1 {
 .gwt-Button {
 	font-weight: bold;
 }
+
+.img-Refresh-Icon{
+	height: 1em;
+	width: 1em;
+}
+
+.device-item-menu{
+	cursor: pointer;
+}

@@ -15,22 +15,20 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 
 	public User doAuthentication(User user) throws IllegalArgumentException {
 		DAO db = new DAO();
-		return db.doAuthentication(user);
+		User u = db.doAuthentication(user);
+		if (u != null) {
+			storeUserInSession(u);
+			u.setLoggedIn(true);
+		}
+		return u;
 
 	}
 
-//	private void storeUserInSession(User user) {
-//		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-//		HttpSession session = httpServletRequest.getSession(true);
-////		user.setSessionId(session.getId());
-//		session.setAttribute("user", user);
-//	}
-//
-//	private void deleteUserFromSession() {
-//		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
-//		HttpSession session = httpServletRequest.getSession();
-//		session.removeAttribute("user");
-//	}
+	private void storeUserInSession(User user) {
+		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+		HttpSession session = httpServletRequest.getSession(true);
+		session.setAttribute("user", user);
+	}
 
 	private User getUserAlreadyFromSession() {
 		User user = null;
@@ -42,14 +40,25 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 		}
 		return user;
 	}
-
-//	public void logout() {
-//		deleteUserFromSession();
-//	}
+	@Override
+	public void logout() {
+		deleteUserFromSession();
+	}
 
 	@Override
 	public User loginFromSessionServer() {
 		return getUserAlreadyFromSession();
+	}
+
+	@Override
+	public boolean changePassword(String name, String newPassword) {
+		return false;
+	}
+
+	private void deleteUserFromSession() {
+		HttpServletRequest httpServletRequest = this.getThreadLocalRequest();
+		HttpSession session = httpServletRequest.getSession();
+		session.removeAttribute("user");
 	}
 
 }

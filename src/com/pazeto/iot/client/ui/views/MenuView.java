@@ -11,12 +11,14 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
 import com.pazeto.iot.client.DeviceService;
 import com.pazeto.iot.client.DeviceServiceAsync;
+import com.pazeto.iot.client.LoginService;
+import com.pazeto.iot.client.LoginServiceAsync;
+import com.pazeto.iot.client.ui.UiViewHandler;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.Device;
 
@@ -24,6 +26,9 @@ public class MenuView extends Composite {
 
 	private final DeviceServiceAsync deviceService = GWT
 			.create(DeviceService.class);
+	private final LoginServiceAsync loginService = GWT
+			.create(LoginService.class);
+	
 	private static MenuView uniqueInstance;
 
 	public static MenuView getInstance() {
@@ -46,10 +51,14 @@ public class MenuView extends Composite {
 		p.add(devicesItemMenu, new HTML("Dispositivos"), 3);
 		p.add(reportsItemMenu, new HTML("Relatórios"), 3);
 
+		buildProfileItemsMenu();
+		buildDevicesItemsMenu();
+
+		initWidget(p);
+	}
+
+	private void buildDevicesItemsMenu() {
 		// TODO if(admin)
-		devicesItemMenu.add(btnAddNewDevice);
-		devicesItemMenu.add(makeRefreshButton());
-		devicesItemMenu.setWidth("100%");
 		btnAddNewDevice.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -57,10 +66,42 @@ public class MenuView extends Composite {
 				DeviceEditorView.getInstance().center();
 			}
 		});
+		devicesItemMenu.add(btnAddNewDevice);
 
+		devicesItemMenu.add(makeRefreshButton());
+		devicesItemMenu.setWidth("100%");
+		devicesItemMenu.setHeight("100%");
 		loadMyDevicesItemMenu();
+	}
 
-		initWidget(p);
+	private void buildProfileItemsMenu() {
+		profileItemMenu.add(new Button("Logout", new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				new CustomAsyncCall<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						UiViewHandler.getInstance().openLoginPage();
+					}
+					
+					@Override
+					protected void callService(AsyncCallback<Void> cb) {
+						loginService.logout(cb);
+					}
+					
+				}.go();
+			}
+		}));
+		profileItemMenu.setWidth("100%");
+		profileItemMenu.setHeight("100%");
+
 	}
 
 	public void loadMyDevicesItemMenu() {
@@ -97,14 +138,15 @@ public class MenuView extends Composite {
 				}
 				deviceService.listAll(Util.getUserLogged(), cb);
 			}
-		}.go(0);
+		}.goWithoutStatusDialog(0);
 	}
 
 	private HorizontalPanel createMenuDeviceItem(final Device dev) {
 		HorizontalPanel hPanel = new HorizontalPanel();
-		HTML hmtlDevName = new HTML(dev.getName());
-		hPanel.add(hmtlDevName);
-		hmtlDevName.addClickHandler(new ClickHandler() {
+		HTML htmlDevName = new HTML(dev.getName());
+		htmlDevName.setStyleName("device-item-menu");
+		hPanel.add(htmlDevName);
+		htmlDevName.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -118,7 +160,7 @@ public class MenuView extends Composite {
 	private Button makeRefreshButton() {
 
 		Button btnRefresh = new Button(
-				"Atualizar<img src=res/refresh_icon.png>", new ClickHandler() {
+				"Atualizar <img class=img-Refresh-Icon src=res/refresh_icon.png>", new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {

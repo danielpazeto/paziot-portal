@@ -29,18 +29,18 @@ public class HeaderView extends Composite {
 		vPanel.setHeight("10%");
 
 		// Add a normal ToggleButton
-		Button normalToggleButton = new Button("Home");
-		normalToggleButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				UiViewHandler.getInstance().openMainPage();
-			}
-		});
+//		Button normalToggleButton = new Button("Home");
+//		normalToggleButton.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				UiViewHandler.getInstance().openHomePage();
+//			}
+//		});
 
 		HorizontalPanel hPanelButtons = new HorizontalPanel();
 		hPanelButtons.setWidth("100%");
-		hPanelButtons.add(normalToggleButton);
+//		hPanelButtons.add(normalToggleButton);
 
 		vPanel.add(hPanelButtons);
 

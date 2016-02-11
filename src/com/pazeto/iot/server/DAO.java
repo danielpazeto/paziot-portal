@@ -56,7 +56,7 @@ public class DAO {
 
 		Query<T> q = ofy().load().type(type);
 		if (user != null) {
-			LOG.info("listando "+type.getName()+" de "+user.getEmail());
+			LOG.info("listando " + type.getName() + " de " + user.getEmail());
 			q = q.filter("userId", user.getId());
 		}
 		Iterable<T> list = q.list();
@@ -99,18 +99,24 @@ public class DAO {
 		save(user);
 	}
 
+	/**************************************************
+	 ************ Device methods ************
+	 **************************************************/
+
 	public void persistDevice(Device dev) throws Exception {
-		LOG.info(dev.getChipId()+"");
-		
-//		if (ofy().load().type(Device.class).id(dev.getChipId()).now() == null) {
-			save(dev);
-//		} else {
-//			throw new Exception("Device already exists!");
-//		}
+		LOG.info(dev.getChipId() + "");
+		// if (ofy().load().type(Device.class).id(dev.getChipId()).now() ==
+		// null) {
+		save(dev);
+		// } else {
+		// throw new Exception("Device already exists!");
+		// }
 	}
 
-	public void updateDevice(Device dev) throws Exception {
-		save(dev);
+	public boolean isValidDevice(String chipId) {
+		Device dev = ofy().load().type(Device.class).filter("ID", chipId)
+				.first().now();
+		return dev != null;
 	}
 
 }
