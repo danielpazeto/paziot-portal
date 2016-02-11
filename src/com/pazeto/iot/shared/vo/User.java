@@ -16,6 +16,8 @@ public class User implements Serializable {
 	private String email;
 	@Index
 	private String pwd;
+	private String sessionId;
+	private boolean loggedIn;
 
 	public String getName() {
 		return name;
@@ -55,6 +57,21 @@ public class User implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	
+	public boolean getLoggedIn() {
+		return loggedIn;
+	}
+	
+	public void setLoggedIn(boolean logged) {
+		loggedIn = logged;
 	}
 
 }

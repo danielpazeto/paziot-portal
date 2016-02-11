@@ -12,6 +12,10 @@ public interface LoginService extends RemoteService {
 	User doAuthentication(User user) throws IllegalArgumentException;
 
 	User loginFromSessionServer();
+
+	boolean changePassword(String name, String newPassword);
+
+	void logout();
 	
 
 }

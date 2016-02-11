@@ -9,5 +9,10 @@ public interface LoginServiceAsync {
 	
 	void loginFromSessionServer(AsyncCallback<User> callback);
 
+	void changePassword(String name, String newPassword,
+			AsyncCallback<Boolean> callback);
+
+	void logout(AsyncCallback<Void> callback);
+
 
 }

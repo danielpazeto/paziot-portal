@@ -31,11 +31,9 @@ public class UiViewHandler {
 		return uniqueInstance;
 	}
 
-	public void openMainPage() {
-		if (checkUserLogged()) {
+	public void openHomePage() {
 			mainScreen.getContentView().clear();
 			mainScreen.getContentView().add(HomePage.getInstance());
-		}
 	}
 
 	public void openLoginPage() {
@@ -45,31 +43,16 @@ public class UiViewHandler {
 		mainScreen.getContentView().add(loginPage);
 	}
 
-	// public void openProductsPage() {
-	// checkUserLogged();
-	// mainScreen.bodyView.clear();
-	// ProductsPage productsPage = ProductsPage.getInstance();
-	// mainScreen.bodyView.add(productsPage);
-	// }
+//	private boolean checkUserLogged() {
+//		LOG.info("Usuario logado : " + Util.getUserLogged().toString());
+//		if (Util.getUserLogged() != null) {
+//			if (!MenuView.getInstance().isVisible()) {
+//				MenuView.getInstance().setVisible(true);
+//			}
+//			return true;
+//		}
+//		openLoginPage();
+//		return false;
+//	}
 
-	private boolean checkUserLogged() {
-		LOG.info("Usuario logado : " + Util.getUserLogged().toString());
-		if (Util.getUserLogged() != null) {
-			if (!MenuView.getInstance().isVisible()) {
-				MenuView.getInstance().setVisible(true);
-			}
-			return true;
-		}
-		openLoginPage();
-		return false;
-	}
-
-	// public void openCompanysPage() {
-	// checkUserLogged();
-	// mainScreen.bodyView.clear();
-	// CompanysPage cpPage = CompanysPage.getInstance();
-	// mainScreen.bodyView.add(cpPage);
-	//
-	// }
-	//
 }

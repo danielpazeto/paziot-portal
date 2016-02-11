@@ -33,10 +33,7 @@ public class LoginPage extends Composite {
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
 	
-	private final UserServiceAsync userService = GWT.create(UserService.class);
-
-	private static final Logger LOG = Logger.getLogger(LoginPage.class
-			.getName());
+//	private final UserServiceAsync userService = GWT.create(UserService.class);
 
 	private static LoginPage loginPageInstance;
 
@@ -133,16 +130,15 @@ public class LoginPage extends Composite {
 
 				@Override
 				public void onSuccess(User result) {
-					if (result != null) {
-						//textToServerLabel.setText("Logado com sucesso");
-//						String sessionID = result.getSessionId();
-//						final long DURATION = 1000 * 60 * 60 * 24 * 1;
-//						Date expires = new Date(System.currentTimeMillis()
-//								+ DURATION);
-//						Cookies.setCookie("sid", sessionID, expires, null, "/",
-//								false);
-						new Util().setUserLogged(result);
-						uiHandler.openMainPage();
+					if (result.getLoggedIn()) {
+                        //set session cookie for 1 day expiry.
+                        String sessionID = result.getSessionId();
+                        final long DURATION = 1000 * 60 * 60 * 24 * 1;
+                        Date expires = new Date(System.currentTimeMillis() + DURATION);
+                        Cookies.setCookie("sid", sessionID, expires, null, "/", false);
+                        
+//						new Util().setUserLogged(result);
+						uiHandler.openHomePage();
 					} else {
 						textLabelDialogBox.setText("Nome e/ou senha inválidos");
 						dialogBox.center();
