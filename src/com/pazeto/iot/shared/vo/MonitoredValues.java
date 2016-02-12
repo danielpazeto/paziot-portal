@@ -1,35 +1,20 @@
 package com.pazeto.iot.shared.vo;
 
-import java.io.Serializable;
+import org.apache.jasper.compiler.JspUtil.ValidAttribute;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class MonitoredValues extends Value {
 
-	long ioPortId;
-	String value;
-	long date;
-
-	public long getIoPortId() {
-		return ioPortId;
+	public MonitoredValues(JSONObject json) {
+		try {
+			setType(VALUE_TYPE.MONITORED);
+			setChipId(json.getString("cid"));
+			setIoPortId(json.getLong("pt"));
+			setValue(json.getString("vl"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
-
-	public void setIoPortId(long ioPortId) {
-		this.ioPortId = ioPortId;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public long getDate() {
-		return date;
-	}
-
-	public void setDate(long date) {
-		this.date = date;
-	}
-
 }

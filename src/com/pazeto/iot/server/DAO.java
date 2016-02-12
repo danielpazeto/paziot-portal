@@ -10,6 +10,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 import com.pazeto.iot.shared.vo.Device;
 import com.pazeto.iot.shared.vo.IoPort;
+import com.pazeto.iot.shared.vo.MonitoredValues;
 import com.pazeto.iot.shared.vo.User;
 
 public class DAO {
@@ -117,6 +118,13 @@ public class DAO {
 		Device dev = ofy().load().type(Device.class).filter("ID", chipId)
 				.first().now();
 		return dev != null;
+	}
+
+	/**************************************************
+	 ************ Values methods ************
+	 **************************************************/
+	public void saveMonitoredValue(MonitoredValues value) {
+		save(value);
 	}
 
 }

@@ -52,9 +52,8 @@ public class DeviceEditorView extends PopupPanel {
 		}
 		chipIdField.setText(currentDev.getChipId());
 		nameField.setText(currentDev.getName());
-		
-		//TODO if(admin)
 		refreshUserComboBox();
+		
 		for (User u : userList) {
 			if(u.getId().equals(currentDev.getUserId())){
 				dropBoxUser.setSelectedIndex(userList.indexOf(u));

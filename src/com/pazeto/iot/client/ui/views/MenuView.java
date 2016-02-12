@@ -63,6 +63,7 @@ public class MenuView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				GWT.log("OIOIOIOOIOOIIOOIO");
 				DeviceEditorView.getInstance().center();
 			}
 		});
@@ -105,12 +106,11 @@ public class MenuView extends Composite {
 	}
 
 	public void loadMyDevicesItemMenu() {
-		myDevicesList.clear();
-
 		new CustomAsyncCall<ArrayList<Device>>() {
 
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
+				myDevicesList.clear();
 				GWT.log(String.valueOf(result.size()));
 				if (result != null && result.size() > 0) {
 					for (Device device : result) {

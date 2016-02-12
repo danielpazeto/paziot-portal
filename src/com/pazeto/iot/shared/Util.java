@@ -18,9 +18,4 @@ public class Util {
 	public void setUserLogged(User userLogged) {
 		this.userLogged = userLogged;
 	}
-
-	
-//	public DeviceServiceAsync getDeviceservice() {
-//		return deviceService;
-//	}
 }
