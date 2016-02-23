@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
-import com.pazeto.iot.client.UserService;
-import com.pazeto.iot.client.UserServiceAsync;
+import com.pazeto.iot.client.services.UserService;
+import com.pazeto.iot.client.services.UserServiceAsync;
 import com.pazeto.iot.shared.vo.User;
 
 public class UserInfoForm extends PopupPanel {

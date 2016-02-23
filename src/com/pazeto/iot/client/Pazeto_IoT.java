@@ -5,6 +5,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.pazeto.iot.client.services.LoginService;
+import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.MainRootScreen;
 import com.pazeto.iot.client.ui.UiViewHandler;
 import com.pazeto.iot.shared.vo.User;
@@ -22,10 +24,10 @@ public class Pazeto_IoT implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		MainRootScreen mainScreen = MainRootScreen.getInstance();
-
-		RootPanel.get().add(mainScreen);
-		RootPanel.get().setStyleName("main-div");
+//		MainRootScreen mainScreen = MainRootScreen.getInstance();
+//
+//		RootPanel.get().add(mainScreen);
+//		RootPanel.get().setStyleName("main-div");
 		
 //		if (LoginPage.isUserLogged()) {
 //			UiViewHandler.getInstance().openMainPage();
@@ -52,11 +54,15 @@ public class Pazeto_IoT implements EntryPoint {
 			@Override
 			public void onSuccess(User result) {
 				if (result == null) {
+					GWT.log("1");
 					UiViewHandler.getInstance().openLoginPage();
 				} else {
+					GWT.log("2");
 					if (result.getLoggedIn()) {
+						GWT.log("3");
 						UiViewHandler.getInstance().openHomePage();
 					} else {
+						GWT.log("4");
 						UiViewHandler.getInstance().openLoginPage();
 					}
 				}

@@ -1,13 +1,8 @@
 package com.pazeto.iot.client.ui;
 
-import java.util.logging.Logger;
-
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -19,14 +14,15 @@ public class MainRootScreen extends Composite {
 	private VerticalPanel rootPanel;
 	private LayoutPanel rootBackgroundPanel;
 
-	public static Logger logger;
 	private LayoutPanel bodyView;
 	private LayoutPanel contentView;
 
 	private static MainRootScreen uniqueInstance;
 
 	public static MainRootScreen getInstance() {
+		
 		if (uniqueInstance == null) {
+			GWT.log("asdasd");
 			uniqueInstance = new MainRootScreen();
 		}
 		return uniqueInstance;
@@ -68,15 +64,17 @@ public class MainRootScreen extends Composite {
 	public void loadMenuAndContentView() {
 		bodyView = new LayoutPanel();
 
-		bodyView.setWidth("100%");
-		bodyView.setHeight("300px");
 		bodyView.setStyleName("body");
 
 		contentView = new LayoutPanel();
+		contentView.addStyleName("content-view");
+		
 		bodyView.add(MenuView.getInstance());
 		bodyView.add(contentView);
 		bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20, Unit.PCT);
 		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80, Unit.PCT);
+		
+		
 		rootPanel.add(bodyView);
 	}
 

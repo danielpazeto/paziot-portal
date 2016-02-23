@@ -2,15 +2,18 @@ package com.pazeto.iot.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-import com.pazeto.iot.shared.vo.MonitoredValues;
+import com.pazeto.iot.shared.vo.MonitoredValue;
 
 public class MonitoredValueServlet extends HttpServlet {
 
@@ -29,19 +32,33 @@ public class MonitoredValueServlet extends HttpServlet {
 		try {
 			json = new JSONObject(req.getParameter("iot_device_info"));
 			chipId = json.getString("chipId");
+
+			if (db.isValidDevice(chipId)) {
+				// verifica se há algum valor para ser salva na base
+				if (json.has("monitored_values")) {
+					JSONArray values = json.getJSONArray("monitored_values");
+					List<MonitoredValue> valuesToSave = new ArrayList<MonitoredValue>();
+					for (int i = 0; i < values.length(); i++) {
+						values.getJSONObject(i);
+						valuesToSave.add(new MonitoredValue(json));
+					}
+					db.saveMonitoredValue(valuesToSave);
+				}
+				
+				
+				
+				
+
+				
+			} else {
+
+			}
+
+			PrintWriter out = resp.getWriter();
+			out.write("1");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
-		if (db.isValidDevice(chipId)) {
-			MonitoredValues value = new MonitoredValues(json);
-			db.saveMonitoredValue(value);
-		} else {
-
-		}
-
-		PrintWriter out = resp.getWriter();
-		out.write("1");
 		super.doPost(req, resp);
 	}
 

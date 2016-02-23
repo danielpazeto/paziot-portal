@@ -1,7 +1,6 @@
 package com.pazeto.iot.client.ui;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,31 +8,27 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
-import com.pazeto.iot.client.LoginService;
-import com.pazeto.iot.client.LoginServiceAsync;
-import com.pazeto.iot.client.UserService;
-import com.pazeto.iot.client.UserServiceAsync;
+import com.pazeto.iot.client.services.LoginService;
+import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.views.UserInfoForm;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.User;
 
-public class LoginPage extends Composite {
+public class LoginPage extends BaseComposite {
 
 	private static final int COOKIE_TIMEOUT = 1000 * 60 * 60 * 24;
 
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
-	
-//	private final UserServiceAsync userService = GWT.create(UserService.class);
+
+	// private final UserServiceAsync userService =
+	// GWT.create(UserService.class);
 
 	private static LoginPage loginPageInstance;
 
@@ -44,54 +39,18 @@ public class LoginPage extends Composite {
 		return loginPageInstance;
 	}
 
-	private UiViewHandler uiHandler;
-
 	private TextBox emailField;
 	private TextBox pwdField;
-	private Label errorLabel;
 	private Button loginButton, newUserButton;
 
-	private Label textLabelDialogBox;
-	private Button closeButton;
-
-	private DialogBox dialogBox;
-
 	public LoginPage() {
-		uiHandler = UiViewHandler.getInstance();
-
-		dialogBox = new DialogBox();
-		dialogBox.setText("Login");
-		dialogBox.setAnimationEnabled(true);
-		closeButton = new Button("Close");
-		closeButton.getElement().setId("closeButton");
-		textLabelDialogBox = new Label();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(textLabelDialogBox);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
-
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				loginButton.setEnabled(true);
-				newUserButton.setEnabled(true);
-				loginButton.setFocus(true);
-			}
-		});
-
-		initWidget(createLoginForm());
-
-	}
-
-	private Panel createLoginForm() {
+		super();
+		setDefaultDialogBoxTitle("Login");
+		
 		loginButton = new Button("Enviar", new LoginButtonHandler());
-		newUserButton = new Button("Novo Usuário", new NewUserButtonHandler());
+		newUserButton = new Button("Novo Usu�rio", new NewUserButtonHandler());
 		emailField = new TextBox();
 		pwdField = new TextBox();
-
-		errorLabel = new Label();
 
 		loginButton.addStyleName("sendButton");
 		newUserButton.addStyleName("sendButton");
@@ -112,7 +71,19 @@ public class LoginPage extends Composite {
 		panelForm.add(table);
 		panelForm.setStyleName("body");
 
-		return panelForm;
+		initWidget(panelForm);
+	}
+
+	@Override
+	public ClickHandler getCloseButtonHandlerClick() {
+		return new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getDefaultDialogBox().hide();
+				loginButton.setEnabled(true);
+				newUserButton.setEnabled(true);
+				loginButton.setFocus(true);
+			}
+		};
 	}
 
 	class LoginButtonHandler implements ClickHandler {
@@ -121,7 +92,6 @@ public class LoginPage extends Composite {
 		}
 
 		private void doLogin() {
-			errorLabel.setText("");
 			final User user = new User();
 			user.setEmail(emailField.getText());
 			user.setPwd(pwdField.getText());
@@ -131,75 +101,77 @@ public class LoginPage extends Composite {
 				@Override
 				public void onSuccess(User result) {
 					if (result.getLoggedIn()) {
-                        //set session cookie for 1 day expiry.
-                        String sessionID = result.getSessionId();
-                        final long DURATION = 1000 * 60 * 60 * 24 * 1;
-                        Date expires = new Date(System.currentTimeMillis() + DURATION);
-                        Cookies.setCookie("sid", sessionID, expires, null, "/", false);
-                        
-//						new Util().setUserLogged(result);
-						uiHandler.openHomePage();
+						// set session cookie for 1 day expiry.
+						String sessionID = result.getSessionId();
+						final long DURATION = 1000 * 60 * 60 * 24 * 1;
+						Date expires = new Date(System.currentTimeMillis()
+								+ DURATION);
+						Cookies.setCookie("sid", sessionID, expires, null, "/",
+								false);
+
+						new Util().setUserLogged(result);
+						openHomePage();
 					} else {
-						textLabelDialogBox.setText("Nome e/ou senha inválidos");
-						dialogBox.center();
-						closeButton.setFocus(true);
+						setDefaultDialogText("Nome e/ou senha inválidos");
+						getDefaultDialogBox().center();
 					}
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					textLabelDialogBox.setText("Erro ao executar o login.");
-					dialogBox.center();
+					setDefaultDialogText("Erro ao executar o login.");
+					getDefaultDialogBox().center();
 				}
 
 				@Override
 				protected void callService(AsyncCallback<User> cb) {
 					loginService.doAuthentication(user, cb);
 				}
-			}.go(0);
+			}.go();
 		}
 	}
 
 	/**
 	 * Create new user handle button
+	 * 
 	 * @author dpazeto
 	 */
 	class NewUserButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			// open my pop to new user
 			new UserInfoForm().center();
-//			loginWithGooglePlus();
+			// loginWithGooglePlus();
 		}
 
 	}
 
-//	public void checkWithServerIfSessionIdIsStillLegal() {
-//
-//		new CustomAsyncCall<User>() {
-//
-//			@Override
-//			public void onSuccess(User result) {
-//				if (result == null) {
-//					uiHandler.openLoginPage();
-//				} else {
-//					textToServerLabel.setText("Logado com sucesso");
-//					dialogBox.center();
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				textToServerLabel.setText("Falha enquanto logando...");
-//				dialogBox.center();
-//			}
-//
-//			@Override
-//			protected void callService(AsyncCallback<User> cb) {
-//				loginService.loginFromSessionServer(cb);
-//			}
-//		}.go(1);
-//	}
+	// public void checkWithServerIfSessionIdIsStillLegal() {
+	//
+	// new CustomAsyncCall<User>() {
+	//
+	// @Override
+	// public void onSuccess(User result) {
+	// if (result == null) {
+	// uiHandler.openLoginPage();
+	// } else {
+	// textToServerLabel.setText("Logado com sucesso");
+	// dialogBox.center();
+	// }
+	// }
+	//
+	// @Override
+	// public void onFailure(Throwable caught) {
+	// textToServerLabel.setText("Falha enquanto logando...");
+	// dialogBox.center();
+	// }
+	//
+	// @Override
+	// protected void callService(AsyncCallback<User> cb) {
+	// loginService.loginFromSessionServer(cb);
+	// }
+	// }.go(1);
+	// }
 
 	final static String COOKIE_NAME = "__user_logged";
 
@@ -223,28 +195,32 @@ public class LoginPage extends Composite {
 	public static String getUserLoggedName() {
 		return Cookies.getCookie(COOKIE_NAME);
 	}
-	
-	
-//	String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
-//	String CLIENT_ID = "954926222788-40vcb7hp46l9r776886mg1o3nk597ikk.apps.googleusercontent.com"; // available from the APIs console
-//	String BUZZ_READONLY_SCOPE = "https://www.googleapis.com/auth/buzz.readonly";
-//	String BUZZ_PHOTOS_SCOPE = "https://www.googleapis.com/auth/photos";
 
-//	AuthRequest req = new AuthRequest(AUTH_URL, CLIENT_ID)
-//	    .withScopes(BUZZ_READONLY_SCOPE, BUZZ_PHOTOS_SCOPE); // Can specify multiple scopes here
-//	
-//	void loginWithGooglePlus(){
-//		
-//		Auth.get().login(req, new Callback<String, Throwable>() {
-//			  @Override
-//			  public void onSuccess(String token) {
-//			    // You now have the OAuth2 token needed to sign authenticated requests.
-//			  }
-//			  @Override
-//			  public void onFailure(Throwable caught) {
-//			    // The authentication process failed for some reason, see caught.getMessage()
-//			  }
-//			});
-//	}
+	// String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
+	// String CLIENT_ID =
+	// "954926222788-40vcb7hp46l9r776886mg1o3nk597ikk.apps.googleusercontent.com";
+	// // available from the APIs console
+	// String BUZZ_READONLY_SCOPE =
+	// "https://www.googleapis.com/auth/buzz.readonly";
+	// String BUZZ_PHOTOS_SCOPE = "https://www.googleapis.com/auth/photos";
+
+	// AuthRequest req = new AuthRequest(AUTH_URL, CLIENT_ID)
+	// .withScopes(BUZZ_READONLY_SCOPE, BUZZ_PHOTOS_SCOPE); // Can specify
+	// multiple scopes here
+	//
+	// void loginWithGooglePlus(){
+	//
+	// Auth.get().login(req, new Callback<String, Throwable>() {
+	// @Override
+	// public void onSuccess(String token) {
+	// // You now have the OAuth2 token needed to sign authenticated requests.
+	// }
+	// @Override
+	// public void onFailure(Throwable caught) {
+	// // The authentication process failed for some reason, see
+	// caught.getMessage()
+	// }
+	// });
+	// }
 
 }

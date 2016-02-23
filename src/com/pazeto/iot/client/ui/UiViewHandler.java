@@ -2,8 +2,11 @@ package com.pazeto.iot.client.ui;
 
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.client.ui.views.MenuView;
-import com.pazeto.iot.shared.Util;
+import com.pazeto.iot.shared.vo.Device;
 
 /**
  * Class to handle open/close views
@@ -20,6 +23,8 @@ public class UiViewHandler {
 
 	public UiViewHandler() {
 		mainScreen = MainRootScreen.getInstance();
+		RootPanel.get().add(mainScreen);
+		RootPanel.get().setStyleName("main-div");
 	}
 
 	private static UiViewHandler uniqueInstance;
@@ -32,27 +37,29 @@ public class UiViewHandler {
 	}
 
 	public void openHomePage() {
-			mainScreen.getContentView().clear();
-			mainScreen.getContentView().add(HomePage.getInstance());
+		MenuView.getInstance().setVisible(true);
+		mainScreen.getContentView().clear();
+		mainScreen.getContentView().add(HomePage.getInstance());
 	}
 
 	public void openLoginPage() {
 		mainScreen.getContentView().clear();
 		MenuView.getInstance().setVisible(false);
-		LoginPage loginPage = LoginPage.getInstance();
-		mainScreen.getContentView().add(loginPage);
+		mainScreen.getContentView().add(LoginPage.getInstance());
 	}
 
-//	private boolean checkUserLogged() {
-//		LOG.info("Usuario logado : " + Util.getUserLogged().toString());
-//		if (Util.getUserLogged() != null) {
-//			if (!MenuView.getInstance().isVisible()) {
-//				MenuView.getInstance().setVisible(true);
-//			}
-//			return true;
-//		}
-//		openLoginPage();
-//		return false;
-//	}
+	public void openDevicePage(Device dev, DeviceTabs tab) {
+		mainScreen.getContentView().clear();
+		if(DeviceTabs.STATUS.equals(tab)){
+			DevicePage.getInstance(dev).openStatus();		
+		}else if(DeviceTabs.PROFILE.equals(tab)){
+			DevicePage.getInstance(dev).openDeficeProfile();
+		}
+		DevicePage dvpg=DevicePage.getInstance();
+		GWT.log("aeeee passei");
+		GWT.log(mainScreen.getContentView().toString());
+		mainScreen.getContentView().add(dvpg);
+		GWT.log("aeeee passei  1233");
+	}
 
 }

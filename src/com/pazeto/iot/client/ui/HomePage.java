@@ -1,11 +1,9 @@
 package com.pazeto.iot.client.ui;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.pazeto.iot.client.ui.views.MenuView;
 
-public class HomePage extends Composite {
+public class HomePage extends BaseComposite {
 	
 	private static HomePage mainPageInstance;
 	public static HomePage getInstance(){
@@ -14,11 +12,10 @@ public class HomePage extends Composite {
 		}
 		return mainPageInstance;
 	}
-	UiViewHandler uiHandler;
 	
 	public HomePage() {
-		MenuView.getInstance().setVisible(true);
-		uiHandler = UiViewHandler.getInstance();
+		super();
+//		MenuView.getInstance().setVisible(true);
 //		final Button sellButton = new Button("Vendas");
 //		final Button stockButton = new Button("Estoque");
 //		final Button clientButton = new Button("Clientes");

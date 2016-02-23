@@ -62,8 +62,8 @@ public class Value implements Serializable {
 		this.date = date;
 	}
 
-	public String getType() {
-		return type;
+	public VALUE_TYPE getType() {
+		return VALUE_TYPE.valueOf(this.type);
 	}
 
 	public void setType(VALUE_TYPE monitored) {

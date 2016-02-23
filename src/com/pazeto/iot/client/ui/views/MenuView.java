@@ -14,15 +14,18 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
-import com.pazeto.iot.client.DeviceService;
-import com.pazeto.iot.client.DeviceServiceAsync;
-import com.pazeto.iot.client.LoginService;
-import com.pazeto.iot.client.LoginServiceAsync;
+import com.pazeto.iot.client.services.DeviceService;
+import com.pazeto.iot.client.services.DeviceServiceAsync;
+import com.pazeto.iot.client.services.LoginService;
+import com.pazeto.iot.client.services.LoginServiceAsync;
+import com.pazeto.iot.client.ui.BaseComposite;
+import com.pazeto.iot.client.ui.DevicePage;
 import com.pazeto.iot.client.ui.UiViewHandler;
+import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.Device;
 
-public class MenuView extends Composite {
+public class MenuView extends BaseComposite {
 
 	private final DeviceServiceAsync deviceService = GWT
 			.create(DeviceService.class);
@@ -63,8 +66,7 @@ public class MenuView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				GWT.log("OIOIOIOOIOOIIOOIO");
-				DeviceEditorView.getInstance().center();
+				DevicePage.getInstance().openDeficeProfile();
 			}
 		});
 		devicesItemMenu.add(btnAddNewDevice);
@@ -150,7 +152,7 @@ public class MenuView extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				DeviceEditorView.getInstance(dev).center();
+				openDevicePage(dev, DeviceTabs.STATUS);
 			}
 		});
 		hPanel.setWidth("100%");

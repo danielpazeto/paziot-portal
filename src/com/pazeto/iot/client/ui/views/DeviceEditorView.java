@@ -1,10 +1,7 @@
 package com.pazeto.iot.client.ui.views;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,19 +12,19 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.CustomAsyncCall;
-import com.pazeto.iot.client.DeviceService;
-import com.pazeto.iot.client.DeviceServiceAsync;
-import com.pazeto.iot.client.UserService;
-import com.pazeto.iot.client.UserServiceAsync;
+import com.pazeto.iot.client.services.DeviceService;
+import com.pazeto.iot.client.services.DeviceServiceAsync;
+import com.pazeto.iot.client.services.UserService;
+import com.pazeto.iot.client.services.UserServiceAsync;
+import com.pazeto.iot.client.ui.BaseComposite;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.Device;
 import com.pazeto.iot.shared.vo.User;
 
-public class DeviceEditorView extends PopupPanel {
+public class DeviceEditorView extends BaseComposite {
 
 	private static DeviceEditorView uniqueInstance;
 
@@ -53,9 +50,8 @@ public class DeviceEditorView extends PopupPanel {
 		chipIdField.setText(currentDev.getChipId());
 		nameField.setText(currentDev.getName());
 		refreshUserComboBox();
-		
 		for (User u : userList) {
-			if(u.getId().equals(currentDev.getUserId())){
+			if (u.getId().equals(currentDev.getUserId())) {
 				dropBoxUser.setSelectedIndex(userList.indexOf(u));
 			}
 		}
@@ -73,7 +69,6 @@ public class DeviceEditorView extends PopupPanel {
 					userList.add(user);
 					dropBoxUser.addItem(user.getEmail(),
 							String.valueOf(user.getId()));
-					GWT.log(user.getId().toString());
 				}
 			}
 
@@ -85,7 +80,7 @@ public class DeviceEditorView extends PopupPanel {
 			protected void callService(AsyncCallback<ArrayList<User>> cb) {
 				userService.listAll(cb);
 			}
-		}.go(0);
+		}.go();
 	}
 
 	private final static UserServiceAsync userService = GWT
@@ -112,13 +107,11 @@ public class DeviceEditorView extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				DeviceEditorView.this.hide();
+				// DeviceEditorView.this.hide();
 			}
 		});
 
 		VerticalPanel vPanel = new VerticalPanel();
-
-		vPanel.add(new Label("Cadastro de Usu√°rio"));
 
 		FlexTable inputTable = new FlexTable();
 		inputTable.setWidget(0, 0, new Label("Chip ID: "));
@@ -127,8 +120,6 @@ public class DeviceEditorView extends PopupPanel {
 		inputTable.setWidget(1, 1, nameField);
 		inputTable.setWidget(2, 0, new Label("Usu·rio Propriet·rio: "));
 		inputTable.setWidget(2, 1, dropBoxUser);
-		// inputTable.setWidget(3, 0, new Label("Senha: "));
-		// inputTable.setWidget(3, 1, pwdField);
 		inputTable.setWidget(4, 0, closeBtn);
 		inputTable.setWidget(4, 1, sendBtn);
 
@@ -157,8 +148,7 @@ public class DeviceEditorView extends PopupPanel {
 
 		vPanel.add(inputTable);
 		// this.setModal(true);
-		this.add(vPanel);
-
+		initWidget(vPanel);
 	}
 
 	/**
@@ -169,10 +159,9 @@ public class DeviceEditorView extends PopupPanel {
 	 */
 	class SaveDeviceButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			GWT.log("AQUI PORRA");
 			GWT.log(dropBoxUser.getSelectedValue());
-			final Device dev = new Device(userList.get(dropBoxUser.getSelectedIndex()));
-			GWT.log("AQUI PORRA aeeeeeee");
+			final Device dev = new Device(userList.get(dropBoxUser
+					.getSelectedIndex()));
 			dev.setName(nameField.getText());
 			dev.setChipId(chipIdField.getText());
 

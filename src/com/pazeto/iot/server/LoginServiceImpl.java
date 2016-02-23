@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.pazeto.iot.client.LoginService;
+import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.shared.vo.User;
 
 @SuppressWarnings("serial")
