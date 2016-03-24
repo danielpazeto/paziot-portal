@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.pazeto.iot.shared.dto.DeviceDTO" table="DEVICES">
+        <id name="chipId" column="id" type="string">
+<!--             <generator class="native"/> -->
+        </id>
+        <property name="name"/>
+        <property name="createDate" type="timestamp"/>
+        <property name="userId"/>
+    </class>
+</hibernate-mapping>

@@ -26,7 +26,7 @@
 		<servlet-name>userServlet</servlet-name>
 		<url-pattern>/pazeto_iot/user</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- Device -->
 	<servlet>
 		<servlet-name>deviceServlet</servlet-name>
@@ -37,7 +37,7 @@
 		<servlet-name>deviceServlet</servlet-name>
 		<url-pattern>/pazeto_iot/device</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- monitoredValues -->
 	<servlet>
 		<servlet-name>addMonitoredValue</servlet-name>
@@ -49,17 +49,9 @@
 		<url-pattern>/pazeto_iot/add_monitored_value</url-pattern>
 	</servlet-mapping>
 
-
-
-
-	<filter>
-		<filter-name>ObjectifyFilter</filter-name>
-		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ObjectifyFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	<listener>
+		<listener-class>com.pazeto.iot.server.InitWebSocketListener</listener-class>
+	</listener>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

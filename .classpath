@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-5.1.9.jar" sourcepath="war/WEB-INF/lib/objectify-5.1.9.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-gwt-18.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-gwt-1.2.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-18.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.5.jar"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/AppEngine1.9.30"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-api-labs.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/tyrus-container-grizzly-server-1.12.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/tyrus-server-1.12.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.websocket-api-1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/postgresql-9.4.1208.jre7.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate3.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

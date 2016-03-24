@@ -100,7 +100,7 @@ public class LoginPage extends BaseComposite {
 
 				@Override
 				public void onSuccess(User result) {
-					if (result.getLoggedIn()) {
+					if (result != null /*&& result.getLoggedIn()*/) {
 						// set session cookie for 1 day expiry.
 						String sessionID = result.getSessionId();
 						final long DURATION = 1000 * 60 * 60 * 24 * 1;
@@ -112,16 +112,14 @@ public class LoginPage extends BaseComposite {
 						new Util().setUserLogged(result);
 						openHomePage();
 					} else {
-						setDefaultDialogText("Nome e/ou senha inválidos");
-						getDefaultDialogBox().center();
+						setDefaultDialogText("Nome e/ou senha inválidos").center();
 					}
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					setDefaultDialogText("Erro ao executar o login.");
-					getDefaultDialogBox().center();
+					setDefaultDialogText("Erro ao executar o login.").center();
 				}
 
 				@Override

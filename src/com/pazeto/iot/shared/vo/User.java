@@ -2,23 +2,29 @@ package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import com.pazeto.iot.shared.dto.UserDTO;
 
-@Entity
 public class User implements Serializable {
 
-	@Id
 	private Long id;
 	private String name, lastName;
-	@Index
 	private String email;
-	@Index
 	private String pwd;
 	private String sessionId;
 	private boolean loggedIn;
 
+	public User(UserDTO userDTO) {
+		setId(userDTO.getId());
+		setName(userDTO.getName());
+		setLastName(userDTO.getLastName());
+		setEmail(userDTO.getEmail());
+		setPwd(userDTO.getPwd());
+	}
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -62,14 +68,15 @@ public class User implements Serializable {
 	public String getSessionId() {
 		return sessionId;
 	}
+
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-	
+
 	public boolean getLoggedIn() {
 		return loggedIn;
 	}
-	
+
 	public void setLoggedIn(boolean logged) {
 		loggedIn = logged;
 	}

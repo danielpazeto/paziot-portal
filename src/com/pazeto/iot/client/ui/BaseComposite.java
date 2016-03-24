@@ -60,8 +60,9 @@ public class BaseComposite extends Composite {
 		dialogBox.setText(title);
 	}
 
-	public void setDefaultDialogText(String text) {
+	public DialogBox setDefaultDialogText(String text) {
 		textLabelDialogBox.setText(text);
+		return dialogBox;
 	}
 
 	public DialogBox getDefaultDialogBox() {

@@ -78,7 +78,7 @@ public class DeviceEditorView extends BaseComposite {
 
 			@Override
 			protected void callService(AsyncCallback<ArrayList<User>> cb) {
-				userService.listAll(cb);
+				userService.listAllUsers(cb);
 			}
 		}.go();
 	}

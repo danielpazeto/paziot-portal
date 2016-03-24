@@ -7,7 +7,7 @@ import com.pazeto.iot.shared.vo.User;
 
 public interface UserServiceAsync {
 
-   void addUser(User user, AsyncCallback<Void> callback);
+   void addUser(User user, AsyncCallback<Long> callback);
    
-   void listAll(AsyncCallback<ArrayList<User>> callback);
+   void listAllUsers(AsyncCallback<ArrayList<User>> callback);
 }

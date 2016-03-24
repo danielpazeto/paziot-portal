@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.pazeto.iot.client.services.DeviceService;
+import com.pazeto.iot.server.dao.DeviceDAO;
+import com.pazeto.iot.shared.dto.DeviceDTO;
 import com.pazeto.iot.shared.vo.Device;
 import com.pazeto.iot.shared.vo.User;
 
@@ -15,15 +17,13 @@ public class DeviceServiceImpl extends RemoteServiceServlet implements
 	private static final Logger LOG = Logger.getLogger(DeviceServiceImpl.class
 			.getName());
 
-	DAO db = new DAO();
-
 	public ArrayList<Device> listAll(User user) throws Exception {
-		return (ArrayList<Device>) db.listOjects(Device.class, user);
+		return (ArrayList<Device>) DeviceDAO.listDeviceByUser(user);
 	}
 
 	@Override
 	public void addDevice(Device dev) throws Exception {
-		db.persistDevice(dev);
+		DeviceDAO.persistDevice(dev);
 	}
 
 }

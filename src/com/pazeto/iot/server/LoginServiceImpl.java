@@ -5,17 +5,16 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.pazeto.iot.client.services.LoginService;
+import com.pazeto.iot.server.dao.UserDAO;
 import com.pazeto.iot.shared.vo.User;
 
 @SuppressWarnings("serial")
 public class LoginServiceImpl extends RemoteServiceServlet implements
 		LoginService {
 
-	DAO db = new DAO();
 
-	public User doAuthentication(User user) throws IllegalArgumentException {
-		DAO db = new DAO();
-		User u = db.doAuthentication(user);
+	public User doAuthentication(User user) throws Exception {
+		User u = UserDAO.doAuthentication(user);
 		if (u != null) {
 			storeUserInSession(u);
 			u.setLoggedIn(true);

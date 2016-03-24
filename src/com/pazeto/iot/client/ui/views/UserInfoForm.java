@@ -122,12 +122,12 @@ public class UserInfoForm extends PopupPanel {
 
 			sendBtn.setEnabled(false);
 
-			new CustomAsyncCall<Void>() {
+			new CustomAsyncCall<Long>() {
 
 				@Override
-				public void onSuccess(Void result) {
+				public void onSuccess(Long result) {
 					textToServerLabel.setText("Usuário " + nameField.getText()
-							+ " criado com sucesso");
+							+ " criado com sucesso" +result);
 					dialogBox.center();
 					closeDialogBoxButton.setFocus(true);
 				}
@@ -141,7 +141,7 @@ public class UserInfoForm extends PopupPanel {
 				}
 
 				@Override
-				protected void callService(AsyncCallback<Void> cb) {
+				protected void callService(AsyncCallback<Long> cb) {
 					userService.addUser(user, cb);
 				}
 			}.go(0);

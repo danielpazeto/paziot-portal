@@ -1,0 +1,25 @@
+<project name="iot-pazeto" basedir="." default="default"> 
+
+        <target name="default" depends="buildwar,deleteDeployedWebApp,deploy"></target> 
+
+        <target name="buildwar"> 
+                <war basedir="war" destfile="iot-pazeto.war" webxml="war/WEB-INF/web.xml"> 
+                        <exclude name="WEB-INF/**" /> 
+                        <webinf dir="war/WEB-INF/"> 
+                                <include name="**/*.jar" /> 
+                        </webinf> 
+                </war> 
+        </target> 
+        
+		<target name="deleteDeployedWebApp"> 
+			<delete includeemptydirs="true">
+				<fileset dir="C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps\iot-pazeto" />
+			</delete>
+		</target> 
+
+        <target name="deploy"> 
+                <copy file="iot-pazeto.war" todir="C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps"/> 
+                <echo>http://localhost:8080/pazeto_iot.html</echo> 
+        </target> 
+
+</project>

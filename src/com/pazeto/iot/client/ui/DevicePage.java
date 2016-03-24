@@ -3,7 +3,6 @@ package com.pazeto.iot.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.pazeto.iot.client.ui.views.DeviceEditorView;
 import com.pazeto.iot.shared.vo.Device;
@@ -18,7 +17,6 @@ public class DevicePage extends BaseComposite {
 	private static Device currentDev;
 
 	public static DevicePage getInstance() {
-		GWT.log("entrei "+uniqueInstance);
 		if (uniqueInstance == null) {
 			uniqueInstance = new DevicePage();
 		}
@@ -38,7 +36,7 @@ public class DevicePage extends BaseComposite {
 		deviceTabPanel.add(DeviceEditorView.getInstance(currentDev),
 				"Profile Device");
 		deviceTabPanel.add(new HTML("TODO "), "Device Status");
-		deviceTabPanel.add(new HTML("TODO "), "Device Status");
+		deviceTabPanel.add(new HTML("TODO  asd"), "Devic Status");
 		deviceTabPanel.getElement().setId("TESTE");
 		deviceTabPanel.setVisible(true);
 		deviceTabPanel.setWidth("100%");
@@ -49,13 +47,11 @@ public class DevicePage extends BaseComposite {
 
 	public void openStatus() {
 		DeviceEditorView.getInstance(currentDev);
-		GWT.log("status " + DeviceTabs.STATUS.ordinal());
 		deviceTabPanel.selectTab(DeviceTabs.STATUS.ordinal());
 	}
 
 	public void openDeficeProfile() {
 		DeviceEditorView.getInstance(currentDev);
-		GWT.log("status" + DeviceTabs.PROFILE.ordinal());
 		deviceTabPanel.selectTab(DeviceTabs.PROFILE.ordinal());
 	}
 

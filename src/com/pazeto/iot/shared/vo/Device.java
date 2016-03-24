@@ -3,20 +3,13 @@ package com.pazeto.iot.shared.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import com.pazeto.iot.shared.dto.DeviceDTO;
 
-@Entity
 public class Device implements Serializable {
 
-	@Index
-	@Id
 	private String chipId;
 	private String name;
-	@Index
 	private Date createDate;
-	@Index
 	private Long userId;
 
 	public Device(User userLogged) {
@@ -24,6 +17,14 @@ public class Device implements Serializable {
 	}
 
 	public Device() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Device(DeviceDTO devDto) {
+		setChipId(devDto.getChipId());
+		setName(devDto.getName());
+		setCreateDate(devDto.getCreateDate());
+		setUserId(devDto.getUserId());
 	}
 
 	public String getChipId() {

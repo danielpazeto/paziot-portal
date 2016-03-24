@@ -2,26 +2,23 @@ package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
 
-import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
 
 public class Value implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5411500087502057089L;
 
 	public enum VALUE_TYPE {
 		MONITORED, SETED_BY_USER;
 	}
 
-	@Id
-	@Index
 	String id;
-	@Index
 	String chipId;
-	@Index
 	long ioPortId;
 	String value;
-	@Index
 	long date;
-
 	String type;
 
 	public String getId() {

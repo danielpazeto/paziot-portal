@@ -66,7 +66,7 @@ public class MenuView extends BaseComposite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				DevicePage.getInstance().openDeficeProfile();
+				UiViewHandler.getInstance().openDevicePage(null, DeviceTabs.PROFILE);
 			}
 		});
 		devicesItemMenu.add(btnAddNewDevice);
@@ -113,8 +113,8 @@ public class MenuView extends BaseComposite {
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
 				myDevicesList.clear();
-				GWT.log(String.valueOf(result.size()));
 				if (result != null && result.size() > 0) {
+					GWT.log(String.valueOf(result.size()));
 					for (Device device : result) {
 						myDevicesList.add(createMenuDeviceItem(device));
 					}

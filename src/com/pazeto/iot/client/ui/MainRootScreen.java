@@ -22,7 +22,6 @@ public class MainRootScreen extends Composite {
 	public static MainRootScreen getInstance() {
 		
 		if (uniqueInstance == null) {
-			GWT.log("asdasd");
 			uniqueInstance = new MainRootScreen();
 		}
 		return uniqueInstance;

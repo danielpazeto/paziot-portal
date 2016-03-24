@@ -9,7 +9,7 @@ import com.pazeto.iot.shared.vo.User;
  */
 @RemoteServiceRelativePath("login")
 public interface LoginService extends RemoteService {
-	User doAuthentication(User user) throws IllegalArgumentException;
+	User doAuthentication(User user) throws IllegalArgumentException, Exception;
 
 	User loginFromSessionServer();
 

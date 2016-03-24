@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.pazeto.iot.server.dao.DeviceDAO;
+import com.pazeto.iot.server.dao.MonitoredValueDAO;
+import com.pazeto.iot.shared.dto.MonitoredValueDTO;
 import com.pazeto.iot.shared.vo.MonitoredValue;
 
 public class MonitoredValueServlet extends HttpServlet {
@@ -24,42 +27,46 @@ public class MonitoredValueServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		System.err.println(req.getParameterMap());
 		System.out.println(req.getParameter("iot_device_info"));
 
 		JSONObject json = null;
 		String chipId = null;
+		PrintWriter out = resp.getWriter();
 		try {
 			json = new JSONObject(req.getParameter("iot_device_info"));
 			chipId = json.getString("chipId");
 
-			if (db.isValidDevice(chipId)) {
+			if (DeviceDAO.isValidDevice(chipId)) {
 				// verifica se há algum valor para ser salva na base
 				if (json.has("monitored_values")) {
 					JSONArray values = json.getJSONArray("monitored_values");
-					List<MonitoredValue> valuesToSave = new ArrayList<MonitoredValue>();
+					List<MonitoredValueDTO> valuesToSave = new ArrayList<MonitoredValueDTO>();
 					for (int i = 0; i < values.length(); i++) {
-						values.getJSONObject(i);
-						valuesToSave.add(new MonitoredValue(json));
+						System.out.println(values.getJSONObject(i));
+						valuesToSave.add(new MonitoredValueDTO(new MonitoredValue(values.getJSONObject(i))));
 					}
-					db.saveMonitoredValue(valuesToSave);
+					MonitoredValueDAO.saveMonitoredValue(valuesToSave);
 				}
-				
-				
-				
-				
 
-				
 			} else {
-
+				throw new Exception("Not valid ID");
 			}
 
-			PrintWriter out = resp.getWriter();
+			
 			out.write("1");
 		} catch (JSONException e) {
 			e.printStackTrace();
+			out.write(e.toString());
+		} catch (Exception e) {
+			out.write(e.toString());
+			e.printStackTrace();
 		}
-		super.doPost(req, resp);
+	}
+
+	private JSONObject MonitoredValue(JSONObject jsonObject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
