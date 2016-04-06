@@ -4,12 +4,19 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.pazeto.iot.shared.dto.DeviceDTO" table="DEVICES">
-        <id name="chipId" column="id" type="string">
-<!--             <generator class="native"/> -->
-        </id>
-        <property name="name"/>
-        <property name="createDate" type="timestamp"/>
-        <property name="userId"/>
-    </class>
+	<class name="com.pazeto.iot.shared.dto.DeviceDTO" table="DEVICES">
+		<id name="chipId" column="chipId" type="string" >
+		</id>
+		<property name="name" not-null="true" />
+		<property name="createDate" type="timestamp" not-null="true" />
+		<property name="userId" not-null="true" />
+
+		<!-- //realionship between devices and ports -->
+		<list name="ports" cascade="all" lazy="false">
+			<key column="chipId" />
+			<list-index column="id" />
+			<one-to-many class="com.pazeto.iot.shared.dto.IoPortDTO" />
+		</list>
+
+	</class>
 </hibernate-mapping>

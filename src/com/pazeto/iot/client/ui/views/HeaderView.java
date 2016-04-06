@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class HeaderView extends Composite {
-	final String IMR_URL = "http://icons.iconarchive.com/icons/xaml-icon-studio/agriculture/128/Fruits-Vegetables-icon.png";
+	final String IMR_URL = "https://pbs.twimg.com/media/CI13uX6UkAEIkcY.jpg";
 	private static HeaderView uniqueInstance;
 
 	public static HeaderView getInstance() {
@@ -20,6 +20,7 @@ public class HeaderView extends Composite {
 		VerticalPanel vPanel = new VerticalPanel();
 		final Image image = new Image();
 		image.setUrl(IMR_URL);
+		image.setHeight("30%");
 		vPanel.add(image);
 		vPanel.setStyleName("header");
 		vPanel.setHeight("10%");

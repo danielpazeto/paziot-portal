@@ -49,7 +49,8 @@ public class DeviceTest {
 	}
 	
 	public static void main(String[] args) {
-		
+		Integer oi = 0;
+		oi= oi >> 1;
 //		while(true){
 //			
 //			

@@ -1,6 +1,5 @@
 package com.pazeto.iot.server.dao;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,20 +17,24 @@ import com.pazeto.iot.shared.vo.User;
  * @author Daniel
  * 
  */
-public class DeviceDAO implements Serializable {
+public class DeviceDAO {
 
 	public static String persistDevice(Device dev) throws Exception {
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			session.beginTransaction();
-			String hql = "FROM DeviceDTO d WHERE d.chipId = :chipId";
-			Query query = session.createQuery(hql).setParameter("chipId",
-					dev.getChipId());
-			List results = query.list();
-			if (results.size() > 0) {
-				throw new Exception("Device already exists!");
+			System.out.println(1);
+			DeviceDTO results = (DeviceDTO) session.get(DeviceDTO.class,
+					new String(dev.getChipId()));
+			System.out.println(2);
+			if (results != null) {
+				System.out.println(3);
+				session.merge(new DeviceDTO(dev));
+				System.out.println(4);
+				return dev.getChipId();
 			}
+			System.out.println(5);
 			return (String) session.save(new DeviceDTO(dev));
 		} finally {
 			session.getTransaction().commit();
@@ -45,12 +48,8 @@ public class DeviceDAO implements Serializable {
 		try {
 			session.beginTransaction();
 			String hql = "FROM DeviceDTO d WHERE d.userId = :userId";
-			System.out.println(2);
 			Query query = session.createQuery(hql);
-			System.out.println(3);
 			query.setLong("userId", user.getId());
-			System.out.println(query.getQueryString());
-			System.out.println(5.6);
 			List results = query.list();
 			if (results.size() >= 1) {
 				ArrayList<Device> devices = new ArrayList<>();
@@ -69,24 +68,16 @@ public class DeviceDAO implements Serializable {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			session.beginTransaction();
-			System.out.println(1);
 			String hql = "FROM DeviceDTO d WHERE d.chipId = :chipId";
-			System.out.println(2);
 			Query query = session.createQuery(hql);
-			System.out.println(3);
 			query.setString("chipId", chipId);
-			System.out.println(5);
 			query.setMaxResults(1);
-			System.out.println(5.5);
-			System.out.println(query.getQueryString());
-			System.out.println(5.6);
 			List results = query.list();
 			System.out.println(results.size());
 			if (results.size() >= 1) {
 				for (Object object : results) {
 					System.out.println(object);
 				}
-
 			}
 			return true;
 		} finally {

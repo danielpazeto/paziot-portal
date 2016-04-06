@@ -13,11 +13,8 @@ import com.pazeto.iot.shared.vo.User;
 @RemoteServiceRelativePath("device")
 public interface DeviceService extends RemoteService {
 
-	
-	void addDevice(Device dev) throws Exception;
+	void saveDevice(Device dev) throws Exception;
 
 	ArrayList<Device> listAll(User user) throws Exception;
 
-	
-	
 }

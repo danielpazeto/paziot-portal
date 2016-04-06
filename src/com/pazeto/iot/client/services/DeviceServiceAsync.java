@@ -8,7 +8,7 @@ import com.pazeto.iot.shared.vo.User;
 
 public interface DeviceServiceAsync {
 
-	void addDevice(Device dev, AsyncCallback<Void> callback);
+	void saveDevice(Device dev, AsyncCallback<Void> callback);
 
 	void listAll(User user, AsyncCallback<ArrayList<Device>> callback);
 }

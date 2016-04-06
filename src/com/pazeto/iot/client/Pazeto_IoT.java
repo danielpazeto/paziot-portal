@@ -9,6 +9,7 @@ import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.MainRootScreen;
 import com.pazeto.iot.client.ui.UiViewHandler;
+import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.User;
 
 /**
@@ -52,13 +53,14 @@ public class Pazeto_IoT implements EntryPoint {
 			}
 
 			@Override
-			public void onSuccess(User result) {
-				if (result == null) {
+			public void onSuccess(User user) {
+				if (user == null) {
 					GWT.log("1");
 					UiViewHandler.getInstance().openLoginPage();
 				} else {
 					GWT.log("2");
-					if (result.getLoggedIn()) {
+					if (user.getLoggedIn()) {
+						Util.setUserLogged(user);
 						GWT.log("3");
 						UiViewHandler.getInstance().openHomePage();
 					} else {

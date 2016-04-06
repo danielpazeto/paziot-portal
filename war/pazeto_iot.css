@@ -1,6 +1,7 @@
 .background-image {
-	opacity: 0.2;
-	filter: alpha(opacity = 20); /* For IE8 and earlier */
+	background-image: url("res/iot-pazeto-background.jpg");
+/* 	opacity: 0.2; */
+/* 	filter: alpha(opacity = 20);  */
 }
 
 .main-div {

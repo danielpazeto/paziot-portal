@@ -8,20 +8,18 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.pazeto.iot.client.CustomAsyncCall;
+import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
 import com.pazeto.iot.client.services.DeviceService;
 import com.pazeto.iot.client.services.DeviceServiceAsync;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.BaseComposite;
-import com.pazeto.iot.client.ui.DevicePage;
-import com.pazeto.iot.client.ui.UiViewHandler;
 import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
+import com.pazeto.iot.client.ui.UiViewHandler;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.Device;
 
@@ -31,7 +29,7 @@ public class MenuView extends BaseComposite {
 			.create(DeviceService.class);
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
-	
+
 	private static MenuView uniqueInstance;
 
 	public static MenuView getInstance() {
@@ -66,7 +64,8 @@ public class MenuView extends BaseComposite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				UiViewHandler.getInstance().openDevicePage(null, DeviceTabs.PROFILE);
+				UiViewHandler.getInstance().openDevicePage(null,
+						DeviceTabs.PROFILE);
 			}
 		});
 		devicesItemMenu.add(btnAddNewDevice);
@@ -82,24 +81,24 @@ public class MenuView extends BaseComposite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CustomAsyncCall<Void>() {
+				new CustomIotPazetoAsyncCall<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						
+
 					}
 
 					@Override
 					public void onSuccess(Void result) {
 						UiViewHandler.getInstance().openLoginPage();
 					}
-					
+
 					@Override
 					protected void callService(AsyncCallback<Void> cb) {
 						loginService.logout(cb);
 					}
-					
-				}.go();
+
+				}.execute();
 			}
 		}));
 		profileItemMenu.setWidth("100%");
@@ -108,7 +107,7 @@ public class MenuView extends BaseComposite {
 	}
 
 	public void loadMyDevicesItemMenu() {
-		new CustomAsyncCall<ArrayList<Device>>() {
+		new CustomIotPazetoAsyncCall<ArrayList<Device>>() {
 
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
@@ -120,9 +119,8 @@ public class MenuView extends BaseComposite {
 					}
 					devicesItemMenu.add(myDevicesList);
 				} else {
-					devicesItemMenu.add(new HTML("Nenhum disp. adicionado"));
+					myDevicesList.add(new HTML("Nenhum disp. adicionado"));
 				}
-
 			}
 
 			@Override
@@ -140,7 +138,7 @@ public class MenuView extends BaseComposite {
 				}
 				deviceService.listAll(Util.getUserLogged(), cb);
 			}
-		}.goWithoutStatusDialog(0);
+		}.executeWithoutSpinner(0);
 	}
 
 	private HorizontalPanel createMenuDeviceItem(final Device dev) {
@@ -152,7 +150,8 @@ public class MenuView extends BaseComposite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				openDevicePage(dev, DeviceTabs.STATUS);
+				openDevicePage(dev, DeviceTabs.PROFILE);
+//				openDevicePage(dev, DeviceTabs.STATUS);
 			}
 		});
 		hPanel.setWidth("100%");
@@ -162,23 +161,13 @@ public class MenuView extends BaseComposite {
 	private Button makeRefreshButton() {
 
 		Button btnRefresh = new Button(
-				"Atualizar <img class=img-Refresh-Icon src=res/refresh_icon.png>", new ClickHandler() {
-
+				"Atualizar <img class=img-Refresh-Icon src=res/refresh_icon.png>",
+				new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
 						loadMyDevicesItemMenu();
 					}
 				});
-
-		// HorizontalPanel hPanel = new HorizontalPanel();
-		//
-		// Image refreshImg = new Image("res/refresh_icon.png");
-		// refreshImg.setHeight("20px");
-		// refreshImg.setWidth("20px");
-		// refreshImg.addClickHandler();
-		// hPanel.add(refreshImg);
-		// hPanel.add(new HTML("Atualizar"));
-		// hPanel.setWidth("100%");
 		return btnRefresh;
 	}
 }
