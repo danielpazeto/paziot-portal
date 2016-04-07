@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.pazeto.iot.client.CustomAsyncCall;
+import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.views.UserInfoForm;
@@ -26,9 +26,6 @@ public class LoginPage extends BaseComposite {
 
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
-
-	// private final UserServiceAsync userService =
-	// GWT.create(UserService.class);
 
 	private static LoginPage loginPageInstance;
 
@@ -46,7 +43,7 @@ public class LoginPage extends BaseComposite {
 	public LoginPage() {
 		super();
 		setDefaultDialogBoxTitle("Login");
-		
+
 		loginButton = new Button("Enviar", new LoginButtonHandler());
 		newUserButton = new Button("Novo Usu�rio", new NewUserButtonHandler());
 		emailField = new TextBox();
@@ -96,11 +93,11 @@ public class LoginPage extends BaseComposite {
 			user.setEmail(emailField.getText());
 			user.setPwd(pwdField.getText());
 			loginButton.setEnabled(false);
-			new CustomAsyncCall<User>() {
+			new CustomIotPazetoAsyncCall<User>() {
 
 				@Override
 				public void onSuccess(User result) {
-					if (result != null /*&& result.getLoggedIn()*/) {
+					if (result != null /* && result.getLoggedIn() */) {
 						// set session cookie for 1 day expiry.
 						String sessionID = result.getSessionId();
 						final long DURATION = 1000 * 60 * 60 * 24 * 1;
@@ -112,7 +109,8 @@ public class LoginPage extends BaseComposite {
 						new Util().setUserLogged(result);
 						openHomePage();
 					} else {
-						setDefaultDialogText("Nome e/ou senha inválidos").center();
+						setDefaultDialogText("Nome e/ou senha inválidos")
+								.center();
 					}
 				}
 
@@ -126,7 +124,7 @@ public class LoginPage extends BaseComposite {
 				protected void callService(AsyncCallback<User> cb) {
 					loginService.doAuthentication(user, cb);
 				}
-			}.go();
+			}.execute();
 		}
 	}
 
@@ -138,7 +136,7 @@ public class LoginPage extends BaseComposite {
 	class NewUserButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			// open my pop to new user
-			new UserInfoForm().center();
+			UserInfoForm.getInstance().center();
 			// loginWithGooglePlus();
 		}
 

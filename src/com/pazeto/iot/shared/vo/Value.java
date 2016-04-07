@@ -15,7 +15,6 @@ public class Value implements Serializable {
 	}
 
 	String id;
-	String chipId;
 	long ioPortId;
 	String value;
 	long date;
@@ -25,21 +24,11 @@ public class Value implements Serializable {
 		return id;
 	}
 
-	public String getChipId() {
-		return chipId;
-	}
-
-	public void setChipId(String chipId) {
-		id = this.chipId + ioPortId;
-		this.chipId = chipId;
-	}
-
 	public long getIoPortId() {
 		return ioPortId;
 	}
 
 	public void setIoPortId(long ioPortId) {
-		id = this.chipId + ioPortId;
 		this.ioPortId = ioPortId;
 	}
 
@@ -57,14 +46,6 @@ public class Value implements Serializable {
 
 	public void setDate(long date) {
 		this.date = date;
-	}
-
-	public VALUE_TYPE getType() {
-		return VALUE_TYPE.valueOf(this.type);
-	}
-
-	public void setType(VALUE_TYPE monitored) {
-		this.type = monitored.toString();
 	}
 
 }

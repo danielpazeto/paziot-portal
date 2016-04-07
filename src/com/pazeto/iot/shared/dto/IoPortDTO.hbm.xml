@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.pazeto.iot.shared.dto.IoPortDTO" table="IO_PORT">
+		<id name="id" column="portId" type="long">
+			<generator class="native"/>
+		</id>
+		<property name="iONumber" type="string" not-null="true"/>
+		<property name="deviceId" type="string" not-null="true"/>
+		<property name="description" type="string" />
+		<property name="type" type="string" />
+		
+		<!-- //realionship between ports and monitored values -->
+		<list name="monitoredValues" cascade="all" lazy="false">
+			<key column="portId" />
+			<list-index column="id" />
+			<one-to-many class="com.pazeto.iot.shared.dto.MonitoredValueDTO" />
+		</list>
+		
+	</class>
+</hibernate-mapping>

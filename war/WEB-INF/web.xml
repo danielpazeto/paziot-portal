@@ -37,6 +37,18 @@
 		<servlet-name>deviceServlet</servlet-name>
 		<url-pattern>/pazeto_iot/device</url-pattern>
 	</servlet-mapping>
+	
+	<!-- IoPort -->
+	<servlet>
+		<servlet-name>ioPortServlet</servlet-name>
+		<servlet-class>com.pazeto.iot.server.IoPortServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ioPortServlet</servlet-name>
+		<url-pattern>/pazeto_iot/ioPort</url-pattern>
+	</servlet-mapping>
+	
 
 	<!-- monitoredValues -->
 	<servlet>

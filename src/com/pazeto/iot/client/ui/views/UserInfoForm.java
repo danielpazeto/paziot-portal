@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.pazeto.iot.client.CustomAsyncCall;
+import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
 import com.pazeto.iot.client.services.UserService;
 import com.pazeto.iot.client.services.UserServiceAsync;
 import com.pazeto.iot.shared.vo.User;
@@ -122,12 +122,13 @@ public class UserInfoForm extends PopupPanel {
 
 			sendBtn.setEnabled(false);
 
-			new CustomAsyncCall<Long>() {
+			new CustomIotPazetoAsyncCall<Long>() {
 
 				@Override
 				public void onSuccess(Long result) {
-					textToServerLabel.setText("Usu√°rio " + nameField.getText()
-							+ " criado com sucesso" +result);
+					textToServerLabel.setText("Usu·rio " + nameField.getText()
+							+ " criado com sucesso");
+					UserInfoForm.getInstance().hide();
 					dialogBox.center();
 					closeDialogBoxButton.setFocus(true);
 				}
@@ -144,7 +145,7 @@ public class UserInfoForm extends PopupPanel {
 				protected void callService(AsyncCallback<Long> cb) {
 					userService.addUser(user, cb);
 				}
-			}.go(0);
+			}.execute(0);
 		}
 
 	}

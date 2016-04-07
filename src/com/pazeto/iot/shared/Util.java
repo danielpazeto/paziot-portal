@@ -10,7 +10,7 @@ public class Util {
 		return userLogged;
 	}
 
-	public void setUserLogged(User userLogged) {
-		this.userLogged = userLogged;
+	public static void setUserLogged(User u) {
+		userLogged = u;
 	}
 }

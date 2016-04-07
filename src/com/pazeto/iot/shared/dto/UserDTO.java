@@ -13,6 +13,7 @@ import com.pazeto.iot.shared.vo.User;
  */
 public class UserDTO implements Serializable {
 
+	private static final long serialVersionUID = 6851402511184345741L;
 	private Long id;
 	private String name, lastName;
 	private String email;

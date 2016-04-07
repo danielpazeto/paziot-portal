@@ -14,16 +14,16 @@ public class InitWebSocketListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		GWT.log("WebSocket Server stopped!");
+		System.out.println("WEB SOCKET DESTROYED...");
 		server.stop();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		try {
-			GWT.log("WebSocket Server launched!");
 			server = new Server("localhost", 8025, "/", null,  DeviceConnectionWebSocket.class);
 			server.start();
+			System.out.println("WEB SOCKET LAUNCHED AND RUNNNING");
 		} catch (final DeploymentException e1) {
 			e1.printStackTrace();
 		}

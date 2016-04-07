@@ -1,16 +1,10 @@
 package com.pazeto.iot.shared.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
-import com.pazeto.iot.shared.HibernateUtil;
 import com.pazeto.iot.shared.vo.Device;
-import com.pazeto.iot.shared.vo.User;
 
 /**
  * Device class to persist in database
@@ -25,6 +19,8 @@ public class DeviceDTO implements Serializable {
 	private Date createDate;
 	private Long userId;
 
+	List<IoPortDTO> ports;
+
 	public DeviceDTO(Device dev) {
 		setChipId(dev.getChipId());
 		setCreateDate(dev.getCreateDate());
@@ -33,7 +29,6 @@ public class DeviceDTO implements Serializable {
 	}
 
 	public DeviceDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getChipId() {
@@ -67,4 +62,13 @@ public class DeviceDTO implements Serializable {
 	public String getName() {
 		return name;
 	}
+
+	public List<IoPortDTO> getPorts() {
+		return ports;
+	}
+
+	public void setPorts(List<IoPortDTO> ports) {
+		this.ports = ports;
+	}
+
 }
