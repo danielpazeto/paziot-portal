@@ -48,9 +48,9 @@ public class MenuView extends BaseComposite {
 	public MenuView() {
 
 		StackLayoutPanel p = new StackLayoutPanel(Unit.EM);
-		p.add(profileItemMenu, new HTML("Perfil"), 3);
 		p.add(devicesItemMenu, new HTML("Dispositivos"), 3);
 		p.add(reportsItemMenu, new HTML("Relatórios"), 3);
+		p.add(profileItemMenu, new HTML("Perfil"), 3);
 
 		buildProfileItemsMenu();
 		buildDevicesItemsMenu();
@@ -151,7 +151,7 @@ public class MenuView extends BaseComposite {
 			@Override
 			public void onClick(ClickEvent event) {
 				openDevicePage(dev, DeviceTabs.PROFILE);
-//				openDevicePage(dev, DeviceTabs.STATUS);
+				// openDevicePage(dev, DeviceTabs.STATUS);
 			}
 		});
 		hPanel.setWidth("100%");

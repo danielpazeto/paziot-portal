@@ -1,34 +1,54 @@
 package com.pazeto.iot.shared.vo;
 
-import com.google.appengine.labs.repackaged.org.json.JSONException;
-import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import java.util.Date;
 
-public class MonitoredValue extends Value {
+import com.pazeto.iot.shared.dto.MonitoredValueDTO;
 
-	/**
-	 * 
-	 */
+public class MonitoredValue {
+
 	private static final long serialVersionUID = -3387891800736936513L;
 
-	public MonitoredValue() {
-		// TODO Auto-generated constructor stub
+	public MonitoredValue(MonitoredValueDTO monitoredValueDTO) {
+		setId(monitoredValueDTO.getId());
+		setPortId(monitoredValueDTO.getPortId());
+		setValue(monitoredValueDTO.getValue());
+		setDate(monitoredValueDTO.getDate());
 	}
 
-	public MonitoredValue(JSONObject json) {
+	private long id;
+	private long portId;
+	private String value;
+	private Date date;
 
-		// "cid":"123",
-		// "pt":"0",
-		// "vl":"0",
-		// "dt":"1415455646"
+	public long getId() {
+		return id;
+	}
 
-		try {
-			setType(VALUE_TYPE.MONITORED);
-			setChipId(json.getString("cid"));
-			setIoPortId(json.getLong("pt"));
-			setValue(json.getString("vl"));
-			setDate(json.getLong("dt"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getPortId() {
+		return portId;
+	}
+
+	public void setPortId(long ioPortId) {
+		this.portId = ioPortId;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

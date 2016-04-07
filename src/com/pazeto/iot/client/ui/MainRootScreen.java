@@ -50,17 +50,15 @@ public class MainRootScreen extends Composite {
 
 	public void loadMenuAndContentView() {
 		bodyView = new LayoutPanel();
-
 		bodyView.setStyleName("body");
 
 		contentView = new LayoutPanel();
-		contentView.addStyleName("content-view");
-
 		bodyView.add(MenuView.getInstance());
 		bodyView.add(contentView);
 		bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20,
 				Unit.PCT);
-		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80, Unit.PCT);
+		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 78, Unit.PCT);
+		contentView.addStyleName("content-view");
 
 		rootPanel.add(bodyView);
 	}

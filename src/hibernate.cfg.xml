@@ -32,6 +32,7 @@
         <mapping resource="com/pazeto/iot/shared/dto/UserDTO.hbm.xml"/>
         <mapping resource="com/pazeto/iot/shared/dto/DeviceDTO.hbm.xml"/>
         <mapping resource="com/pazeto/iot/shared/dto/IoPortDTO.hbm.xml"/>
+        <mapping resource="com/pazeto/iot/shared/dto/MonitoredValueDTO.hbm.xml"/>
 
     </session-factory>
 

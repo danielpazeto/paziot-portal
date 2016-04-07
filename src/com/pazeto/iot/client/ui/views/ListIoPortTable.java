@@ -55,8 +55,6 @@ public class ListIoPortTable extends BaseComposite {
 				@Override
 				public void onSuccess(ArrayList<IoPort> result) {
 					if (result != null) {
-						// ioPortDataProvider.getList().addAll(result);
-						// } else {
 						ioPortDataProvider.setList(result);
 					}
 				}
@@ -163,6 +161,7 @@ public class ListIoPortTable extends BaseComposite {
 				GWT.log("era pra ser -1, mas está como " + oldValue);
 				((IoPort) ioPortDataProvider.getKey(port))
 						.setIONumber(oldValue);
+				ioPortDataProvider.refresh();
 			}
 
 			@Override

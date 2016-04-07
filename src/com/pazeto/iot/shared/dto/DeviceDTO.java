@@ -23,14 +23,12 @@ public class DeviceDTO implements Serializable {
 
 	public DeviceDTO(Device dev) {
 		setChipId(dev.getChipId());
-		System.out.println("createDate : "+dev.getCreateDate());
 		setCreateDate(dev.getCreateDate());
 		setUserId(dev.getUserId());
 		setName(dev.getName());
 	}
 
 	public DeviceDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getChipId() {

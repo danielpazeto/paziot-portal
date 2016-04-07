@@ -15,12 +15,14 @@ public class IoPort implements Serializable {
 	private String iONumber;
 	private String deviceId;
 	private String type;
+	private String description;
 
 	public IoPort(IoPortDTO port) {
 		this.id = port.getId();
 		this.iONumber = port.getiONumber();
 		this.type = port.getType();
 		this.deviceId = port.getDeviceId();
+		setDescription(port.getDescription());
 	}
 
 	public IoPort() {
@@ -59,4 +61,11 @@ public class IoPort implements Serializable {
 		this.type = type;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
