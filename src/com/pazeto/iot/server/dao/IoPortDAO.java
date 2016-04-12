@@ -37,20 +37,20 @@ public class IoPortDAO {
 
 	}
 
-	public Long persistIoPort(IoPort port) {
+	public String persistIoPort(IoPort port) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			session.beginTransaction();
 			if (port != null && port.getId() != null) {
 				IoPortDTO results = (IoPortDTO) session.get(IoPortDTO.class,
-						new Long(port.getId()));
+						new String(port.getId()));
 				if (results != null) {
 					session.merge(new IoPortDTO(port));
 					return port.getId();
 				}
 			}
-			return (Long) session.save(new IoPortDTO(port));
+			return (String) session.save(new IoPortDTO(port));
 		} finally {
 			session.getTransaction().commit();
 		}

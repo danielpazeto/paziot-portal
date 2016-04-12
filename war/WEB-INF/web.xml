@@ -62,7 +62,7 @@
 	</servlet-mapping>
 
 	<listener>
-		<listener-class>com.pazeto.iot.server.InitWebSocketListener</listener-class>
+		<listener-class>com.pazeto.iot.server.websocket.InitWebSocketListener</listener-class>
 	</listener>
 
 	<!-- Default page to serve -->

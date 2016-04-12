@@ -1,4 +1,4 @@
-package com.pazeto.iot.server;
+package com.pazeto.iot.server.websocket;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

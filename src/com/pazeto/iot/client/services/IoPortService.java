@@ -12,6 +12,6 @@ public interface IoPortService extends RemoteService {
 
 	ArrayList<IoPort> listAll(Device dev);
 
-	Long savePort(IoPort port);
+	String savePort(IoPort port);
 
 }

@@ -79,7 +79,7 @@ public class DeviceDAO {
 					System.out.println(object);
 				}
 			}
-			return true;
+			return results.size() >= 1;
 		} finally {
 			session.getTransaction().commit();
 		}

@@ -16,7 +16,7 @@ public class MonitoredValue {
 	}
 
 	private long id;
-	private long portId;
+	private String portId; //chipid - ionumber
 	private String value;
 	private Date date;
 
@@ -28,11 +28,11 @@ public class MonitoredValue {
 		this.id = id;
 	}
 
-	public long getPortId() {
+	public String getPortId() {
 		return portId;
 	}
 
-	public void setPortId(long ioPortId) {
+	public void setPortId(String ioPortId) {
 		this.portId = ioPortId;
 	}
 

@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class DeviceTest {
@@ -49,22 +50,26 @@ public class DeviceTest {
 	}
 	
 	public static void main(String[] args) {
-		Integer oi = 0;
-		oi= oi >> 1;
-//		while(true){
-//			
-//			
-//			
-//		}
-//		
-//		
-//		
-//		try {
-//			sendPOST();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+            // open websocket
+            final WebsocketEndPointClient clientEndPoint = new WebsocketEndPointClient(new URI("ws://localhost:8025/dev_con"));
+            // add listener
+            clientEndPoint.addMessageHandler(new WebsocketEndPointClient.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+            // send message to websocket
+            clientEndPoint.sendMessage("{'event':'addChannel','channel':'ok_btccny_ticker'}");
+
+            // wait 5 seconds for messages from websocket
+            Thread.sleep(5000);
+
+        } catch (InterruptedException ex) {
+            System.err.println("InterruptedException exception: " + ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.err.println("URISyntaxException exception: " + ex.getMessage());
+        }
 	}
 	
 	

@@ -11,7 +11,7 @@ public class IoPort implements Serializable {
 
 	}
 
-	private Long id;
+	private String id;
 	private String iONumber;
 	private String deviceId;
 	private String type;
@@ -24,16 +24,20 @@ public class IoPort implements Serializable {
 		this.deviceId = port.getDeviceId();
 		setDescription(port.getDescription());
 	}
+//	public String makeId(){
+//		return getDeviceId() + "-" +getiONumber();
+//	}
 
 	public IoPort() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Long getId() {
-		return id;
+	public String getId() {
+		return getDeviceId() + "-" +getiONumber();
+//		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -35,7 +35,7 @@ public class MonitoredValueDAO {
 	public static MonitoredValueDTO jsonToObject(JSONObject json) {
 		try {
 			MonitoredValueDTO obj = new MonitoredValueDTO();
-			obj.setPortId(json.getLong("pt"));
+			obj.setPortId(json.getLong("chipId") + "-" + json.getLong("pt"));
 			obj.setValue(json.getString("vl"));
 			obj.setDate(new Date(json.getLong("dt")));
 			return obj;

@@ -5,8 +5,8 @@
 
 <hibernate-mapping>
 	<class name="com.pazeto.iot.shared.dto.IoPortDTO" table="IO_PORT">
-		<id name="id" column="portId" type="long">
-			<generator class="native"/>
+		<id name="id" column="portId" type="string">
+<!-- 			<generator class="native"/> -->
 		</id>
 		<property name="iONumber" type="string" not-null="true"/>
 		<property name="deviceId" type="string" not-null="true"/>

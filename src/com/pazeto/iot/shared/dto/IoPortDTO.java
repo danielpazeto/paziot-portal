@@ -14,7 +14,7 @@ import com.pazeto.iot.shared.vo.MonitoredValue;
  */
 public class IoPortDTO implements Serializable {
 
-	private Long id;
+	private String id;
 	private String iONumber;
 	private String deviceId;
 	private String type;
@@ -33,11 +33,11 @@ public class IoPortDTO implements Serializable {
 		setDescription(port.getDescription());
 	}
 
-	public Long getId() {
-		return id;
+	public String getId() {
+		return getDeviceId() + "-" +getiONumber();
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

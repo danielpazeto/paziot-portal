@@ -8,7 +8,7 @@
 		<id name="id" column="id" type="long">
 			<generator class="native" />
 		</id>
-		<property name="portId" type="long" not-null="true" />
+		<property name="portId" type="string" not-null="true" />
 		<property name="value" type="string" />
 		<property name="date" type="timestamp" />
 	</class>

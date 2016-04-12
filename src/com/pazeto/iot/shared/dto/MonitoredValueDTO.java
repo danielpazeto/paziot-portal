@@ -18,7 +18,7 @@ public class MonitoredValueDTO {
 	}
 
 	private long id;
-	private long portId;
+	private String portId;
 	private String value;
 	private Date date;
 
@@ -30,12 +30,12 @@ public class MonitoredValueDTO {
 		this.id = id;
 	}
 
-	public long getPortId() {
+	public String getPortId() {
 		return portId;
 	}
 
-	public void setPortId(long ioPortId) {
-		this.portId = ioPortId;
+	public void setPortId(String string) {
+		this.portId = string;
 	}
 
 	public String getValue() {

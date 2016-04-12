@@ -115,44 +115,52 @@ public class ListIoPortTable extends BaseComposite {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			final IoPort port = new IoPort();
-			port.setIONumber("-1");
+			IoPort port = new IoPort();
 			port.setDeviceId(DevicePage.getCurrentDev().getChipId());
-
-			new CustomIotPazetoAsyncCall<Long>() {
-
-				@Override
-				public void onSuccess(Long result) {
-					if (result != null) {
-						port.setId(result);
-						ioPortDataProvider.getList().add(port);
-					}
-				}
-
-				@Override
-				public void onFailure(Throwable caught) {
-					caught.printStackTrace();
-					GWT.log(caught.getMessage());
-					setDefaultDialogText("Error :" + caught.getMessage())
-							.center();
-				}
-
-				@Override
-				protected void callService(AsyncCallback<Long> cb) {
-					portService.savePort(port, cb);
-				}
-			}.execute(0);
+			GWT.log(port.getId());
+			GWT.log(port.getiONumber());
+			ioPortDataProvider.getList().add(port);
+			for (IoPort iterable_element : ioPortDataProvider.getList()) {
+				GWT.log("ionumer="+iterable_element.getiONumber());
+			}
+			table.flush();
+			ioPortDataProvider.flush();
+			ioPortDataProvider.refresh();
+			return;
+			// new CustomIotPazetoAsyncCall<String>() {
+			//
+			// @Override
+			// public void onSuccess(String result) {
+			// if (result != null) {
+			// port.setId(result);
+			// ioPortDataProvider.getList().add(port);
+			// }
+			// }
+			//
+			// @Override
+			// public void onFailure(Throwable caught) {
+			// caught.printStackTrace();
+			// GWT.log(caught.getMessage());
+			// setDefaultDialogText("Error :" + caught.getMessage())
+			// .center();
+			// }
+			//
+			// @Override
+			// protected void callService(AsyncCallback<String> cb) {
+			// portService.savePort(port, cb);
+			// }
+			// }.execute(0);
 		}
 	};
 
 	private void refreshIoNumberPort(final IoPort port,
 			final String newIoNumberValue) {
 
-		new CustomIotPazetoAsyncCall<Long>() {
+		new CustomIotPazetoAsyncCall<String>() {
 			String oldValue;
 
 			@Override
-			public void onSuccess(Long result) {
+			public void onSuccess(String result) {
 				GWT.log("Sucesso, mas está como " + result);
 			}
 
@@ -165,12 +173,12 @@ public class ListIoPortTable extends BaseComposite {
 			}
 
 			@Override
-			protected void callService(AsyncCallback<Long> cb) {
+			protected void callService(AsyncCallback<String> cb) {
 				oldValue = new String(port.getiONumber());
 				port.setIONumber(newIoNumberValue);
 				portService.savePort(port, cb);
 			}
-		}.execute(0);
+		}.executeWithoutSpinner(0);
 	}
 
 	private void initTableColumns(final SelectionModel<IoPort> selectionModel,
@@ -195,7 +203,9 @@ public class ListIoPortTable extends BaseComposite {
 		ioNumberColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
 			@Override
 			public void update(int index, IoPort object, String value) {
-				// object.setIONumber(value);
+//				if(value.isEmpty()){
+//					table.getRowElement(index).setInnerHTML("<b>Error</b>");
+//				}
 				refreshIoNumberPort(object, value);
 			}
 		});

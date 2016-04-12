@@ -11,6 +11,6 @@ public interface IoPortServiceAsync {
 
 	void listAll(Device dev, AsyncCallback<ArrayList<IoPort>> callback);
 
-	void savePort(IoPort port, AsyncCallback<Long> callback);
+	void savePort(IoPort port, AsyncCallback<String> callback);
 
 }

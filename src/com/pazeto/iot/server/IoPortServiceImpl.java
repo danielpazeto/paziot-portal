@@ -24,8 +24,8 @@ public class IoPortServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Long savePort(IoPort port) {
-		return (Long) portDAO.persistIoPort(port);
+	public String savePort(IoPort port) {
+		return (String) portDAO.persistIoPort(port);
 	}
 
 }
