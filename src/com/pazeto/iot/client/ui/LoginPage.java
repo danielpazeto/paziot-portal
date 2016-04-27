@@ -45,7 +45,7 @@ public class LoginPage extends BaseComposite {
 		setDefaultDialogBoxTitle("Login");
 
 		loginButton = new Button("Enviar", new LoginButtonHandler());
-		newUserButton = new Button("Novo Usu·rio", new NewUserButtonHandler());
+		newUserButton = new Button("Novo Usu√°rio", new NewUserButtonHandler());
 		emailField = new TextBox();
 		pwdField = new TextBox();
 
@@ -53,12 +53,12 @@ public class LoginPage extends BaseComposite {
 		newUserButton.addStyleName("sendButton");
 
 		FlexTable table = new FlexTable();
-		table.setWidget(0, 0, new Label("Nome: "));
+		table.setWidget(0, 0, new Label("Email: "));
 		table.setWidget(1, 0, new Label("Senha: "));
 		table.setWidget(0, 1, emailField);
 		table.setWidget(1, 1, pwdField);
-		table.setWidget(0, 2, loginButton);
-		table.setWidget(1, 2, newUserButton);
+		table.setWidget(2, 0, loginButton);
+		table.setWidget(2, 1, newUserButton);
 		table.addStyleName("loginTable");
 
 		emailField.setFocus(true);

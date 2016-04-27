@@ -33,7 +33,6 @@ public class HomePage extends BaseComposite {
 //		productsButton.addClickHandler(new ProductButtonHandler());
 //		clientButton.addClickHandler(new CompanyButtonHandler());
 		
-		flexTable.setStyleName("mainMenu");
 		initWidget(flexTable);
 	}
 

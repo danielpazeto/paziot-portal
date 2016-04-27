@@ -7,8 +7,7 @@ import com.pazeto.iot.shared.dto.IoPortDTO;
 public class IoPort implements Serializable {
 
 	public static enum PORT_TYPE {
-		SWITCH_READ, SWITCH, LIGTH_READ, LIGHT;
-
+		OUTPUT, OUTPUT_ON_OFF;
 	}
 
 	private String id;
@@ -24,17 +23,11 @@ public class IoPort implements Serializable {
 		this.deviceId = port.getDeviceId();
 		setDescription(port.getDescription());
 	}
-//	public String makeId(){
-//		return getDeviceId() + "-" +getiONumber();
-//	}
-
 	public IoPort() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getId() {
 		return getDeviceId() + "-" +getiONumber();
-//		return id;
 	}
 
 	public void setId(String id) {

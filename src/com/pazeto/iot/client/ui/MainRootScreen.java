@@ -1,8 +1,8 @@
 package com.pazeto.iot.client.ui;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.ui.views.HeaderView;
@@ -55,9 +55,9 @@ public class MainRootScreen extends Composite {
 		contentView = new LayoutPanel();
 		bodyView.add(MenuView.getInstance());
 		bodyView.add(contentView);
-		bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20,
-				Unit.PCT);
-		bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 78, Unit.PCT);
+		// bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20,
+		// Unit.PCT);
+		// bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 78, Unit.PCT);
 		contentView.addStyleName("content-view");
 
 		rootPanel.add(bodyView);
@@ -83,10 +83,16 @@ public class MainRootScreen extends Composite {
 			bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 100,
 					Unit.PCT);
 		} else {
-			bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20,
-					Unit.PCT);
-			bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80,
-					Unit.PCT);
+			if (Window.getClientWidth() > 500) {
+				bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0,
+						Unit.PCT, 20, Unit.PCT);
+				bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80,
+						Unit.PCT);
+			} else {
+				rootPanel.remove(HeaderView.getInstance());
+				bodyView.setWidgetTopHeight(MenuView.getInstance(), 0, Unit.PX, 250, Unit.PX);
+				bodyView.setWidgetTopHeight(contentView, 250, Unit.PX, 250, Unit.PX);
+			}
 		}
 	}
 }

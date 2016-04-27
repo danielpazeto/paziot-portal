@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCode;
 import javax.websocket.MessageHandler;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -53,13 +55,11 @@ public class DeviceConnectionWebSocket {
 							.getJSONObject(i)));
 				}
 				MonitoredValueDAO.saveMonitoredValue(valuesToSave);
+			}else if(jsonMessage.has("status")){
+				JSONArray statusArray = jsonMessage.getJSONArray("status");
+				String toUserEmail = jsonMessage.getString("user_email");
+				HandleConnectedUsers.sendMessageToUser(toUserEmail, jsonMessage);
 			}
-
-			// get setted values from db
-			JSONObject responseJson = new JSONObject();
-			responseJson.put("chipId", chipId);
-
-			return responseJson.toString();
 		} catch (JSONException e) {
 			e.printStackTrace();
 			s.getBasicRemote().sendText("Json Error: " + e.toString());
@@ -86,8 +86,14 @@ public class DeviceConnectionWebSocket {
 			});
 
 		} else {
-			session.close();
-			throw new Exception("Not valid ID: " + chipId);
+			// close connection
+			session.close(new CloseReason(new CloseCode() {
+				@Override
+				public int getCode() {
+					return  CloseReason.CloseCodes.VIOLATED_POLICY.getCode();
+				}
+			}, "Not authorized! invalid ID"));
+			System.out.println("Invalid chip ID trying connect: " + chipId);
 		}
 
 	}

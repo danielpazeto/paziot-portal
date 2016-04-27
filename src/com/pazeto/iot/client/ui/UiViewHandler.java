@@ -1,7 +1,5 @@
 package com.pazeto.iot.client.ui;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.user.client.ui.RootPanel;
 import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.client.ui.views.MenuView;

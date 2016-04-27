@@ -45,12 +45,19 @@ public class UserDAO implements Serializable {
 			List results = query.list();
 			ArrayList<User> users = new ArrayList<>();
 			for (Object object : results) {
-				users.add(new User((UserDTO)object));
+				users.add(new User((UserDTO) object));
 			}
 			return users;
 		} finally {
 			session.getTransaction().commit();
 		}
+	}
+
+	public static User doAuthentication(String email, String pwd) {
+		User u = new User();
+		u.setEmail(email);
+		u.setPwd(pwd);
+		return doAuthentication(u);
 	}
 
 	public static User doAuthentication(User userToLogin) {
@@ -59,19 +66,11 @@ public class UserDAO implements Serializable {
 			System.out.println(userToLogin.getEmail());
 			System.out.println(userToLogin.getPwd());
 			session.beginTransaction();
-			System.out.println(1);
 			String hql = "FROM UserDTO u WHERE u.email = :email AND u.pwd= :pwd";
-			System.out.println(2);
 			Query query = session.createQuery(hql);
-			System.out.println(3);
 			query.setString("email", userToLogin.getEmail().toString());
-			System.out.println(4);
 			query.setString("pwd", userToLogin.getPwd().toString());
-			System.out.println(5);
 			query.setMaxResults(1);
-			System.out.println(5.5);
-			System.out.println(query.getQueryString());
-			System.out.println(5.6);
 			List results = query.list();
 			System.out.println(results.size());
 			if (results.size() >= 1) {

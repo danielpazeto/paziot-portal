@@ -23,7 +23,7 @@ public class BaseComposite extends Composite {
 		UiViewHandler.getInstance().openHomePage();
 	}
 	
-	public void openDevicePage(Device dev, DeviceTabs tab) {
+	public static void openDevicePage(Device dev, DeviceTabs tab) {
 		UiViewHandler.getInstance().openDevicePage(dev, tab);
 		
 	}

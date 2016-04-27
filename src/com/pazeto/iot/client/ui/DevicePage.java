@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.pazeto.iot.client.ui.views.DeviceEditorView;
+import com.pazeto.iot.client.ui.views.ListIoPortStatusTable;
 import com.pazeto.iot.client.ui.views.ListIoPortTable;
 import com.pazeto.iot.shared.vo.Device;
 
@@ -52,7 +53,7 @@ public class DevicePage extends BaseComposite {
 		deviceTabPanel.clear();
 		deviceTabPanel.add(DeviceEditorView.getInstance(), "Profile Device");
 		deviceTabPanel.add(ListIoPortTable.getInstance(), "IO Ports");
-		deviceTabPanel.add(new HTML("TODO  asd"), "Device Status");
+		deviceTabPanel.add(ListIoPortStatusTable.getInstance(), "Status");
 	}
 
 	public void openStatus() {

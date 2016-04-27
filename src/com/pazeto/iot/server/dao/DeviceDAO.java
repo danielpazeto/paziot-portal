@@ -24,17 +24,15 @@ public class DeviceDAO {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			session.beginTransaction();
-			System.out.println(1);
+			System.out.println("Trying save device with chip id:"+dev.getChipId());
 			DeviceDTO results = (DeviceDTO) session.get(DeviceDTO.class,
 					new String(dev.getChipId()));
-			System.out.println(2);
 			if (results != null) {
-				System.out.println(3);
+				System.out.println("Has already a device with chip id:"+dev.getChipId());
 				session.merge(new DeviceDTO(dev));
-				System.out.println(4);
 				return dev.getChipId();
 			}
-			System.out.println(5);
+			System.out.println("new saved device with chip id:"+dev.getChipId());
 			return (String) session.save(new DeviceDTO(dev));
 		} finally {
 			session.getTransaction().commit();
@@ -47,17 +45,20 @@ public class DeviceDAO {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			session.beginTransaction();
+			System.out.println("Listing device with user id:"+user.getId());
 			String hql = "FROM DeviceDTO d WHERE d.userId = :userId";
 			Query query = session.createQuery(hql);
 			query.setLong("userId", user.getId());
 			List results = query.list();
 			if (results.size() >= 1) {
+				System.out.println("There is "+results.size()+" devices with user id:"+user.getId());
 				ArrayList<Device> devices = new ArrayList<>();
 				for (Object object : results) {
 					devices.add(new Device((DeviceDTO) object));
 				}
 				return devices;
 			}
+			System.out.println("There isn't devices with user id:"+user.getId());
 			return null;
 		} finally {
 			session.getTransaction().commit();
@@ -72,14 +73,7 @@ public class DeviceDAO {
 			Query query = session.createQuery(hql);
 			query.setString("chipId", chipId);
 			query.setMaxResults(1);
-			List results = query.list();
-			System.out.println(results.size());
-			if (results.size() >= 1) {
-				for (Object object : results) {
-					System.out.println(object);
-				}
-			}
-			return results.size() >= 1;
+			return query.list().size() >= 1;
 		} finally {
 			session.getTransaction().commit();
 		}

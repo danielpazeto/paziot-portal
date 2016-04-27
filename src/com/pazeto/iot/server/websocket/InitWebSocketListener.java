@@ -6,24 +6,33 @@ import javax.websocket.DeploymentException;
 
 import org.glassfish.tyrus.server.Server;
 
-import com.google.gwt.core.shared.GWT;
+import com.pazeto.iot.shared.Constants;
 
 public class InitWebSocketListener implements ServletContextListener {
-	
-	private Server server = null;
+
+	private Server deviceWebCosketServer = null;
+	private Server userClientWebCosketServer = null;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		System.out.println("WEB SOCKET DESTROYED...");
-		server.stop();
+		System.out.println("WEB SOCKETS DESTROYED...");
+		deviceWebCosketServer.stop();
+		userClientWebCosketServer.stop();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		try {
-			server = new Server("localhost", 8025, "/", null,  DeviceConnectionWebSocket.class);
-			server.start();
-			System.out.println("WEB SOCKET LAUNCHED AND RUNNNING");
+			deviceWebCosketServer = new Server("localhost",
+					Constants.WEBSOCKET_DEV_PORT, "/", null,
+					DeviceConnectionWebSocket.class);
+			deviceWebCosketServer.start();
+			System.out.println("DEVICE WEB SOCKET STARTED");
+			userClientWebCosketServer = new Server("localhost",
+					Constants.WEBSOCKET_USER_PORT, "/", null,
+					UserConnectionWebSocket.class);
+			userClientWebCosketServer.start();
+			System.out.println("USER WEB SOCKET STARTED");
 		} catch (final DeploymentException e1) {
 			e1.printStackTrace();
 		}
