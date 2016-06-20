@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
+import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.UserService;
 import com.pazeto.iot.client.services.UserServiceAsync;
 import com.pazeto.iot.shared.vo.User;
@@ -75,8 +75,8 @@ public class UserInfoForm extends PopupPanel {
 		inputTable.setWidget(2, 1, emailField);
 		inputTable.setWidget(3, 0, new Label("Senha: "));
 		inputTable.setWidget(3, 1, pwdField);
-		inputTable.setWidget(4, 0, closeBtn);
-		inputTable.setWidget(4, 1, sendBtn);
+		inputTable.setWidget(4, 1, closeBtn);
+		inputTable.setWidget(4, 0, sendBtn);
 
 		inputTable.addStyleName("loginTable");
 
@@ -122,7 +122,7 @@ public class UserInfoForm extends PopupPanel {
 
 			sendBtn.setEnabled(false);
 
-			new CustomIotPazetoAsyncCall<Long>() {
+			new CustomAsyncCall<Long>() {
 
 				@Override
 				public void onSuccess(Long result) {
@@ -136,8 +136,8 @@ public class UserInfoForm extends PopupPanel {
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					logger.info(caught.getMessage());
-					textToServerLabel.setText("Erro ao criar usu√°rio");
+					GWT.log("Error message",caught);
+					textToServerLabel.setText("Erro ao criar usu·rio");
 					dialogBox.center();
 				}
 

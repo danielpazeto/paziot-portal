@@ -19,8 +19,8 @@ import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pazeto.iot.server.dao.DeviceDAO;
-import com.pazeto.iot.server.dao.MonitoredValueDAO;
-import com.pazeto.iot.shared.dto.MonitoredValueDTO;
+import com.pazeto.iot.server.dao.EventDAO;
+import com.pazeto.iot.shared.dto.EventDTO;
 
 @ServerEndpoint(value = "/dev_con/{chipId}")
 public class DeviceConnectionWebSocket {
@@ -46,15 +46,15 @@ public class DeviceConnectionWebSocket {
 			System.out.println(jsonMessage.toString());
 			chipId = cId;
 			// verifica se há algum valor para ser salva na base
-			if (jsonMessage.has("monitored_values")) {
-				JSONArray values = jsonMessage.getJSONArray("monitored_values");
-				List<MonitoredValueDTO> valuesToSave = new ArrayList<MonitoredValueDTO>();
+			if (jsonMessage.has("events")) {
+				JSONArray values = jsonMessage.getJSONArray("events");
+				List<EventDTO> eventsToSave = new ArrayList<EventDTO>();
 				for (int i = 0; i < values.length(); i++) {
 					System.out.println(values.getJSONObject(i));
-					valuesToSave.add(MonitoredValueDAO.jsonToObject(values
-							.getJSONObject(i)));
+					eventsToSave.add(EventDAO.jsonToObject(values
+							.getJSONObject(i),chipId));
 				}
-				MonitoredValueDAO.saveMonitoredValue(valuesToSave);
+				EventDAO.saveEvent(eventsToSave);
 			}else if(jsonMessage.has("status")){
 				JSONArray statusArray = jsonMessage.getJSONArray("status");
 				String toUserEmail = jsonMessage.getString("user_email");
@@ -87,12 +87,14 @@ public class DeviceConnectionWebSocket {
 
 		} else {
 			// close connection
+			session.getBasicRemote().sendText("Not authorized! invalid ID or this Device didn't assigned in system yet!");
 			session.close(new CloseReason(new CloseCode() {
 				@Override
 				public int getCode() {
 					return  CloseReason.CloseCodes.VIOLATED_POLICY.getCode();
 				}
 			}, "Not authorized! invalid ID"));
+			
 			System.out.println("Invalid chip ID trying connect: " + chipId);
 		}
 

@@ -1,0 +1,2 @@
+serviceClass: com.pazeto.iot.client.services.ScheduleService
+path: 3872313D06C63DEED600883753E4913F.gwt.rpc

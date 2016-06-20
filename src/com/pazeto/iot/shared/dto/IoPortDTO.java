@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.pazeto.iot.shared.vo.IoPort;
-import com.pazeto.iot.shared.vo.MonitoredValue;
 
 /**
  * Class to persist Io Ports in db
@@ -19,7 +18,8 @@ public class IoPortDTO implements Serializable {
 	private String deviceId;
 	private String type;
 	private String description;
-	private List<MonitoredValue> monitoredValues;
+
+	List<ScheduleDTO> schedules;
 
 	public IoPortDTO() {
 		// TODO Auto-generated constructor stub
@@ -34,7 +34,7 @@ public class IoPortDTO implements Serializable {
 	}
 
 	public String getId() {
-		return getDeviceId() + "-" +getiONumber();
+		return getDeviceId() + "-" + getiONumber();
 	}
 
 	public void setId(String id) {
@@ -65,20 +65,20 @@ public class IoPortDTO implements Serializable {
 		this.type = type;
 	}
 
-	public List<MonitoredValue> getMonitoredValues() {
-		return monitoredValues;
-	}
-
-	public void setMonitoredValues(List<MonitoredValue> monitoredValues) {
-		this.monitoredValues = monitoredValues;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<ScheduleDTO> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(List<ScheduleDTO> schedules) {
+		this.schedules = schedules;
 	}
 
 }

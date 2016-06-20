@@ -12,6 +12,7 @@ public class User implements Serializable {
 	private String pwd;
 	private String sessionId;
 	private boolean loggedIn;
+	private boolean isAdmin;
 
 	public User(UserDTO userDTO) {
 		setId(userDTO.getId());
@@ -19,6 +20,7 @@ public class User implements Serializable {
 		setLastName(userDTO.getLastName());
 		setEmail(userDTO.getEmail());
 		setPwd(userDTO.getPwd());
+		setIsAdmin(userDTO.getIsAdmin()=='Y');
 	}
 	
 	public User() {
@@ -81,4 +83,11 @@ public class User implements Serializable {
 		loggedIn = logged;
 	}
 
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 }

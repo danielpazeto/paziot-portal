@@ -12,6 +12,7 @@
 		<property name="lastName" />
 		<property name="email" unique-key="email" not-null="true" />
 		<property name="pwd" not-null="true" />
+		<property name="isAdmin" type="yes_no" />
 
 		<!-- //realionship between devices and user -->
 		<list name="devices" cascade="all" lazy="false">

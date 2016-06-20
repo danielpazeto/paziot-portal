@@ -14,9 +14,8 @@ public class BaseComposite extends Composite {
 
 
 	private DialogBox dialogBox;
-
 	private Label textLabelDialogBox;
-	private Button closeButton;
+	private Button dialogCloseButton;
 
 
 	protected void openHomePage() {
@@ -32,17 +31,17 @@ public class BaseComposite extends Composite {
 		if (dialogBox == null) {
 			dialogBox = new DialogBox();
 			dialogBox.setAnimationEnabled(true);
-			closeButton = new Button("Fechar");
-			closeButton.getElement().setId("closeButton");
+			dialogCloseButton = new Button("Fechar");
+			dialogCloseButton.getElement().setId("closeButton");
 			textLabelDialogBox = new Label();
 			VerticalPanel dialogVPanel = new VerticalPanel();
 			dialogVPanel.addStyleName("dialogVPanel");
 			dialogVPanel.add(textLabelDialogBox);
 			dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-			dialogVPanel.add(closeButton);
+			dialogVPanel.add(dialogCloseButton);
 			dialogBox.setWidget(dialogVPanel);
 		}
-		closeButton.addClickHandler(getCloseButtonHandlerClick());
+		dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
 	}
 
 	public ClickHandler getCloseButtonHandlerClick() {

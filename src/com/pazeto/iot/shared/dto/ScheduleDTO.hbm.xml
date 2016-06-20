@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.pazeto.iot.shared.dto.ScheduleDTO" table="SCHEDULE">
+		<id name="id" column="id" type="long" >
+		    <generator class="native" />
+		</id>
+		<property name="chipId" not-null="true" />
+		<property name="portId" not-null="true" />
+		<property name="hour" type="integer" not-null="true" />
+		<property name="minute" type="integer" not-null="true" />
+		<property name="frequency" not-null="true" />
+		<property name="value" not-null="true" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,2 @@
+serviceClass: com.pazeto.iot.client.services.IoPortService
+path: 840AEC4D96BFA62E42646196129CB3A5.gwt.rpc

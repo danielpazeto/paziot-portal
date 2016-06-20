@@ -49,16 +49,15 @@
 		<url-pattern>/pazeto_iot/ioPort</url-pattern>
 	</servlet-mapping>
 	
-
-	<!-- monitoredValues -->
+		<!-- Schedules -->
 	<servlet>
-		<servlet-name>addMonitoredValue</servlet-name>
-		<servlet-class>com.pazeto.iot.server.MonitoredValueServlet</servlet-class>
+		<servlet-name>scheduleServlet</servlet-name>
+		<servlet-class>com.pazeto.iot.server.ScheduleServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>addMonitoredValue</servlet-name>
-		<url-pattern>/pazeto_iot/add_monitored_value</url-pattern>
+		<servlet-name>scheduleServlet</servlet-name>
+		<url-pattern>/pazeto_iot/schedule</url-pattern>
 	</servlet-mapping>
 
 	<listener>

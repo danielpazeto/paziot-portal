@@ -28,6 +28,7 @@ public class UserClientWebSocket extends WebSocket {
 	public UserClientWebSocket() {
 		super(Constants.WEBSOCKET_USER_URI + Util.getUserLogged().getEmail()
 				+ "/" + Util.getUserLogged().getPwd());
+		messageHandlers = new ArrayList<MessageJavasCriptHandler>();
 		connectWebsocket();
 	}
 
@@ -45,7 +46,7 @@ public class UserClientWebSocket extends WebSocket {
 		messageHandlers.add(messageHandler);
 	}
 
-	private List<MessageJavasCriptHandler> messageHandlers = new ArrayList<MessageJavasCriptHandler>();
+	private List<MessageJavasCriptHandler> messageHandlers;
 
 	@Override
 	public void onError() {

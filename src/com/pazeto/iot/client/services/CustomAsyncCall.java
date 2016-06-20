@@ -1,4 +1,4 @@
-package com.pazeto.iot.client;
+package com.pazeto.iot.client.services;
 
 import java.util.logging.Logger;
 
@@ -8,17 +8,17 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-public abstract class CustomIotPazetoAsyncCall<T> implements AsyncCallback<T> {
+public abstract class CustomAsyncCall<T> implements AsyncCallback<T> {
 
 	private static final Logger LOG = Logger
-			.getLogger(CustomIotPazetoAsyncCall.class.getName());
+			.getLogger(CustomAsyncCall.class.getName());
 
 	/** Call the service method using cb as the callback. */
 	protected abstract void callService(AsyncCallback<T> cb);
 
 	private PopupPanel popup;
 
-	public CustomIotPazetoAsyncCall() {
+	public CustomAsyncCall() {
 		popup = new PopupPanel(false, true);
 
 		Image img = new Image("res/loading_spinner.gif");
@@ -41,7 +41,7 @@ public abstract class CustomIotPazetoAsyncCall<T> implements AsyncCallback<T> {
 	}
 
 	public void execute() {
-		executeTask(0);
+		execute(0);
 	}
 
 	
@@ -65,7 +65,7 @@ public abstract class CustomIotPazetoAsyncCall<T> implements AsyncCallback<T> {
 			public void onFailure(Throwable t) {
 				if (retriesLeft <= 0) {
 					hideLoadingMessage();
-					CustomIotPazetoAsyncCall.this.onFailure(t);
+					CustomAsyncCall.this.onFailure(t);
 				} else {
 					executeTask(retriesLeft - 1);
 				}
@@ -73,7 +73,7 @@ public abstract class CustomIotPazetoAsyncCall<T> implements AsyncCallback<T> {
 
 			public void onSuccess(T result) {
 				hideLoadingMessage();
-				CustomIotPazetoAsyncCall.this.onSuccess(result);
+				CustomAsyncCall.this.onSuccess(result);
 			}
 		});
 	}

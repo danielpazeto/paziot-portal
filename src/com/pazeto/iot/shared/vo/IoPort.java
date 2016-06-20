@@ -7,7 +7,7 @@ import com.pazeto.iot.shared.dto.IoPortDTO;
 public class IoPort implements Serializable {
 
 	public static enum PORT_TYPE {
-		OUTPUT, OUTPUT_ON_OFF;
+		DIGITAL_INPUT, DIGITAL_OUTPUT, ANALOG_OUTPUT, ANALOG_INPUT;
 	}
 
 	private String id;

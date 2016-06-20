@@ -15,11 +15,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.Widget;
-import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
+import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.DeviceService;
 import com.pazeto.iot.client.services.DeviceServiceAsync;
 import com.pazeto.iot.client.services.LoginService;
@@ -73,7 +74,6 @@ public class MenuView extends BaseComposite {
 	}
 
 	private void buildDevicesItemsMenu() {
-		// TODO if(admin)
 		btnAddNewDevice.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -97,7 +97,7 @@ public class MenuView extends BaseComposite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CustomIotPazetoAsyncCall<Void>() {
+				new CustomAsyncCall<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -117,17 +117,27 @@ public class MenuView extends BaseComposite {
 				}.execute();
 			}
 		}));
+
+		HorizontalPanel hpUserWebScoketConnection = new HorizontalPanel();
+		hpUserWebScoketConnection.add(new Label("Websocket de Usuário"));
+		StatusConnectionWidget iconStatus = new StatusConnectionWidget();
+		if (Util.getUserLogged()!=null)
+			iconStatus.setStatus(UserClientWebSocket.getInstance()
+					.isConnected());
+		hpUserWebScoketConnection.add(iconStatus);
+		profileItemMenu.add(hpUserWebScoketConnection);
 		profileItemMenu.setWidth("100%");
 		profileItemMenu.setHeight("100%");
 
 	}
 
 	public static void loadMyDevicesItemMenu() {
-		new CustomIotPazetoAsyncCall<ArrayList<Device>>() {
+		new CustomAsyncCall<ArrayList<Device>>() {
 
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
 				myDevicesList.clear();
+				deviceStatusMenuIcon.clear();
 				myDevicesList.setWidth("100%");
 				if (result != null && result.size() > 0) {
 					GWT.log(String.valueOf(result.size()));
@@ -161,19 +171,24 @@ public class MenuView extends BaseComposite {
 	}
 
 	private static HorizontalPanel createMenuDeviceItem(final Device dev) {
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setWidth("100%");
+		HorizontalPanel hPanelDeviceItem = new HorizontalPanel();// TODO clear
+																	// no HPANEL
+																	// ao inves
+																	// de criar
+																	// outro
+		hPanelDeviceItem.setWidth("100%");
 		HTML htmlDevName = new HTML(dev.getName());
 		htmlDevName.setWidth("100%");
 		htmlDevName.setStyleName("device-item-menu");
-		hPanel.add(htmlDevName);
-		DeviceStatusConnectionWidget iconStatus = new DeviceStatusConnectionWidget();
+		hPanelDeviceItem.add(htmlDevName);
+		StatusConnectionWidget iconStatus = new StatusConnectionWidget();
 		// iconStatus.setWidth("100%");
-		hPanel.add(iconStatus);
+		hPanelDeviceItem.add(iconStatus);
 		// hPanel.setCellWidth(htmlDevName, "50%");
 		// hPanel.setCellWidth(iconStatus, "50%");
-		hPanel.setCellHorizontalAlignment(iconStatus,
+		hPanelDeviceItem.setCellHorizontalAlignment(iconStatus,
 				HorizontalAlignmentConstant.startOf(Direction.RTL));
+		iconStatus.setDeviceDisconnected();
 		deviceStatusMenuIcon.put(dev.getChipId(), iconStatus);
 		htmlDevName.addClickHandler(new ClickHandler() {
 
@@ -184,7 +199,7 @@ public class MenuView extends BaseComposite {
 			}
 		});
 
-		return hPanel;
+		return hPanelDeviceItem;
 	}
 
 	private Button makeRefreshButton() {
@@ -200,24 +215,21 @@ public class MenuView extends BaseComposite {
 		return btnRefresh;
 	}
 
-	private static Map<String, DeviceStatusConnectionWidget> deviceStatusMenuIcon = new HashMap<String, DeviceStatusConnectionWidget>();
+	private static Map<String, StatusConnectionWidget> deviceStatusMenuIcon = new HashMap<String, StatusConnectionWidget>();
 
 	static MessageJavasCriptHandler messageFromServer = new MessageJavasCriptHandler() {
 
 		@Override
 		public void handleMessage(String message) {
-			GWT.log("Menu - > Recebi do servidor/placa  msg : " + message);
+			GWT.log("Menu->Recebeu msg: " + message.substring(0, 20) + "...");
 			JSONObject json = JSONParser.parseLenient(message).isObject();
 			if (json.containsKey("status")) {
 				String cId = json.get("chipId").isString().stringValue();
-				DeviceStatusConnectionWidget icon = deviceStatusMenuIcon
-						.get(cId);
+				StatusConnectionWidget icon = deviceStatusMenuIcon.get(cId);
 				if (icon != null) {
 					if (json.get("status").isString() != null
 							&& json.get("status").isString().stringValue()
 									.equals(DEVICE_STATUS.DISCONNECTED.name())) {
-						GWT.log("Desconetado : "
-								+ DEVICE_STATUS.DISCONNECTED.name());
 						icon.setDeviceDisconnected();
 					} else {
 						// connected device

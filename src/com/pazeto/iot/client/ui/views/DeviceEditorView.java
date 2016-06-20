@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
+import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.DeviceService;
 import com.pazeto.iot.client.services.DeviceServiceAsync;
 import com.pazeto.iot.client.services.UserService;
@@ -64,31 +64,34 @@ public class DeviceEditorView extends BaseComposite {
 	static List<User> userList = new ArrayList<User>();
 
 	private static void refreshUserComboBox() {
-		new CustomIotPazetoAsyncCall<ArrayList<User>>() {
-			@Override
-			public void onSuccess(ArrayList<User> result) {
-				GWT.log("succes user combo box");
-				dropBoxUser.clear();
-				userList.clear();
-				for (User user : result) {
-					userList.add(user);
-					dropBoxUser.addItem(user.getEmail(),
-							String.valueOf(user.getId()));
+		if (Util.isAdmin()) {
+			new CustomAsyncCall<ArrayList<User>>() {
+				@Override
+				public void onSuccess(ArrayList<User> result) {
+					dropBoxUser.clear();
+					userList.clear();
+					for (User user : result) {
+						userList.add(user);
+						dropBoxUser.addItem(user.getEmail(),
+								String.valueOf(user.getId()));
+					}
 				}
-			}
 
-			@Override
-			public void onFailure(Throwable caught) {
-				GWT.log("Failure on user combo box");
-				// TODO tirar isso
+				@Override
+				public void onFailure(Throwable caught) {
+					GWT.log("Failure on user combo box");
+				}
 
-			}
-
-			@Override
-			protected void callService(AsyncCallback<ArrayList<User>> cb) {
-				userService.listAllUsers(cb);
-			}
-		}.executeWithoutSpinner();
+				@Override
+				protected void callService(AsyncCallback<ArrayList<User>> cb) {
+					userService.listAllUsers(cb);
+				}
+			}.executeWithoutSpinner();
+		} else {
+			dropBoxUser.clear();
+			userList.clear();
+			userList.add(Util.getUserLogged());
+		}
 	}
 
 	private final static UserServiceAsync userService = GWT
@@ -151,16 +154,13 @@ public class DeviceEditorView extends BaseComposite {
 
 	class SaveDeviceButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
-			GWT.log(dropBoxUser.getSelectedValue());
 			DevicePage.getCurrentDev().setUserId(
 					userList.get(dropBoxUser.getSelectedIndex()).getId());
 			DevicePage.getCurrentDev().setName(nameField.getText());
 			DevicePage.getCurrentDev().setChipId(chipIdField.getText());
-			System.out.println("Data do device : "
-					+ DevicePage.getCurrentDev().getCreateDate());
 			sendBtn.setEnabled(false);
 
-			new CustomIotPazetoAsyncCall<Void>() {
+			new CustomAsyncCall<Void>() {
 
 				@Override
 				public void onSuccess(Void result) {
@@ -176,9 +176,8 @@ public class DeviceEditorView extends BaseComposite {
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					GWT.log(caught.getMessage());
-					textToServerLabel.setText("Erro ao criar usuário");
-					dialogBox.center();
+					GWT.log("Msg error: "+caught.getMessage());
+					setDefaultDialogText("Erro ao criar Dispositivo").center();
 				}
 
 				@Override

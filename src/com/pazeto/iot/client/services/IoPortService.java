@@ -10,7 +10,7 @@ import com.pazeto.iot.shared.vo.IoPort;
 @RemoteServiceRelativePath("ioPort")
 public interface IoPortService extends RemoteService {
 
-	ArrayList<IoPort> listAll(Device dev);
+	ArrayList<IoPort> listAllPortsByDevice(Device dev);
 
 	String savePort(IoPort port);
 

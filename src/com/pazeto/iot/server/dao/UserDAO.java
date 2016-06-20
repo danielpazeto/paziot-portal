@@ -19,6 +19,8 @@ import com.pazeto.iot.shared.vo.User;
  */
 public class UserDAO implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public static Long addNewUser(User user) throws Exception {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
@@ -26,11 +28,12 @@ public class UserDAO implements Serializable {
 			String hql = "FROM UserDTO u WHERE u.email = :email";
 			Query query = session.createQuery(hql);
 			query.setParameter("email", user.getEmail());
-			List results = query.list();
-			if (results.size() > 0) {
+			List results = query.list();	
+			if (results.size() > 0) {	
 				throw new Exception("User already exists!");
-			}
-			return (Long) session.save(new UserDTO(user));
+			}	
+			UserDTO u = new UserDTO(user);
+			return (Long) session.save(u);
 		} finally {
 			session.getTransaction().commit();
 		}
@@ -63,8 +66,6 @@ public class UserDAO implements Serializable {
 	public static User doAuthentication(User userToLogin) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
-			System.out.println(userToLogin.getEmail());
-			System.out.println(userToLogin.getPwd());
 			session.beginTransaction();
 			String hql = "FROM UserDTO u WHERE u.email = :email AND u.pwd= :pwd";
 			Query query = session.createQuery(hql);
@@ -72,8 +73,25 @@ public class UserDAO implements Serializable {
 			query.setString("pwd", userToLogin.getPwd().toString());
 			query.setMaxResults(1);
 			List results = query.list();
-			System.out.println(results.size());
-			if (results.size() >= 1) {
+			if (query.list().size() >= 1) {
+				return new User((UserDTO) results.get(0));
+			}
+			return null;
+		} finally {
+			session.getTransaction().commit();
+		}
+	}
+
+	public User getUserIdByEmail(String email) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			session.beginTransaction();
+			String hql = "FROM UserDTO u WHERE u.email = :email";
+			Query query = session.createQuery(hql);
+			query.setString("email", email);
+			query.setMaxResults(1);
+			List results = query.list();
+			if (query.list().size() >= 1) {
 				return new User((UserDTO) results.get(0));
 			}
 			return null;

@@ -13,11 +13,10 @@
 		<property name="description" type="string" />
 		<property name="type" type="string" />
 		
-		<!-- //realionship between ports and monitored values -->
-		<list name="monitoredValues" cascade="all" lazy="false">
+		<list name="schedules" cascade="all" lazy="false">
 			<key column="portId" />
 			<list-index column="id" />
-			<one-to-many class="com.pazeto.iot.shared.dto.MonitoredValueDTO" />
+			<one-to-many class="com.pazeto.iot.shared.dto.ScheduleDTO" />
 		</list>
 		
 	</class>

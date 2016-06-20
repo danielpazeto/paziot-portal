@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.pazeto.iot.client.CustomIotPazetoAsyncCall;
+import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
 import com.pazeto.iot.client.ui.views.UserInfoForm;
@@ -45,7 +45,7 @@ public class LoginPage extends BaseComposite {
 		setDefaultDialogBoxTitle("Login");
 
 		loginButton = new Button("Enviar", new LoginButtonHandler());
-		newUserButton = new Button("Novo Usu√°rio", new NewUserButtonHandler());
+		newUserButton = new Button("Novo Usu·rio", new NewUserButtonHandler());
 		emailField = new TextBox();
 		pwdField = new TextBox();
 
@@ -93,7 +93,7 @@ public class LoginPage extends BaseComposite {
 			user.setEmail(emailField.getText());
 			user.setPwd(pwdField.getText());
 			loginButton.setEnabled(false);
-			new CustomIotPazetoAsyncCall<User>() {
+			new CustomAsyncCall<User>() {
 
 				@Override
 				public void onSuccess(User result) {
@@ -106,10 +106,10 @@ public class LoginPage extends BaseComposite {
 						Cookies.setCookie("sid", sessionID, expires, null, "/",
 								false);
 
-						new Util().setUserLogged(result);
+						Util.setUserLogged(result);
 						openHomePage();
 					} else {
-						setDefaultDialogText("Nome e/ou senha inv√°lidos")
+						setDefaultDialogText("Nome e/ou senha inv·lidos")
 								.center();
 					}
 				}
@@ -142,33 +142,6 @@ public class LoginPage extends BaseComposite {
 
 	}
 
-	// public void checkWithServerIfSessionIdIsStillLegal() {
-	//
-	// new CustomAsyncCall<User>() {
-	//
-	// @Override
-	// public void onSuccess(User result) {
-	// if (result == null) {
-	// uiHandler.openLoginPage();
-	// } else {
-	// textToServerLabel.setText("Logado com sucesso");
-	// dialogBox.center();
-	// }
-	// }
-	//
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// textToServerLabel.setText("Falha enquanto logando...");
-	// dialogBox.center();
-	// }
-	//
-	// @Override
-	// protected void callService(AsyncCallback<User> cb) {
-	// loginService.loginFromSessionServer(cb);
-	// }
-	// }.go(1);
-	// }
-
 	final static String COOKIE_NAME = "__user_logged";
 
 	void setCookieUserLogged() {
@@ -191,32 +164,5 @@ public class LoginPage extends BaseComposite {
 	public static String getUserLoggedName() {
 		return Cookies.getCookie(COOKIE_NAME);
 	}
-
-	// String AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
-	// String CLIENT_ID =
-	// "954926222788-40vcb7hp46l9r776886mg1o3nk597ikk.apps.googleusercontent.com";
-	// // available from the APIs console
-	// String BUZZ_READONLY_SCOPE =
-	// "https://www.googleapis.com/auth/buzz.readonly";
-	// String BUZZ_PHOTOS_SCOPE = "https://www.googleapis.com/auth/photos";
-
-	// AuthRequest req = new AuthRequest(AUTH_URL, CLIENT_ID)
-	// .withScopes(BUZZ_READONLY_SCOPE, BUZZ_PHOTOS_SCOPE); // Can specify
-	// multiple scopes here
-	//
-	// void loginWithGooglePlus(){
-	//
-	// Auth.get().login(req, new Callback<String, Throwable>() {
-	// @Override
-	// public void onSuccess(String token) {
-	// // You now have the OAuth2 token needed to sign authenticated requests.
-	// }
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// // The authentication process failed for some reason, see
-	// caught.getMessage()
-	// }
-	// });
-	// }
 
 }

@@ -16,6 +16,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import com.google.gwt.core.shared.GWT;
 import com.pazeto.iot.server.dao.UserDAO;
 import com.pazeto.iot.shared.Constants.DEVICE_STATUS;
 
@@ -23,7 +24,6 @@ import com.pazeto.iot.shared.Constants.DEVICE_STATUS;
 public class UserConnectionWebSocket {
 
 	private String email;
-	private String pwd;
 
 	@OnMessage
 	private void onMessage(String message, Session s) {
@@ -77,6 +77,7 @@ public class UserConnectionWebSocket {
 				}
 
 			} else {
+				GWT.log("Unexpected Json Format!!");
 //				throw new JsonException("Unexpected Json Format!!");
 			}
 
@@ -95,7 +96,6 @@ public class UserConnectionWebSocket {
 			@PathParam("userPwd") final String pwd, final Session session)
 			throws Exception {
 		this.email = email;
-		this.pwd = pwd;
 		System.out.println("User with email: " + email + ", trying connect..");
 		if (UserDAO.doAuthentication(email, pwd) != null) {
 			HandleConnectedUsers.onOpenUserSession(email, session);
@@ -122,7 +122,9 @@ public class UserConnectionWebSocket {
 
 	@OnError
 	public void onError(Throwable t) {
+		System.err.println("OPAAAAA");
 		t.printStackTrace();
+		String message = "Exception: " + t.getStackTrace().toString();
 	}
 
 	@OnClose

@@ -1,0 +1,7 @@
+# Module pazeto_iot
+# RPC service class, partial path of RPC policy file
+com.pazeto.iot.client.services.UserService, 53F31D54D8E8F32369AA8390F865518A.gwt.rpc
+com.pazeto.iot.client.services.ScheduleService, 3872313D06C63DEED600883753E4913F.gwt.rpc
+com.pazeto.iot.client.services.IoPortService, 840AEC4D96BFA62E42646196129CB3A5.gwt.rpc
+com.pazeto.iot.client.services.DeviceService, 58C3AA97327D3BC9FF4EC390811C4ED7.gwt.rpc
+com.pazeto.iot.client.services.LoginService, 7AFDFD783AF96D08BE60150015BB678D.gwt.rpc

@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import com.pazeto.iot.shared.HibernateUtil;
 import com.pazeto.iot.shared.dto.UserDTO;
 import com.pazeto.iot.shared.vo.Device;
-import com.pazeto.iot.shared.vo.MonitoredValue;
+import com.pazeto.iot.shared.vo.Event;
 import com.pazeto.iot.shared.vo.User;
 
 public class DAO {
