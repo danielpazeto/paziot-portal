@@ -148,8 +148,7 @@ public class DeviceEditorView extends BaseComposite {
 		});
 
 		vPanel.add(inputTable);
-		// this.setModal(true);
-		initWidget(vPanel);
+		initBaseWidget(vPanel);
 	}
 
 	class SaveDeviceButtonHandler implements ClickHandler {
@@ -177,7 +176,7 @@ public class DeviceEditorView extends BaseComposite {
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
 					GWT.log("Msg error: "+caught.getMessage());
-					setDefaultDialogText("Erro ao criar Dispositivo").center();
+					setDefaultDialogText("Erro ao criar Dispositivo").openModal();
 				}
 
 				@Override

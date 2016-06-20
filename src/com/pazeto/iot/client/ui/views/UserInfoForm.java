@@ -1,7 +1,5 @@
 package com.pazeto.iot.client.ui.views;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,8 +29,6 @@ public class UserInfoForm extends PopupPanel {
 
 	private final UserServiceAsync userService = GWT.create(UserService.class);
 
-    private static final Logger logger = Logger.getLogger(UserInfoForm.class.getName());
-	
 	private TextBox nameField;
 	private TextBox pwdField;
 	private TextBox emailField;

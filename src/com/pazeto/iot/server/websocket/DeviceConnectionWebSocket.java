@@ -20,9 +20,11 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pazeto.iot.server.dao.DeviceDAO;
 import com.pazeto.iot.server.dao.EventDAO;
+import com.pazeto.iot.shared.IotConstants;
+import com.pazeto.iot.shared.JsonIotConstants;
 import com.pazeto.iot.shared.dto.EventDTO;
 
-@ServerEndpoint(value = "/dev_con/{chipId}")
+@ServerEndpoint(value = IotConstants.WEB_SOCKET_DEVICE_PATH)
 public class DeviceConnectionWebSocket {
 
 	@OnMessage
@@ -46,8 +48,8 @@ public class DeviceConnectionWebSocket {
 			System.out.println(jsonMessage.toString());
 			chipId = cId;
 			// verifica se há algum valor para ser salva na base
-			if (jsonMessage.has("events")) {
-				JSONArray values = jsonMessage.getJSONArray("events");
+			if (jsonMessage.has(JsonIotConstants.events)) {
+				JSONArray values = jsonMessage.getJSONArray(JsonIotConstants.events);
 				List<EventDTO> eventsToSave = new ArrayList<EventDTO>();
 				for (int i = 0; i < values.length(); i++) {
 					System.out.println(values.getJSONObject(i));
@@ -55,9 +57,9 @@ public class DeviceConnectionWebSocket {
 							.getJSONObject(i),chipId));
 				}
 				EventDAO.saveEvent(eventsToSave);
-			}else if(jsonMessage.has("status")){
-				JSONArray statusArray = jsonMessage.getJSONArray("status");
-				String toUserEmail = jsonMessage.getString("user_email");
+			}else if(jsonMessage.has(JsonIotConstants.status)){
+				JSONArray statusArray = jsonMessage.getJSONArray(JsonIotConstants.status);
+				String toUserEmail = jsonMessage.getString(JsonIotConstants.userEmail);
 				HandleConnectedUsers.sendMessageToUser(toUserEmail, jsonMessage);
 			}
 		} catch (JSONException e) {
@@ -71,7 +73,7 @@ public class DeviceConnectionWebSocket {
 	}
 
 	@OnOpen
-	public void onOpen(@PathParam("chipId") final String chipId,
+	public void onOpen(@PathParam(IotConstants.WEB_SOCKET_DEVICE_PATH_PARAM) final String chipId,
 			final Session session) throws Exception {
 		System.out.println(chipId);
 		if (DeviceDAO.isValidDevice(chipId)) {

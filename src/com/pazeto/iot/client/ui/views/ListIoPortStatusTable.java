@@ -148,7 +148,7 @@ public class ListIoPortStatusTable extends BaseComposite {
 		vRootPanel.add(vPinsStatusPanel);
 		vPinsStatusPanel.setWidth("100%");
 		vRootPanel.setWidth("100%");
-		initWidget(vRootPanel);
+	    initBaseWidget(vRootPanel);
 	}
 
 	/**

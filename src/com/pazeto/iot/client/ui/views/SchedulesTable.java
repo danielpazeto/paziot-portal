@@ -110,13 +110,6 @@ public class SchedulesTable extends BaseComposite {
 		table = new CellTable<Schedule>(KEY_PROVIDER);
 		table.setWidth("100%", true);
 
-		// Add a selection model so we can select cells.
-		// final SelectionModel<Schedule> selectionModel = new
-		// MultiSelectionModel<Schedule>(
-		// KEY_PROVIDER);
-		// table.setSelectionModel(selectionModel,
-		// DefaultSelectionEventManager.<Schedule> createCheckboxManager());
-
 		// Attach a column sort handler to the ListDataProvider to sort the
 		// list.
 		scheduleDataProvider = new ListDataProvider<>();
@@ -133,7 +126,6 @@ public class SchedulesTable extends BaseComposite {
 		VerticalPanel vp = new VerticalPanel();
 		vp.add(addNewScheduleButton);
 		vp.add(table);
-		GWT.log("finalizando construtot");
 		initWidget(vp);
 	}
 
@@ -174,33 +166,6 @@ public class SchedulesTable extends BaseComposite {
 		}.executeWithoutSpinner(0);
 	}
 
-	//
-	// private void refreshIoDescriptionPort(final IoPort port,
-	// final String newPortName) {
-	// new CustomIotPazetoAsyncCall<String>() {
-	// String oldValue;
-	//
-	// @Override
-	// public void onSuccess(String result) {
-	// GWT.log("Sucesso, mas está como " + result);
-	// }
-	//
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// ((IoPort) scheduleDataProvider.getKey(port))
-	// .setDescription(oldValue);
-	// scheduleDataProvider.refresh();
-	// }
-	//
-	// @Override
-	// protected void callService(AsyncCallback<String> cb) {
-	// oldValue = port.getDescription();
-	// port.setDescription(newPortName);
-	// portService.savePort(port, cb);
-	// }
-	// }.executeWithoutSpinner(0);
-	// }
-	//
 	static DynamicSelectionCell portCategoryCell = new DynamicSelectionCell();
 
 	private void initTableColumns() {
@@ -326,85 +291,6 @@ public class SchedulesTable extends BaseComposite {
 		});
 		table.addColumn(valueColunm, "Valor");
 		table.setColumnWidth(valueColunm, 5, Unit.PCT);
-
-		//
-		// // IOnumber name.
-		// Column<Schedule, String> ioNumberColumn = new Column<Schedule,
-		// String>(
-		// new EditTextCell()) {
-		// @Override
-		// public String getValue(Schedule object) {
-		// return object.getPortDescription();
-		// }
-		// };
-		// ioNumberColumn.setSortable(true);
-		// // sortHandler.setComparator(ioNumberColumn, new Comparator<IoPort>()
-		// {
-		// // @Override
-		// // public int compare(IoPort o1, IoPort o2) {
-		// // return o1.getiONumber().compareTo(o2.getiONumber());
-		// // }
-		// // });
-		// table.addColumn(ioNumberColumn, "Nome");
-		// ioNumberColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
-		// @Override
-		// public void update(int index, IoPort object, String value) {
-		// refreshSchedule(index, object, value);
-		// }
-		// });
-		// table.setColumnWidth(ioNumberColumn, 20, Unit.PCT);
-		//
-		// // IOport name.
-		// Column<IoPort, String> nameColumn = new Column<IoPort, String>(
-		// new EditTextCell()) {
-		// @Override
-		// public String getValue(IoPort object) {
-		// return object.getDescription();
-		// }
-		// };
-		// nameColumn.setSortable(true);
-		// sortHandler.setComparator(nameColumn, new Comparator<IoPort>() {
-		// @Override
-		// public int compare(IoPort o1, IoPort o2) {
-		// return o1.getDescription().compareTo(o2.getDescription());
-		// }
-		// });
-		// table.addColumn(nameColumn, "Name");
-		// nameColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
-		// @Override
-		// public void update(int index, IoPort object, String value) {
-		// refreshIoDescriptionPort(object, value);
-		// }
-		// });
-		// table.setColumnWidth(nameColumn, 40, Unit.PCT);
-		//
-		// // port type.
-		// final PORT_TYPE[] categories = PORT_TYPE.values();
-		// List<String> categoryNames = new ArrayList<String>();
-		// for (PORT_TYPE category : categories) {
-		// categoryNames.add(category.name());
-		// }
-		// SelectionCell categoryCell = new SelectionCell(categoryNames);
-		// Column<IoPort, String> categoryColumn = new Column<IoPort, String>(
-		// categoryCell) {
-		// @Override
-		// public String getValue(IoPort object) {
-		// return object.getType();
-		// }
-		// };
-		// table.addColumn(categoryColumn, "Type");
-		// categoryColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
-		// @Override
-		// public void update(int index, IoPort object, String value) {
-		// for (PORT_TYPE category : categories) {
-		// if (category.name().equals(value)) {
-		// object.setType(category.name());
-		// }
-		// }
-		// // ContactDatabase.get().refreshDisplays();
-		// }
-		// });
-		// table.setColumnWidth(categoryColumn, 40, Unit.PCT);
 
 	}
 }

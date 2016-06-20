@@ -16,6 +16,8 @@
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name='com.googlecode.mgwt.MGWT'/>
+	<inherits name="com.googlecode.gwt.charts.Charts" />
+	<inherits name="gwt.material.design.GwtMaterialWithJQuery" />
 
 	<!-- Other module inherits -->
 	<!-- Specify the app entry point class. -->

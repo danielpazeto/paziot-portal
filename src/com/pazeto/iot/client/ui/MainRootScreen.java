@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.ui.views.HeaderView;
 import com.pazeto.iot.client.ui.views.MenuView;
 
-public class MainRootScreen extends Composite {
+public class MainRootScreen extends BaseComposite {
 
 	private VerticalPanel rootPanel;
 	private LayoutPanel rootBackgroundPanel;
@@ -27,7 +27,7 @@ public class MainRootScreen extends Composite {
 	}
 
 	public MainRootScreen() {
-
+	    super();
 		rootPanel = new VerticalPanel();
 		rootPanel.setWidth("100%");
 		rootPanel.setHeight("100%");
@@ -44,7 +44,7 @@ public class MainRootScreen extends Composite {
 		rootBackgroundPanel.setStyleName("background-image");
 		rootBackgroundPanel.add(rootPanel);
 
-		initWidget(rootBackgroundPanel);
+		initBaseWidget(rootBackgroundPanel);
 
 	}
 

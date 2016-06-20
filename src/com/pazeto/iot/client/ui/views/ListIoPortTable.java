@@ -107,7 +107,7 @@ public class ListIoPortTable extends BaseComposite {
 		vp.add(addIoPortButton);
 		vp.add(table);
 
-		initWidget(vp);
+		initBaseWidget(vp);
 	}
 
 	ClickHandler addNewBtnHandler = new ClickHandler() {

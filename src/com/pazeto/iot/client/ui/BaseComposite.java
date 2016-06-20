@@ -1,19 +1,21 @@
 package com.pazeto.iot.client.ui;
 
+import gwt.material.design.client.ui.MaterialModal;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.shared.vo.Device;
 
 public class BaseComposite extends Composite {
 
 
-	private DialogBox dialogBox;
+	private MaterialModal modal;
 	private Label textLabelDialogBox;
 	private Button dialogCloseButton;
 
@@ -28,9 +30,8 @@ public class BaseComposite extends Composite {
 	}
 
 	public BaseComposite() {
-		if (dialogBox == null) {
-			dialogBox = new DialogBox();
-			dialogBox.setAnimationEnabled(true);
+		if (modal == null) {
+		    modal = new MaterialModal();
 			dialogCloseButton = new Button("Fechar");
 			dialogCloseButton.getElement().setId("closeButton");
 			textLabelDialogBox = new Label();
@@ -39,7 +40,7 @@ public class BaseComposite extends Composite {
 			dialogVPanel.add(textLabelDialogBox);
 			dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 			dialogVPanel.add(dialogCloseButton);
-			dialogBox.setWidget(dialogVPanel);
+			modal.add(dialogVPanel);
 		}
 		dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
 	}
@@ -49,23 +50,29 @@ public class BaseComposite extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dialogBox.hide();
+				modal.closeModal();
 			}
 		};
 
 	}
 
 	public void setDefaultDialogBoxTitle(String title) {
-		dialogBox.setText(title);
+		modal.setTitle(title);
+		
 	}
 
-	public DialogBox setDefaultDialogText(String text) {
+	public MaterialModal setDefaultDialogText(String text) {
 		textLabelDialogBox.setText(text);
-		return dialogBox;
+		return modal;
 	}
 
-	public DialogBox getDefaultDialogBox() {
-		return dialogBox;
+	public MaterialModal getDefaultDialogBox() {
+		return modal;
 	}
+	
+	protected void initBaseWidget(Widget panelForm) {
+      initWidget(panelForm);
+      this.asWidget().
+    }
 	
 }

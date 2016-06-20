@@ -15,38 +15,10 @@ public class HomePage extends BaseComposite {
 	
 	public HomePage() {
 		super();
-//		MenuView.getInstance().setVisible(true);
-//		final Button sellButton = new Button("Vendas");
-//		final Button stockButton = new Button("Estoque");
-//		final Button clientButton = new Button("Clientes");
-//		final Button productsButton = new Button("Produtos");
 		
 		final FlexTable flexTable = new FlexTable();
 		
-//		flexTable.setWidget(0, 0, sellButton);
-//	    flexTable.setWidget(0, 1, stockButton);
-//	    flexTable.setWidget(1, 0, clientButton);
-//	    flexTable.setWidget(1, 1, productsButton);
-
-		
-
-//		productsButton.addClickHandler(new ProductButtonHandler());
-//		clientButton.addClickHandler(new CompanyButtonHandler());
-		
-		initWidget(flexTable);
+		initBaseWidget(flexTable);
 	}
 
-	
-	//handle to product btn
-//	class ProductButtonHandler implements ClickHandler {
-//		public void onClick(ClickEvent event) {
-//			uiHandler.openProductsPage();
-//		}
-//	}
-//	
-//	class CompanyButtonHandler implements ClickHandler {
-//		public void onClick(ClickEvent event) {
-//			uiHandler.openCompanysPage();
-//		}
-//	}
 }

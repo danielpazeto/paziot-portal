@@ -1,5 +1,7 @@
 package com.pazeto.iot.client.ui;
 
+import gwt.material.design.client.ui.MaterialButton;
+
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
@@ -38,13 +40,18 @@ public class LoginPage extends BaseComposite {
 
 	private TextBox emailField;
 	private TextBox pwdField;
-	private Button loginButton, newUserButton;
+	MaterialButton loginButton;
+
+    private Button newUserButton;
 
 	public LoginPage() {
 		super();
 		setDefaultDialogBoxTitle("Login");
 
-		loginButton = new Button("Enviar", new LoginButtonHandler());
+		loginButton = new MaterialButton();
+		loginButton.addClickHandler(new LoginButtonHandler());
+		loginButton.setText("Enviar");
+		    
 		newUserButton = new Button("Novo Usuário", new NewUserButtonHandler());
 		emailField = new TextBox();
 		pwdField = new TextBox();
@@ -67,15 +74,14 @@ public class LoginPage extends BaseComposite {
 		table.addStyleName("loginTable");
 		panelForm.add(table);
 		panelForm.setStyleName("body");
-
-		initWidget(panelForm);
+		initBaseWidget(panelForm);
 	}
 
-	@Override
+    @Override
 	public ClickHandler getCloseButtonHandlerClick() {
 		return new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				getDefaultDialogBox().hide();
+				getDefaultDialogBox().closeModal();
 				loginButton.setEnabled(true);
 				newUserButton.setEnabled(true);
 				loginButton.setFocus(true);
@@ -110,14 +116,14 @@ public class LoginPage extends BaseComposite {
 						openHomePage();
 					} else {
 						setDefaultDialogText("Nome e/ou senha inválidos")
-								.center();
+								.openModal();
 					}
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					setDefaultDialogText("Erro ao executar o login.").center();
+					setDefaultDialogText("Erro ao executar o login.").openModal();
 				}
 
 				@Override
