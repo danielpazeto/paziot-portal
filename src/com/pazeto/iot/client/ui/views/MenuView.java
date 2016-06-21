@@ -70,7 +70,7 @@ public class MenuView extends BaseComposite {
 		buildProfileItemsMenu();
 		buildDevicesItemsMenu();
 
-		initBaseWidget(p);
+		initWidget(p);
 	}
 
 	private void buildDevicesItemsMenu() {
