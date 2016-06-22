@@ -1,16 +1,16 @@
 package com.pazeto.iot.client.ui;
 
-import gwt.material.design.client.constants.ModalType;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialModal;
+import gwt.material.design.client.ui.MaterialModalContent;
+import gwt.material.design.client.ui.MaterialModalFooter;
+import gwt.material.design.client.ui.MaterialTitle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.shared.vo.Device;
 
@@ -18,9 +18,10 @@ public class BaseComposite extends Composite {
 
 
 	private MaterialModal modal;
-	private Label textLabelDialogBox;
-	private Button dialogCloseButton;
-
+	private MaterialModalContent modalContent;
+	private MaterialTitle modalText;
+	private MaterialButton dialogCloseButton;
+	private MaterialModalFooter modalFooter;
 
 	protected void openHomePage() {
 		UiViewHandler.getInstance().openHomePage();
@@ -34,15 +35,19 @@ public class BaseComposite extends Composite {
 	public BaseComposite() {
 		if (modal == null) {
 		    modal = new MaterialModal();
-		    RootPanel.get().add(modal);
-			dialogCloseButton = new Button("Fechar");
-			dialogCloseButton.getElement().setId("closeButton");
-			textLabelDialogBox = new Label();
-			VerticalPanel dialogVPanel = new VerticalPanel();
-			dialogVPanel.addStyleName("dialogVPanel");
-			dialogVPanel.add(textLabelDialogBox);
-			dialogVPanel.add(dialogCloseButton);
-			modal.add(dialogVPanel);
+			modalContent = new MaterialModalContent();
+			modalText = new MaterialTitle();
+			modalContent.add(modalText);
+			modalFooter = new MaterialModalFooter();
+			dialogCloseButton = new MaterialButton();
+            dialogCloseButton.setText("Fechar");
+			modalFooter.add(dialogCloseButton);
+			modalContent.add(modalFooter);
+			
+			modal.add(modalContent);
+			
+			
+			RootPanel.get().add(modal);
 		}
 		dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
 	}
@@ -59,11 +64,11 @@ public class BaseComposite extends Composite {
 	}
 
 	public void setDefaultDialogBoxTitle(String title) {
-		modal.setTitle(title);
+	    modalText.setTitle(title);
 	}
 
 	public MaterialModal setDefaultDialogText(String text) {
-		textLabelDialogBox.setText(text);
+	    modalText.setDescription(text);
 		return modal;
 	}
 

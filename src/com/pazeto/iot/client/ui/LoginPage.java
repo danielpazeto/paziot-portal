@@ -1,6 +1,7 @@
 package com.pazeto.iot.client.ui;
 
 import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialTextBox;
 
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
@@ -38,8 +40,8 @@ public class LoginPage extends BaseComposite {
 		return loginPageInstance;
 	}
 
-	private TextBox emailField;
-	private TextBox pwdField;
+	private MaterialTextBox emailField;
+	private MaterialTextBox pwdField;
 	MaterialButton loginButton;
 
     private Button newUserButton;
@@ -53,26 +55,30 @@ public class LoginPage extends BaseComposite {
 		loginButton.setText("Enviar");
 		    
 		newUserButton = new Button("Novo Usuário", new NewUserButtonHandler());
-		emailField = new TextBox();
-		pwdField = new TextBox();
+		emailField = new MaterialTextBox();emailField.setPlaceholder("Email");
+		pwdField = new MaterialTextBox();pwdField.setPlaceholder("Senha");
 
 		loginButton.addStyleName("sendButton");
 		newUserButton.addStyleName("sendButton");
 
-		FlexTable table = new FlexTable();
-		table.setWidget(0, 0, new Label("Email: "));
-		table.setWidget(1, 0, new Label("Senha: "));
-		table.setWidget(0, 1, emailField);
-		table.setWidget(1, 1, pwdField);
-		table.setWidget(2, 0, loginButton);
-		table.setWidget(2, 1, newUserButton);
-		table.addStyleName("loginTable");
+		VerticalPanel vPanel = new VerticalPanel();
+		vPanel.add(emailField);
+		vPanel.add(pwdField);
+		vPanel.add(loginButton);
+		vPanel.add(newUserButton);
+//		table.setWidget(0, 0, new Label("Email: "));
+//		table.setWidget(1, 0, new Label("Senha: "));
+//		table.setWidget(0, 0, emailField);
+//		table.setWidget(1, 1, pwdField);
+//		table.setWidget(2, 0, loginButton);
+//		table.setWidget(2, 1, newUserButton);
+		vPanel.addStyleName("loginTable");
 
 		emailField.setFocus(true);
-		emailField.selectAll();
+//		emailField.selectAll();
 		Panel panelForm = new LayoutPanel();
-		table.addStyleName("loginTable");
-		panelForm.add(table);
+		vPanel.addStyleName("loginTable");
+		panelForm.add(vPanel);
 		panelForm.setStyleName("body");
 		initBaseWidget(panelForm);
 	}

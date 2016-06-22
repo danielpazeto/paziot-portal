@@ -1,88 +1,63 @@
 package com.pazeto.iot.client.services;
 
-import java.util.logging.Logger;
+import gwt.material.design.client.ui.MaterialLoader;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 public abstract class CustomAsyncCall<T> implements AsyncCallback<T> {
 
-	private static final Logger LOG = Logger
-			.getLogger(CustomAsyncCall.class.getName());
+    /** Call the service method using cb as the callback. */
+    protected abstract void callService(AsyncCallback<T> cb);
 
-	/** Call the service method using cb as the callback. */
-	protected abstract void callService(AsyncCallback<T> cb);
+    public CustomAsyncCall() {
+    }
 
-	private PopupPanel popup;
+    public void execute(int retryCount) {
+        showLoadingMessage();
+        executeTask((long) retryCount);
+    }
 
-	public CustomAsyncCall() {
-		popup = new PopupPanel(false, true);
+    public void execute() {
+        execute(0);
+    }
 
-		Image img = new Image("res/loading_spinner.gif");
-		img.setHeight("50px");
-		img.setWidth("50px");
+    public void executeWithoutSpinner() {
+        executeWithoutSpinner(0);
+    }
 
-		HorizontalPanel hp = new HorizontalPanel();
-		hp.add(img);
-		Label lbWaiting = new Label("Carregando");
-		lbWaiting.setStyleName("label-loading");
-		hp.add(lbWaiting);
+    public void executeWithoutSpinner(int retryCount) {
+        executeTask(retryCount);
+    }
 
-		popup.add(hp);
-		popup.setGlassEnabled(true);
-	}
+    @Override
+    public void onFailure(Throwable caught) {
+        // TODO Auto-generated method stub
 
-	public void execute(int retryCount) {
-		showLoadingMessage();
-		executeTask((long) retryCount);
-	}
+    }
 
-	public void execute() {
-		execute(0);
-	}
+    private void executeTask(final long retriesLeft) {
+        callService(new AsyncCallback<T>() {
+            public void onFailure(Throwable t) {
+                if (retriesLeft <= 0) {
+                    hideLoadingMessage();
+                    CustomAsyncCall.this.onFailure(t);
+                } else {
+                    executeTask(retriesLeft - 1);
+                }
+            }
 
-	
-	public void executeWithoutSpinner() {
-		executeWithoutSpinner(0);
-	}
+            public void onSuccess(T result) {
+                hideLoadingMessage();
+                CustomAsyncCall.this.onSuccess(result);
+            }
+        });
+    }
 
-	public void executeWithoutSpinner(int retryCount) {
-		executeTask(retryCount);
-	}
+    private void hideLoadingMessage() {
+        MaterialLoader.showLoading(false);
+    }
 
-	
-	@Override
-	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void executeTask(final long retriesLeft) {
-		callService(new AsyncCallback<T>() {
-			public void onFailure(Throwable t) {
-				if (retriesLeft <= 0) {
-					hideLoadingMessage();
-					CustomAsyncCall.this.onFailure(t);
-				} else {
-					executeTask(retriesLeft - 1);
-				}
-			}
-
-			public void onSuccess(T result) {
-				hideLoadingMessage();
-				CustomAsyncCall.this.onSuccess(result);
-			}
-		});
-	}
-
-	private void hideLoadingMessage() {
-		popup.hide();
-	}
-
-	private void showLoadingMessage() {
-		popup.center();
-	}
+    private void showLoadingMessage() {
+        MaterialLoader.showLoading(true);
+    }
 }

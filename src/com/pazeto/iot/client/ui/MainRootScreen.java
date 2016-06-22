@@ -78,6 +78,7 @@ public class MainRootScreen extends BaseComposite {
 	 */
 	public void setContentViewFullScreen(boolean isFullScreen) {
 		if (isFullScreen) {
+		    rootPanel.remove(HeaderView.getInstance());
 			bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 0,
 					Unit.PCT);
 			bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 100,
