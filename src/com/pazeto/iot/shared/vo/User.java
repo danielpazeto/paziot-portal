@@ -20,7 +20,7 @@ public class User implements Serializable {
 		setLastName(userDTO.getLastName());
 		setEmail(userDTO.getEmail());
 		setPwd(userDTO.getPwd());
-		setIsAdmin(userDTO.getIsAdmin()=='Y');
+		setIsAdmin(userDTO.getIsAdmin());
 	}
 	
 	public User() {

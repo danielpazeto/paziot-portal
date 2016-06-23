@@ -18,7 +18,7 @@ public class UserDTO implements Serializable {
 	private String name, lastName;
 	private String email;
 	private String pwd;
-	private char isAdmin;
+	private boolean isAdmin;
 
 	List<DeviceDTO> devices;
 
@@ -28,7 +28,7 @@ public class UserDTO implements Serializable {
 		setLastName(u.getLastName());
 		setEmail(u.getEmail());
 		setPwd(u.getPwd());
-		setIsAdmin(u.isAdmin() ? 'Y':'N');
+		setIsAdmin(u.isAdmin());
 	}
 	public UserDTO() {
 		// TODO Auto-generated constructor stub
@@ -81,11 +81,11 @@ public class UserDTO implements Serializable {
 	public void setDevices(List<DeviceDTO> devices) {
 		this.devices = devices;
 	}
-	public char getIsAdmin() {
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 	
-	public void setIsAdmin(char isAdmin) {
+	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
