@@ -1,8 +1,8 @@
 package com.pazeto.iot.client.ui;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.ui.views.HeaderView;
@@ -95,5 +95,13 @@ public class MainRootScreen extends BaseComposite {
 				bodyView.setWidgetTopHeight(contentView, 250, Unit.PX, 250, Unit.PX);
 			}
 		}
+	}
+	
+	public void setMainModalTitle(String title){
+		super.setModalTitle(title);
+	}
+	
+	public void setMainModalText(String text){
+		super.setModalText(text);
 	}
 }

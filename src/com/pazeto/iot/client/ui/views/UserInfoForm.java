@@ -1,50 +1,49 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialTextBox;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.UserService;
 import com.pazeto.iot.client.services.UserServiceAsync;
+import com.pazeto.iot.client.ui.MainRootScreen;
 import com.pazeto.iot.shared.vo.User;
 
 public class UserInfoForm extends PopupPanel {
 
 	private static UserInfoForm uniqueInstance;
-
+	
 	public static UserInfoForm getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new UserInfoForm();
 		}
+		MainRootScreen.getInstance().setModalTitle("Usu·rio");
 		return uniqueInstance;
 	}
 
 	private final UserServiceAsync userService = GWT.create(UserService.class);
 
-	private TextBox nameField;
-	private TextBox pwdField;
-	private TextBox emailField;
-	private TextBox lastNameField;
-	private Button sendBtn;
-	private Button closeBtn;
-
-	private DialogBox dialogBox;
-
-	private Button closeDialogBoxButton;
-
-	private Label textToServerLabel;
+	private MaterialTextBox nameField = new MaterialTextBox();
+	private MaterialTextBox lastNameField = new MaterialTextBox();
+	private MaterialTextBox emailField = new MaterialTextBox();
+	private MaterialTextBox pwdField = new MaterialTextBox();
+	private MaterialButton sendBtn;
+	private MaterialButton closeBtn;
 
 	public UserInfoForm() {
-		sendBtn = new Button("Enviar", new NewUserButtonHandler());
-		closeBtn = new Button("Cancelar", new ClickHandler() {
+		sendBtn = new MaterialButton();
+		sendBtn.addClickHandler(new NewUserButtonHandler());
+		sendBtn.setText("Enviar");
+		
+		closeBtn = new MaterialButton();
+		closeBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -52,54 +51,24 @@ public class UserInfoForm extends PopupPanel {
 
 			}
 		});
+		closeBtn.setText("Cancelar");
+		
+		nameField.setPlaceholder("Nome");
+		lastNameField.setPlaceholder("Nome");
+		emailField.setPlaceholder("Email");
+		pwdField.setPlaceholder("Senha");
 
-		nameField = new TextBox();
-		lastNameField = new TextBox();
-		emailField = new TextBox();
-		pwdField = new TextBox();
+		Panel vPanel = new Panel();
 
-		VerticalPanel vPanel = new VerticalPanel();
-
-		vPanel.add(new Label("Cadastro de Usu√°rio"));
-
-		FlexTable inputTable = new FlexTable();
-		inputTable.setWidget(0, 0, new Label("Nome: "));
-		inputTable.setWidget(0, 1, nameField);
-		inputTable.setWidget(1, 0, new Label("Sobrenome: "));
-		inputTable.setWidget(1, 1, lastNameField);
-		inputTable.setWidget(2, 0, new Label("Email: "));
-		inputTable.setWidget(2, 1, emailField);
-		inputTable.setWidget(3, 0, new Label("Senha: "));
-		inputTable.setWidget(3, 1, pwdField);
-		inputTable.setWidget(4, 1, closeBtn);
-		inputTable.setWidget(4, 0, sendBtn);
-
-		inputTable.addStyleName("loginTable");
-
-		dialogBox = new DialogBox();
-		dialogBox.setText("Cadastro");
-		dialogBox.setAnimationEnabled(true);
-		closeDialogBoxButton = new Button("Fechar");
-		closeDialogBoxButton.getElement().setId("closeButton");
-		textToServerLabel = new Label();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-		dialogVPanel.add(closeDialogBoxButton);
-		dialogBox.setWidget(dialogVPanel);
-
-		closeDialogBoxButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendBtn.setEnabled(true);
-			}
-		});
-
-		vPanel.add(inputTable);
+		vPanel.add(new Label("Cadastro de Usu·rio"));
+		vPanel.add(nameField);
+		vPanel.add(lastNameField);
+		vPanel.add(emailField);
+		vPanel.add(pwdField);
+		vPanel.add(sendBtn);
+		vPanel.add(closeBtn);
 		this.setModal(true);
 		this.add(vPanel);
-
 	}
 
 	/**
@@ -115,26 +84,21 @@ public class UserInfoForm extends PopupPanel {
 			user.setLastName(lastNameField.getText());
 			user.setEmail(emailField.getText());
 			user.setPwd(pwdField.getText());
-
 			sendBtn.setEnabled(false);
 
 			new CustomAsyncCall<Long>() {
 
 				@Override
 				public void onSuccess(Long result) {
-					textToServerLabel.setText("Usu·rio " + nameField.getText()
-							+ " criado com sucesso");
 					UserInfoForm.getInstance().hide();
-					dialogBox.center();
-					closeDialogBoxButton.setFocus(true);
+					MainRootScreen.getInstance().setModalText("Usu·rio " + nameField.getText()
+							+ " criado com sucesso").openModal();
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
-					caught.printStackTrace();
-					GWT.log("Error message",caught);
-					textToServerLabel.setText("Erro ao criar usu·rio");
-					dialogBox.center();
+					GWT.log("Error message: ",caught);
+					MainRootScreen.getInstance().setModalText("Erro ao criar usu·rio").openModal();
 				}
 
 				@Override

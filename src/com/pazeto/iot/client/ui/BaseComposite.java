@@ -14,14 +14,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.pazeto.iot.client.ui.DevicePage.DeviceTabs;
 import com.pazeto.iot.shared.vo.Device;
 
-public class BaseComposite extends Composite {
+public abstract class BaseComposite extends Composite {
 
-
-	private MaterialModal modal;
-	private MaterialModalContent modalContent;
-	private MaterialTitle modalText;
-	private MaterialButton dialogCloseButton;
-	private MaterialModalFooter modalFooter;
+	private static MaterialModal modal;
+	private static MaterialModalContent modalContent;
+	private static MaterialTitle modalText;
+	private static MaterialButton dialogCloseButton;
+	private static MaterialModalFooter modalFooter;
 
 	protected void openHomePage() {
 		UiViewHandler.getInstance().openHomePage();
@@ -45,8 +44,6 @@ public class BaseComposite extends Composite {
 			modalContent.add(modalFooter);
 			
 			modal.add(modalContent);
-			
-			
 			RootPanel.get().add(modal);
 		}
 		dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
@@ -63,21 +60,24 @@ public class BaseComposite extends Composite {
 
 	}
 
-	public void setDefaultDialogBoxTitle(String title) {
+	public void setModalTitle(String title) {
 	    modalText.setTitle(title);
 	}
 
-	public MaterialModal setDefaultDialogText(String text) {
+	public MaterialModal setModalText(String text) {
 	    modalText.setDescription(text);
 		return modal;
 	}
 
-	public MaterialModal getDefaultDialogBox() {
+	public MaterialModal getModal() {
 		return modal;
 	}
 	
 	protected void initBaseWidget(Panel panelForm) {
       initWidget(panelForm);
     }
+	protected void initBaseWidget(com.googlecode.mgwt.ui.client.widget.panel.Panel panelForm) {
+	      initWidget(panelForm);
+	    }
 	
 }

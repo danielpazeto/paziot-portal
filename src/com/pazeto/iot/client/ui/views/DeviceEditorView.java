@@ -176,7 +176,7 @@ public class DeviceEditorView extends BaseComposite {
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
 					GWT.log("Msg error: "+caught.getMessage());
-					setDefaultDialogText("Erro ao criar Dispositivo").openModal();
+					setModalText("Erro ao criar Dispositivo").openModal();
 				}
 
 				@Override

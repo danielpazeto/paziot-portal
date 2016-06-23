@@ -1,5 +1,6 @@
 package com.pazeto.iot.client.ui;
 
+import gwt.material.design.client.constants.ButtonType;
 import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialTextBox;
 
@@ -14,9 +15,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
@@ -42,52 +43,44 @@ public class LoginPage extends BaseComposite {
 
 	private MaterialTextBox emailField;
 	private MaterialTextBox pwdField;
-	MaterialButton loginButton;
+	private MaterialButton loginButton;
 
-    private Button newUserButton;
+    private MaterialButton newUserButton;
 
 	public LoginPage() {
 		super();
-		setDefaultDialogBoxTitle("Login");
+		setModalTitle("Login");
 
 		loginButton = new MaterialButton();
 		loginButton.addClickHandler(new LoginButtonHandler());
 		loginButton.setText("Enviar");
 		    
-		newUserButton = new Button("Novo Usuário", new NewUserButtonHandler());
+		newUserButton = new MaterialButton(ButtonType.LINK);
+		newUserButton.addClickHandler(new NewUserButtonHandler());
+		newUserButton.setText("Registrar");
+		
 		emailField = new MaterialTextBox();emailField.setPlaceholder("Email");
 		pwdField = new MaterialTextBox();pwdField.setPlaceholder("Senha");
 
 		loginButton.addStyleName("sendButton");
 		newUserButton.addStyleName("sendButton");
 
-		VerticalPanel vPanel = new VerticalPanel();
+		Panel vPanel = new Panel();
 		vPanel.add(emailField);
 		vPanel.add(pwdField);
 		vPanel.add(loginButton);
 		vPanel.add(newUserButton);
-//		table.setWidget(0, 0, new Label("Email: "));
-//		table.setWidget(1, 0, new Label("Senha: "));
-//		table.setWidget(0, 0, emailField);
-//		table.setWidget(1, 1, pwdField);
-//		table.setWidget(2, 0, loginButton);
-//		table.setWidget(2, 1, newUserButton);
-		vPanel.addStyleName("loginTable");
 
 		emailField.setFocus(true);
-//		emailField.selectAll();
-		Panel panelForm = new LayoutPanel();
 		vPanel.addStyleName("loginTable");
-		panelForm.add(vPanel);
-		panelForm.setStyleName("body");
-		initBaseWidget(panelForm);
+		initBaseWidget(vPanel);
 	}
 
     @Override
 	public ClickHandler getCloseButtonHandlerClick() {
 		return new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				getDefaultDialogBox().closeModal();
+				getModal().closeModal();
 				loginButton.setEnabled(true);
 				newUserButton.setEnabled(true);
 				loginButton.setFocus(true);
@@ -121,7 +114,7 @@ public class LoginPage extends BaseComposite {
 						Util.setUserLogged(result);
 						openHomePage();
 					} else {
-						setDefaultDialogText("Nome e/ou senha inválidos")
+						setModalText("Nome e/ou senha inválidos")
 								.openModal();
 					}
 				}
@@ -129,7 +122,7 @@ public class LoginPage extends BaseComposite {
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					setDefaultDialogText("Erro ao executar o login.").openModal();
+					setModalText("Erro ao executar o login.").openModal();
 				}
 
 				@Override
