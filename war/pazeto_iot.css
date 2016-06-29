@@ -11,13 +11,13 @@
 }
 
 .loginTable {
-	margin: auto;
-	margin-top: 10px;
-	border: 1px solid #000000;
-	padding: 10px;
+	margin: auto !important;
+	margin-top: 10px !important;
+	padding: 10px !important;
 	position: initial !important;
 	width: 90%;
 	max-width: 300px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
 .menu {
@@ -37,7 +37,9 @@ h1 {
 }
 
 .sendButton {
-	display: block;
+	margin: auto;
+	display: block !important;
+	margin-bottom: 10px;
 	font-size: 16pt;
 }
 
@@ -128,27 +130,23 @@ h1 {
 	border-color: white;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox
-	{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox{
 	right: 0px !important;
 	border-radius: 10px !important;
 	border: solid 1px #DAB6B6;
 	font-weight: bold;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-middle-content
-	{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-middle-content{
 	border-radius: 11px !important;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-on
-	{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-on{
 	border-top-left-radius: 10px !important;
 	border-bottom-left-radius: 10px !important;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-off
-	{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-off{
 	border-top-right-radius: 10px !important;
 	border-bottom-right-radius: 10px !important;
 	width: 50px !important;
@@ -161,8 +159,9 @@ h1 {
 }
 
 .com-google-gwt-user-cellview-client-CellTable-Style-cellTableEvenRow {
-    background: #CDCCDE !important;
+	background: #CDCCDE !important;
 }
-.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHoveredRow {
-    background: #D8E1F6 !important;
+
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHoveredRow{
+	background: #D8E1F6 !important;
 }

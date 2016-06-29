@@ -60,6 +60,10 @@ public abstract class BaseComposite extends Composite {
 
 	}
 
+	/**
+	 * Set title do modal popup
+	 * @param title
+	 */
 	public void setModalTitle(String title) {
 	    modalText.setTitle(title);
 	}

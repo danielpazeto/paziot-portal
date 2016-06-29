@@ -40,7 +40,7 @@ public class UserInfoForm extends PopupPanel {
 	public UserInfoForm() {
 		sendBtn = new MaterialButton();
 		sendBtn.addClickHandler(new NewUserButtonHandler());
-		sendBtn.setText("Enviar");
+		sendBtn.setText("Cadastrar");
 		
 		closeBtn = new MaterialButton();
 		closeBtn.addClickHandler(new ClickHandler() {
@@ -62,7 +62,7 @@ public class UserInfoForm extends PopupPanel {
 
 		vPanel.add(new Label("Cadastro de Usuário"));
 		vPanel.add(nameField);
-		vPanel.add(lastNameField);
+//		vPanel.add(lastNameField);
 		vPanel.add(emailField);
 		vPanel.add(pwdField);
 		vPanel.add(sendBtn);
