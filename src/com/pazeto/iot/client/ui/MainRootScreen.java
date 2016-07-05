@@ -1,17 +1,13 @@
 package com.pazeto.iot.client.ui;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.pazeto.iot.client.ui.views.HeaderView;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.ui.views.MenuView;
 
 public class MainRootScreen extends BaseComposite {
 
-	private VerticalPanel rootPanel;
-	private LayoutPanel rootBackgroundPanel;
+	private Panel rootPanel;
 
 	private LayoutPanel bodyView;
 	private LayoutPanel contentView;
@@ -27,41 +23,21 @@ public class MainRootScreen extends BaseComposite {
 	}
 
 	public MainRootScreen() {
-	    super();
-		rootPanel = new VerticalPanel();
-		rootPanel.setWidth("100%");
+		super();
+		rootPanel = new Panel();
+		rootPanel.addStyleName("root-panel-style");
 		rootPanel.setHeight("100%");
-
-		rootPanel.add(HeaderView.getInstance());
-		rootPanel.setCellHeight(HeaderView.getInstance(), "10%");
-
-		loadMenuAndContentView();
-
-		rootBackgroundPanel = new LayoutPanel();
-		rootBackgroundPanel.setWidth("100%");
-		rootBackgroundPanel.setHeight("100%");
-		rootBackgroundPanel.setStyleName("main-div");
-		rootBackgroundPanel.setStyleName("background-image");
-		rootBackgroundPanel.add(rootPanel);
-
-		initBaseWidget(rootBackgroundPanel);
-
-	}
-
-	public void loadMenuAndContentView() {
-		bodyView = new LayoutPanel();
-		bodyView.setStyleName("body");
-
+		rootPanel.add(MenuView.getInstance());
 		contentView = new LayoutPanel();
-		bodyView.add(MenuView.getInstance());
-		bodyView.add(contentView);
-		// bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 20,
-		// Unit.PCT);
-		// bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 78, Unit.PCT);
-		contentView.addStyleName("content-view");
-
-		rootPanel.add(bodyView);
+		
+		contentView.setHeight("80%");
+//		contentView.setWidth("100%");
+		rootPanel.add(contentView);
+		initBaseWidget(rootPanel);
+		RootPanel.get().add(this);
+		
 	}
+
 
 	public LayoutPanel getContentView() {
 		return contentView;
@@ -78,30 +54,40 @@ public class MainRootScreen extends BaseComposite {
 	 */
 	public void setContentViewFullScreen(boolean isFullScreen) {
 		if (isFullScreen) {
-		    rootPanel.remove(HeaderView.getInstance());
-			bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT, 0,
-					Unit.PCT);
-			bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 100,
-					Unit.PCT);
+			// rootPanel.remove(HeaderView.getInstance());
+			// bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0, Unit.PCT,
+			// 0,
+			// Unit.PCT);
+			// bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 100,
+			// Unit.PCT);
 		} else {
-			if (Window.getClientWidth() > 500) {
-				bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0,
-						Unit.PCT, 20, Unit.PCT);
-				bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80,
-						Unit.PCT);
-			} else {
-				rootPanel.remove(HeaderView.getInstance());
-				bodyView.setWidgetTopHeight(MenuView.getInstance(), 0, Unit.PX, 250, Unit.PX);
-				bodyView.setWidgetTopHeight(contentView, 250, Unit.PX, 250, Unit.PX);
-			}
+			// if (Window.getClientWidth() > 500) {
+			// bodyView.setWidgetLeftWidth(MenuView.getInstance(), 0,
+			// Unit.PCT, 20, Unit.PCT);
+			// bodyView.setWidgetRightWidth(contentView, 0, Unit.PCT, 80,
+			// Unit.PCT);
+			// } else {
+			// // rootPanel.remove(HeaderView.getInstance());
+			// bodyView.setWidgetTopHeight(MenuView.getInstance(), 0, Unit.PX,
+			// 250, Unit.PX);
+			// bodyView.setWidgetTopHeight(contentView, 250, Unit.PX, 250,
+			// Unit.PX);
+			// }
 		}
 	}
-	
-	public void setMainModalTitle(String title){
-		super.setModalTitle(title);
+
+	private String title;
+
+	public void setMainModalTitle(String title) {
+		this.title = title;
 	}
-	
-	public void setMainModalText(String text){
+
+	public void setMainModalText(String text) {
 		super.setModalText(text);
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return title;
 	}
 }

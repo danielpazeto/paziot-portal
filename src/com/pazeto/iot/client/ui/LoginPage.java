@@ -11,12 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
@@ -45,22 +39,23 @@ public class LoginPage extends BaseComposite {
 	private MaterialTextBox pwdField;
 	private MaterialButton loginButton;
 
-    private MaterialButton newUserButton;
+	private MaterialButton newUserButton;
 
 	public LoginPage() {
 		super();
-		setModalTitle("Login");
 
 		loginButton = new MaterialButton();
 		loginButton.addClickHandler(new LoginButtonHandler());
 		loginButton.setText("Enviar");
-		    
+
 		newUserButton = new MaterialButton(ButtonType.LINK);
 		newUserButton.addClickHandler(new NewUserButtonHandler());
 		newUserButton.setText("Registrar");
-		
-		emailField = new MaterialTextBox();emailField.setPlaceholder("Email");
-		pwdField = new MaterialTextBox();pwdField.setPlaceholder("Senha");
+
+		emailField = new MaterialTextBox();
+		emailField.setPlaceholder("Email");
+		pwdField = new MaterialTextBox();
+		pwdField.setPlaceholder("Senha");
 
 		loginButton.addStyleName("sendButton");
 		newUserButton.addStyleName("sendButton");
@@ -76,7 +71,7 @@ public class LoginPage extends BaseComposite {
 		initBaseWidget(vPanel);
 	}
 
-    @Override
+	@Override
 	public ClickHandler getCloseButtonHandlerClick() {
 		return new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -114,8 +109,7 @@ public class LoginPage extends BaseComposite {
 						Util.setUserLogged(result);
 						openHomePage();
 					} else {
-						setModalText("Nome e/ou senha inválidos")
-								.openModal();
+						setModalText("Nome e/ou senha inválidos").openModal();
 					}
 				}
 
@@ -141,8 +135,8 @@ public class LoginPage extends BaseComposite {
 	class NewUserButtonHandler implements ClickHandler {
 		public void onClick(ClickEvent event) {
 			// open my pop to new user
+			GWT.log("NEW NEW NEW");
 			UserInfoForm.getInstance().center();
-			// loginWithGooglePlus();
 		}
 
 	}
@@ -168,6 +162,11 @@ public class LoginPage extends BaseComposite {
 
 	public static String getUserLoggedName() {
 		return Cookies.getCookie(COOKIE_NAME);
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return "Login";
 	}
 
 }

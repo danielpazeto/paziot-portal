@@ -1,5 +1,9 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +19,6 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -26,6 +29,7 @@ import com.pazeto.iot.client.services.IoPortService;
 import com.pazeto.iot.client.services.IoPortServiceAsync;
 import com.pazeto.iot.client.ui.BaseComposite;
 import com.pazeto.iot.client.ui.DevicePage;
+import com.pazeto.iot.client.ui.widgets.IotMaterialButton;
 import com.pazeto.iot.client.websocket.UserClientWebSocket;
 import com.pazeto.iot.client.websocket.UserClientWebSocket.MessageJavasCriptHandler;
 import com.pazeto.iot.shared.Constants.DEVICE_STATUS;
@@ -122,7 +126,8 @@ public class ListIoPortStatusTable extends BaseComposite {
 
 				@Override
 				protected void callService(AsyncCallback<ArrayList<IoPort>> cb) {
-					portService.listAllPortsByDevice(DevicePage.getCurrentDev(), cb);
+					portService.listAllPortsByDevice(
+							DevicePage.getCurrentDev(), cb);
 				}
 			}.executeWithoutSpinner();
 		}
@@ -135,7 +140,8 @@ public class ListIoPortStatusTable extends BaseComposite {
 		vRootPanel = new VerticalPanel();
 		UserClientWebSocket.getInstance().addMessageHandler(messageFromServer);
 		vPinsStatusPanel = new VerticalPanel();
-		Button refreshStatusBtn = new Button("Atualiza Status");
+		IotMaterialButton refreshStatusBtn = new IotMaterialButton(
+				"Atualiza Status", IconType.SYNC, IconPosition.RIGHT);
 		refreshStatusBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -148,7 +154,7 @@ public class ListIoPortStatusTable extends BaseComposite {
 		vRootPanel.add(vPinsStatusPanel);
 		vPinsStatusPanel.setWidth("100%");
 		vRootPanel.setWidth("100%");
-	    initBaseWidget(vRootPanel);
+		initBaseWidget(vRootPanel);
 	}
 
 	/**
@@ -172,7 +178,8 @@ public class ListIoPortStatusTable extends BaseComposite {
 
 		@Override
 		public void handleMessage(String message) {
-			GWT.log("Lista de Status-> recebeu msg: " + message.substring(0, 20)+"...");
+			GWT.log("Lista de Status-> recebeu msg: "
+					+ message.substring(0, 20) + "...");
 			JSONObject json = JSONParser.parseLenient(message).isObject();
 			if (json.containsKey("status")) {
 				if (json.get("status").isString() != null
@@ -205,4 +212,9 @@ public class ListIoPortStatusTable extends BaseComposite {
 			}
 		}
 	};
+
+	@Override
+	protected String getModalTitle() {
+		return "Status";
+	}
 }

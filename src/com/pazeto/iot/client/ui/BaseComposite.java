@@ -46,7 +46,6 @@ public abstract class BaseComposite extends Composite {
 			modal.add(modalContent);
 			RootPanel.get().add(modal);
 		}
-		dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
 	}
 
 	public ClickHandler getCloseButtonHandlerClick() {
@@ -60,28 +59,26 @@ public abstract class BaseComposite extends Composite {
 
 	}
 
-	/**
-	 * Set title do modal popup
-	 * @param title
-	 */
-	public void setModalTitle(String title) {
-	    modalText.setTitle(title);
-	}
-
 	public MaterialModal setModalText(String text) {
 	    modalText.setDescription(text);
+	    modalText.setTitle(getModalTitle());
+	    dialogCloseButton.addClickHandler(getCloseButtonHandlerClick());
 		return modal;
 	}
+	
 
 	public MaterialModal getModal() {
 		return modal;
 	}
 	
 	protected void initBaseWidget(Panel panelForm) {
-      initWidget(panelForm);
+		initWidget(panelForm);
     }
+	
 	protected void initBaseWidget(com.googlecode.mgwt.ui.client.widget.panel.Panel panelForm) {
-	      initWidget(panelForm);
-	    }
+	    initWidget(panelForm);
+	}
+	
+	protected abstract String getModalTitle();
 	
 }

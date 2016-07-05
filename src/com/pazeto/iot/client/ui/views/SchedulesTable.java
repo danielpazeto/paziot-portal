@@ -1,5 +1,11 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.client.constants.ButtonType;
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialIcon;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +34,8 @@ import com.pazeto.iot.client.services.ScheduleService;
 import com.pazeto.iot.client.services.ScheduleServiceAsync;
 import com.pazeto.iot.client.ui.BaseComposite;
 import com.pazeto.iot.client.ui.DevicePage;
-import com.pazeto.iot.client.ui.DynamicSelectionCell;
+import com.pazeto.iot.client.ui.widgets.DynamicSelectionCell;
+import com.pazeto.iot.client.ui.widgets.IotMaterialButton;
 import com.pazeto.iot.shared.vo.IoPort;
 import com.pazeto.iot.shared.vo.Schedule;
 import com.pazeto.iot.shared.vo.Schedule.FREQUENCIES;
@@ -49,7 +56,10 @@ public class SchedulesTable extends BaseComposite {
 		refresh();
 		return uniqueInstance;
 	}
-
+	
+	/**
+	 * Map to portId,portNumber
+	 */
 	private static Map<String, String> portNumbers = new HashMap<>();
 
 	private static void refresh() {
@@ -103,10 +113,9 @@ public class SchedulesTable extends BaseComposite {
 	};
 
 	private CellTable<Schedule> table;
-	private Button addNewScheduleButton;
+	private MaterialButton addNewScheduleButton;
 
 	public SchedulesTable() {
-		GWT.log("iniciando");
 		table = new CellTable<Schedule>(KEY_PROVIDER);
 		table.setWidth("100%", true);
 
@@ -120,7 +129,8 @@ public class SchedulesTable extends BaseComposite {
 		// Add the CellList to the adapter in the database.
 		scheduleDataProvider.addDataDisplay(table);
 
-		addNewScheduleButton = new Button("Novo Agendamento");
+		addNewScheduleButton = new IotMaterialButton("Novo Agendamento",
+				IconType.ALARM_ADD, IconPosition.RIGHT);
 		addNewScheduleButton.addClickHandler(AddNewBtnHandler);
 
 		VerticalPanel vp = new VerticalPanel();
@@ -271,9 +281,8 @@ public class SchedulesTable extends BaseComposite {
 		table.addColumn(hourColumn, "Minuto");
 		table.setColumnWidth(hourColumn, 5, Unit.PCT);
 
-		
 		// value
-		Cell<String> valueCell = new SelectionCell(Arrays.asList("0","1"));
+		Cell<String> valueCell = new SelectionCell(Arrays.asList("0", "1"));
 		Column<Schedule, String> valueColunm = new Column<Schedule, String>(
 				valueCell) {
 			@Override
@@ -292,5 +301,10 @@ public class SchedulesTable extends BaseComposite {
 		table.addColumn(valueColunm, "Valor");
 		table.setColumnWidth(valueColunm, 5, Unit.PCT);
 
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return "Agendamento";
 	}
 }

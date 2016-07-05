@@ -23,6 +23,15 @@ public class IoPort implements Serializable {
 		this.deviceId = port.getDeviceId();
 		setDescription(port.getDescription());
 	}
+	
+	public IoPort(IoPort port) {
+		this.id = port.getId();
+		this.iONumber = port.getiONumber();
+		this.type = port.getType();
+		this.deviceId = port.getDeviceId();
+		setDescription(port.getDescription());
+	}
+	
 	public IoPort() {
 	}
 

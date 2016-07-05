@@ -1,15 +1,22 @@
-.background-image {
-	background-image: url("res/iot-pazeto-background.jpg");
+
+.com-googlecode-mgwt-ui-client-widget-panel-PanelAppearance-PanelCss-mgwt-Panel
+	{
+	background-color: #d2d6d6 !important;
+	border: 1px solid #9daca9 !important;
+	/*     margin: 5px !important; */
+	padding: 5px !important;
+	font-weight: bold !important;
+	color: #454545 !important;
+	border-radius: 5px !important;
 }
 
-.main-div {
-	position: fixed;
-	overflow-y: auto;
-	width: 100%;
-	height: 100%;
-	margin: auto;
+.root-panel-style {
+	margin: auto !important;
+	padding: 0px !important;
+	border-radius: 0px !important;
 }
 
+s
 .loginTable {
 	margin: auto !important;
 	margin-top: 10px !important;
@@ -17,11 +24,12 @@
 	position: initial !important;
 	width: 90%;
 	max-width: 300px;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
 }
 
-.menu {
-	float: left;
+.top-bar-menu {
+	background-color: #26a69a !important;
 }
 
 .content-view {
@@ -57,10 +65,6 @@ h1 {
 
 #closeButton {
 	margin: 15px 6px 6px;
-}
-
-.footer {
-	border: 0px solid #73AD21;
 }
 
 .body {
@@ -106,21 +110,16 @@ h1 {
 	background-color: white !important;
 	z-index: 2;
 	border-bottom-color: #FFF !important;
-	/* 	margin: 5px; */
-/* 	padding: 4px 10px 4px 10px; */
-/* 	border-top-right-radius: 5px; */
-/* 	border-top-left-radius: 5px; */
 }
 
 .gwt-TabLayoutPanelTab {
 	border-bottom: 1px solid #AAA;
 	z-index: 1;
 	background-color: #9E9191;
-	margin: 5px 2.5px 0px 2.5px;
+	margin: auto !important;
 	padding: 4px 5px 4px 5px;
-	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
 	cursor: pointer;
+	border-radius: 0px !important;
 }
 
 .gwt-TabLayoutPanelContentContainer {
@@ -129,24 +128,31 @@ h1 {
 	border-style: dashed;
 	border-color: white;
 }
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+    padding-left: 0px !important;
+}
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox
+	{
 	right: 0px !important;
 	border-radius: 10px !important;
 	border: solid 1px #DAB6B6;
 	font-weight: bold;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-middle-content{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-middle-content
+	{
 	border-radius: 11px !important;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-on{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-on
+	{
 	border-top-left-radius: 10px !important;
 	border-bottom-left-radius: 10px !important;
 }
 
-.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-off{
+.com-googlecode-mgwt-ui-client-widget-input-checkbox-MCheckBoxAppearance-CheckBoxCss-mgwt-CheckBox-off
+	{
 	border-top-right-radius: 10px !important;
 	border-bottom-right-radius: 10px !important;
 	width: 50px !important;
@@ -162,6 +168,39 @@ h1 {
 	background: #CDCCDE !important;
 }
 
-.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHoveredRow{
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableHoveredRow
+	{
 	background: #D8E1F6 !important;
+}
+
+.material-icons-bordered {
+	cursor: pointer;
+	color: white;
+	border: 5px;
+	background-color: #26a69a;
+	border-color: #26a69a;
+	border-style: solid;
+	border-radius: 4px;
+}
+
+.status-icon {
+	font-size: 18px !important;
+}
+
+.material-icons-bordered:hover {
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0
+		rgba(0, 0, 0, 0.15);
+}
+
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
+	border: 1px solid #bbbbbb !important;
+	background: #26a69a !important;
+	transition: .2s ease-out;
+	color: white
+}
+
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering {
+	background: #2bbbad !important;
+	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0
+		rgba(0, 0, 0, 0.15);
 }

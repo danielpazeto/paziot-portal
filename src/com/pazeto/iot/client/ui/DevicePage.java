@@ -11,7 +11,19 @@ import com.pazeto.iot.shared.vo.Device;
 public class DevicePage extends BaseComposite {
 
 	public enum DeviceTabs {
-		PROFILE, STATUS;
+		PROFILE("Dispositivo"), PORTS("Portas"), STATUS("Estado"), SCHEDULE(
+				"Agendamento");
+
+		String tabName;
+
+		private DeviceTabs(String name) {
+			this.tabName = name;
+		}
+
+		public String getTabName() {
+			return tabName;
+		}
+
 	}
 
 	private static DevicePage uniqueInstance;
@@ -25,7 +37,7 @@ public class DevicePage extends BaseComposite {
 		return currentDev;
 	}
 
-	public static DevicePage getInstance() {
+	private static DevicePage getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new DevicePage();
 		}
@@ -45,16 +57,24 @@ public class DevicePage extends BaseComposite {
 		deviceTabPanel = new TabLayoutPanel(2.5, Unit.EM);
 		deviceTabPanel.setWidth("100%");
 		deviceTabPanel.setHeight("100%");
-		deviceTabPanel.setStyleName("footer");
 		initWidget(deviceTabPanel);
 	}
 
 	private static void addTabs() {
 		deviceTabPanel.clear();
-		deviceTabPanel.add(DeviceEditorView.getInstance(), "Profile Device");
-		deviceTabPanel.add(ListIoPortTable.getInstance(), "Portas");
-		deviceTabPanel.add(ListIoPortStatusTable.getInstance(), "Status");
-		deviceTabPanel.add(SchedulesTable.getInstance(), "Agendamento");
+
+		addTab(DeviceTabs.PROFILE, DeviceEditorView.getInstance());
+		addTab(DeviceTabs.PORTS, ListIoPortTable.getInstance());
+		addTab(DeviceTabs.STATUS, ListIoPortStatusTable.getInstance());
+		addTab(DeviceTabs.SCHEDULE, SchedulesTable.getInstance());
+	}
+
+	private static void addTab(DeviceTabs tab, BaseComposite page) {
+		deviceTabPanel.add(page, tab.getTabName());
+		deviceTabPanel.getTabWidget(tab.ordinal()).getParent().getParent()
+				.setWidth("100%");
+		deviceTabPanel.getTabWidget(tab.ordinal()).getParent()
+				.setWidth(100 / DeviceTabs.values().length + "%");
 	}
 
 	public void openStatus() {
@@ -65,6 +85,11 @@ public class DevicePage extends BaseComposite {
 	public void openDeficeProfile() {
 		DeviceEditorView.getInstance();
 		deviceTabPanel.selectTab(DeviceTabs.PROFILE.ordinal());
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return "Dispositivo";
 	}
 
 }

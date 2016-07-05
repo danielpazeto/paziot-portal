@@ -1,0 +1,19 @@
+@FinalFields, false
+com.google.gwt.i18n.shared.impl.DateRecord, false, false, true, true, com.google.gwt.i18n.shared.impl.DateRecord/3173882066, 3173882066
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.pazeto.iot.client.services.IoPortService, false, false, false, false, _, 3986346057
+com.pazeto.iot.shared.vo.Device, false, false, true, true, com.pazeto.iot.shared.vo.Device/1310753955, 1310753955
+com.pazeto.iot.shared.vo.IoPort, true, true, true, true, com.pazeto.iot.shared.vo.IoPort/196320266, 196320266
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.Long, false, false, true, true, java.lang.Long/4227064769, 4227064769
+java.lang.Number, false, false, true, false, java.lang.Number/300033342, 300033342
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.sql.Date, false, false, true, true, java.sql.Date/730999118, 730999118
+java.sql.Time, false, false, true, true, java.sql.Time/1816797103, 1816797103
+java.sql.Timestamp, false, false, true, true, java.sql.Timestamp/3040052672, 3040052672
+java.util.ArrayList, true, true, false, false, java.util.ArrayList/4159755760, 4159755760
+java.util.Date, false, false, true, true, java.util.Date/3385151746, 3385151746

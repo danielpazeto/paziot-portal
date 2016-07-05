@@ -21,4 +21,10 @@ public class HomePage extends BaseComposite {
 		initBaseWidget(flexTable);
 	}
 
+	@Override
+	protected String getModalTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

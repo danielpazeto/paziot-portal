@@ -1,0 +1,2 @@
+serviceClass: com.pazeto.iot.client.services.LoginService
+path: 21E7C15BEB86036D4CDA141250017138.gwt.rpc

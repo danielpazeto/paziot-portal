@@ -19,12 +19,12 @@ import com.pazeto.iot.shared.vo.User;
 public class UserInfoForm extends PopupPanel {
 
 	private static UserInfoForm uniqueInstance;
-	
+
 	public static UserInfoForm getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new UserInfoForm();
 		}
-		MainRootScreen.getInstance().setModalTitle("Usuário");
+		MainRootScreen.getInstance().setMainModalTitle("Usuário");
 		return uniqueInstance;
 	}
 
@@ -41,18 +41,11 @@ public class UserInfoForm extends PopupPanel {
 		sendBtn = new MaterialButton();
 		sendBtn.addClickHandler(new NewUserButtonHandler());
 		sendBtn.setText("Cadastrar");
-		
+
 		closeBtn = new MaterialButton();
-		closeBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				UserInfoForm.this.hide();
-
-			}
-		});
+		closeBtn.addClickHandler(closeClickHandler);
 		closeBtn.setText("Cancelar");
-		
+
 		nameField.setPlaceholder("Nome");
 		lastNameField.setPlaceholder("Nome");
 		emailField.setPlaceholder("Email");
@@ -62,7 +55,7 @@ public class UserInfoForm extends PopupPanel {
 
 		vPanel.add(new Label("Cadastro de Usuário"));
 		vPanel.add(nameField);
-//		vPanel.add(lastNameField);
+		// vPanel.add(lastNameField);
 		vPanel.add(emailField);
 		vPanel.add(pwdField);
 		vPanel.add(sendBtn);
@@ -70,6 +63,14 @@ public class UserInfoForm extends PopupPanel {
 		this.setModal(true);
 		this.add(vPanel);
 	}
+
+	ClickHandler closeClickHandler = new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			UserInfoForm.this.hide();
+		}
+	};
 
 	/**
 	 * Create new user handle button
@@ -91,14 +92,19 @@ public class UserInfoForm extends PopupPanel {
 				@Override
 				public void onSuccess(Long result) {
 					UserInfoForm.getInstance().hide();
-					MainRootScreen.getInstance().setModalText("Usuário " + nameField.getText()
-							+ " criado com sucesso").openModal();
+					MainRootScreen
+							.getInstance()
+							.setModalText(
+									"Usuário " + nameField.getText()
+											+ " criado com sucesso")
+							.openModal();
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
-					GWT.log("Error message: ",caught);
-					MainRootScreen.getInstance().setModalText("Erro ao criar usuário").openModal();
+					GWT.log("Error message: ", caught);
+					MainRootScreen.getInstance()
+							.setModalText("Erro ao criar usuário").openModal();
 				}
 
 				@Override

@@ -1,5 +1,8 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.client.constants.IconPosition;
+import gwt.material.design.client.constants.IconType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,19 +16,16 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionModel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.IoPortService;
 import com.pazeto.iot.client.services.IoPortServiceAsync;
 import com.pazeto.iot.client.ui.BaseComposite;
 import com.pazeto.iot.client.ui.DevicePage;
+import com.pazeto.iot.client.ui.widgets.IotMaterialButton;
 import com.pazeto.iot.shared.vo.IoPort;
 import com.pazeto.iot.shared.vo.IoPort.PORT_TYPE;
 
@@ -60,33 +60,39 @@ public class ListIoPortTable extends BaseComposite {
 
 				@Override
 				protected void callService(AsyncCallback<ArrayList<IoPort>> cb) {
-					portService.listAllPortsByDevice(DevicePage.getCurrentDev(), cb);
+					GWT.log("AQUI ID" + DevicePage.getCurrentDev().getChipId());
+					portService.listAllPortsByDevice(
+							DevicePage.getCurrentDev(), cb);
 				}
 			}.executeWithoutSpinner();
 		}
 	}
 
-	public static final ProvidesKey<IoPort> KEY_PROVIDER = new ProvidesKey<IoPort>() {
-		@Override
-		public Object getKey(IoPort item) {
-			return item == null ? null : item.getId();
-		}
-	};
+	// public static final ProvidesKey<IoPort> KEY_PROVIDER = new
+	// ProvidesKey<IoPort>() {
+	// @Override
+	// public Object getKey(IoPort item) {
+	// return item == null ? null : item.getId();
+	// }
+	// };
 
-	CellTable<IoPort> table;
+	private static CellTable<IoPort> table;
 
-	private Button addIoPortButton;
+	private IotMaterialButton addIoPortButton;
 
 	public ListIoPortTable() {
 
-		table = new CellTable<IoPort>(KEY_PROVIDER);
-		table.setWidth("100%", true);
+		table = new CellTable<IoPort>();
+		table.setWidth("100%");
+		table.setHeight("40vh");
+		table.addStyleName("type striped");
 
 		// Add a selection model so we can select cells.
-		final SelectionModel<IoPort> selectionModel = new MultiSelectionModel<IoPort>(
-				KEY_PROVIDER);
-		table.setSelectionModel(selectionModel,
-				DefaultSelectionEventManager.<IoPort> createCheckboxManager());
+		// final SelectionModel<IoPort> selectionModel = new
+		// MultiSelectionModel<IoPort>(
+		// KEY_PROVIDER);
+		// table.setSelectionModel(selectionModel,
+		// DefaultSelectionEventManager.<IoPort> createCheckboxManager());
 
 		// Attach a column sort handler to the ListDataProvider to sort the
 		// list.
@@ -95,13 +101,14 @@ public class ListIoPortTable extends BaseComposite {
 				ioPortDataProvider.getList());
 		table.addColumnSortHandler(sortHandler);
 		// Initialize the columns.
-		initTableColumns(selectionModel, sortHandler);
+		initTableColumns(sortHandler);
 
 		// Add the CellList to the adapter in the database.
 		ioPortDataProvider.addDataDisplay(table);
 
-		addIoPortButton = new Button("Nova porta");
-		addIoPortButton.addClickHandler(addNewBtnHandler);
+		addIoPortButton = new IotMaterialButton("Nova porta",
+				IconType.ADD_CIRCLE, IconPosition.RIGHT);
+		addIoPortButton.addClickHandler(btnNewPortClickHandler);
 
 		VerticalPanel vp = new VerticalPanel();
 		vp.add(addIoPortButton);
@@ -110,91 +117,60 @@ public class ListIoPortTable extends BaseComposite {
 		initBaseWidget(vp);
 	}
 
-	ClickHandler addNewBtnHandler = new ClickHandler() {
+	ClickHandler btnNewPortClickHandler = new ClickHandler() {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			IoPort port = new IoPort();
+			// ioPortDataProvider.refresh();
+			ioPortDataProvider.getList().add(port);
+
 			port.setDeviceId(DevicePage.getCurrentDev().getChipId());
 			port.setIONumber("");
 			GWT.log(port.getId());
 			GWT.log(port.getiONumber());
 
-			ioPortDataProvider.refresh();
-			ioPortDataProvider.getList().add(port);
 			for (IoPort iterable_element : ioPortDataProvider.getList()) {
 				GWT.log("ionumer=" + iterable_element.getiONumber());
 			}
 		}
 	};
 
-	private void refreshIoNumberPort(final IoPort port,
-			final String newIoNumberValue) {
+	/**
+	 * Method to update a value for IoPort list
+	 * 
+	 * @param index
+	 * @param port
+	 * @param oldPort
+	 */
+	private void refreshPort(final int index, final IoPort port,
+			final IoPort oldPort) {
 		new CustomAsyncCall<String>() {
 			String oldValue;
 
 			@Override
 			public void onSuccess(String result) {
 				GWT.log("Sucesso, mas está como " + result);
+				port.setId(result);
+				// ioPortDataProvider.getList().getadd(port);
+				ioPortDataProvider.refresh();
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
 				GWT.log("era pra ser -1, mas está como " + oldValue);
-				((IoPort) ioPortDataProvider.getKey(port))
-						.setIONumber(oldValue);
+				// ioPortDataProvider.getList().add(oldPort);
 				ioPortDataProvider.refresh();
 			}
 
 			@Override
 			protected void callService(AsyncCallback<String> cb) {
-				if (isValidIOnumber(newIoNumberValue)) {
-					oldValue = new String(port.getiONumber());
-					port.setIONumber(newIoNumberValue);
-					portService.savePort(port, cb);
-				}
-			}
-
-			private boolean isValidIOnumber(final String newIoNumberValue) {
-				Integer i;
-				try {
-					i = Integer.valueOf(newIoNumberValue);
-					return i > -1;
-				} catch (Exception e) {
-					return false;
-				}
-			}
-		}.executeWithoutSpinner(0);
-	}
-
-	private void refreshIoDescriptionPort(final IoPort port,
-			final String newPortName) {
-		new CustomAsyncCall<String>() {
-			String oldValue;
-
-			@Override
-			public void onSuccess(String result) {
-				GWT.log("Sucesso, mas está como " + result);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				((IoPort) ioPortDataProvider.getKey(port))
-						.setDescription(oldValue);
-				ioPortDataProvider.refresh();
-			}
-
-			@Override
-			protected void callService(AsyncCallback<String> cb) {
-				oldValue = port.getDescription();
-				port.setDescription(newPortName);
 				portService.savePort(port, cb);
 			}
 		}.executeWithoutSpinner(0);
 	}
 
-	private void initTableColumns(final SelectionModel<IoPort> selectionModel,
-			ListHandler<IoPort> sortHandler) {
+	private void initTableColumns(ListHandler<IoPort> sortHandler) {
 
 		// IOnumber name.
 		Column<IoPort, String> ioNumberColumn = new Column<IoPort, String>(
@@ -204,17 +180,13 @@ public class ListIoPortTable extends BaseComposite {
 				return object.getiONumber();
 			}
 		};
-		// ioNumberColumn.setSortable(true);
-		// sortHandler.setComparator(ioNumberColumn, new Comparator<IoPort>() {
-		// @Override
-		// public int compare(IoPort o1, IoPort o2) {
-		// return o1.getiONumber().compareTo(o2.getiONumber());
-		// }
-		// });
 		ioNumberColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
 			@Override
 			public void update(int index, IoPort object, String value) {
-				refreshIoNumberPort(object, value);
+				GWT.log("				object.getiONumber()" + object.getiONumber());
+				IoPort newPort = new IoPort(object);
+				newPort.setIONumber(value);
+				refreshPort(index, newPort, object);
 			}
 		});
 		table.addColumn(ioNumberColumn, "Número");
@@ -228,18 +200,13 @@ public class ListIoPortTable extends BaseComposite {
 				return object.getDescription();
 			}
 		};
-		// nameColumn.setSortable(true);
-		// sortHandler.setComparator(nameColumn, new Comparator<IoPort>() {
-		// @Override
-		// public int compare(IoPort o1, IoPort o2) {
-		// return o1.getDescription().compareTo(o2.getDescription());
-		// }
-		// });
 		table.addColumn(nameColumn, "Descrição");
 		nameColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
 			@Override
 			public void update(int index, IoPort object, String value) {
-				refreshIoDescriptionPort(object, value);
+				IoPort newPort = new IoPort(object);
+				newPort.setDescription(value);
+				refreshPort(index, newPort, object);
 			}
 		});
 		table.setColumnWidth(nameColumn, 40, Unit.PCT);
@@ -262,16 +229,23 @@ public class ListIoPortTable extends BaseComposite {
 		categoryColumn.setFieldUpdater(new FieldUpdater<IoPort, String>() {
 			@Override
 			public void update(int index, IoPort object, String value) {
+				IoPort newPort = new IoPort(object);
 				for (PORT_TYPE category : categories) {
 					if (category.name().equals(value)) {
-						object.setType(category.name());
+						// object.setType(category.name());
+						newPort.setType(value);
 					}
 				}
-				// ContactDatabase.get().refreshDisplays();
+				refreshPort(index, newPort, object);
 			}
 		});
 		table.setColumnWidth(categoryColumn, 40, Unit.PCT);
 
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return "Porta";
 	}
 
 }

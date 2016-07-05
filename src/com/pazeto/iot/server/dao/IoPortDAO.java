@@ -19,10 +19,11 @@ public class IoPortDAO {
 			if (dev == null)
 				return null;
 			session.beginTransaction();
-			String hql = "FROM IoPortDTO p WHERE p.deviceId = :deviceId";
+			String hql = "FROM IoPortDTO as p WHERE p.deviceId = :deviceId";
 			Query query = session.createQuery(hql);
+			System.out.println("filtering by : "+dev.getChipId());
 			query.setString("deviceId", dev.getChipId());
-			List results = query.list();
+			List<?> results = query.list();
 			if (results.size() >= 1) {
 				ArrayList<IoPort> ports = new ArrayList<>();
 				for (Object object : results) {

@@ -1,2 +1,0 @@
-serviceClass: com.pazeto.iot.client.services.UserService
-path: 53F31D54D8E8F32369AA8390F865518A.gwt.rpc

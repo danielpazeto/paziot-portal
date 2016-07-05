@@ -1,5 +1,9 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.client.ui.MaterialButton;
+import gwt.material.design.client.ui.MaterialListBox;
+import gwt.material.design.client.ui.MaterialTextBox;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,13 +12,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.DeviceService;
 import com.pazeto.iot.client.services.DeviceServiceAsync;
@@ -29,7 +27,7 @@ import com.pazeto.iot.shared.vo.User;
 public class DeviceEditorView extends BaseComposite {
 
 	private static DeviceEditorView uniqueInstance;
-
+	
 	public static DeviceEditorView getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new DeviceEditorView();
@@ -101,54 +99,28 @@ public class DeviceEditorView extends BaseComposite {
 			.create(DeviceService.class);
 
 	// private static Device currentDev;
-	private static TextBox chipIdField = new TextBox();
-	private static TextBox nameField = new TextBox();
-	private static ListBox dropBoxUser = new ListBox();
+	private static MaterialTextBox chipIdField = new MaterialTextBox();
+	private static MaterialTextBox nameField = new MaterialTextBox();
+	private static MaterialListBox dropBoxUser = new MaterialListBox();
 
-	private Button sendBtn;
-
-	private DialogBox dialogBox;
-	private Button closeDialogBoxButton;
-	private Label textToServerLabel;
+	private MaterialButton sendBtn = new MaterialButton();
 
 	public DeviceEditorView() {
-		sendBtn = new Button("Enviar", new SaveDeviceButtonHandler());
 
-		VerticalPanel vPanel = new VerticalPanel();
-
-		FlexTable inputTable = new FlexTable();
-		inputTable.setWidget(0, 0, new Label("Chip ID: "));
-		inputTable.setWidget(0, 1, chipIdField);
-		inputTable.setWidget(1, 0, new Label("Nome do Dispositivo: "));
-		inputTable.setWidget(1, 1, nameField);
-		inputTable.setWidget(2, 0, new Label("Usuário Proprietário: "));
-		inputTable.setWidget(2, 1, dropBoxUser);
-		inputTable.setWidget(4, 1, sendBtn);
+		sendBtn.setText("Salvar");
+		sendBtn.addClickHandler(new SaveDeviceButtonHandler());
+		chipIdField.setPlaceholder("Chip ID");
+		nameField.setPlaceholder("Nome do dispositivo");
+		dropBoxUser.setPlaceholder("Usuário Proprietário");
+		Panel inputTable = new Panel();
+		inputTable.add(chipIdField);
+		inputTable.add(nameField);
+		inputTable.add(dropBoxUser);
+		inputTable.add(sendBtn);
 
 		inputTable.addStyleName("loginTable");
 
-		dialogBox = new DialogBox();
-		dialogBox.setText("Salvar");
-		dialogBox.setAnimationEnabled(true);
-		closeDialogBoxButton = new Button("Fechar");
-		textToServerLabel = new Label();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-		dialogVPanel.add(closeDialogBoxButton);
-
-		dialogBox.setWidget(dialogVPanel);
-
-		closeDialogBoxButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendBtn.setEnabled(true);
-			}
-		});
-
-		vPanel.add(inputTable);
-		initBaseWidget(vPanel);
+		initBaseWidget(inputTable);
 	}
 
 	class SaveDeviceButtonHandler implements ClickHandler {
@@ -163,20 +135,21 @@ public class DeviceEditorView extends BaseComposite {
 
 				@Override
 				public void onSuccess(Void result) {
-					textToServerLabel.setText("Dispositivo "
-							+ nameField.getText() + ":" + chipIdField.getText()
-							+ " criado com sucesso");
-					dialogBox.center();
+					setModalText(
+							"Dispositivo " + nameField.getText() + ":"
+									+ chipIdField.getText()
+									+ " criado com sucesso").openModal();
 					chipIdField.setEnabled(false);
-					closeDialogBoxButton.setFocus(true);
+					sendBtn.setEnabled(true);
 					MenuView.getInstance().loadMyDevicesItemMenu();
 				}
 
 				@Override
 				public void onFailure(Throwable caught) {
 					caught.printStackTrace();
-					GWT.log("Msg error: "+caught.getMessage());
+					GWT.log("Msg error: " + caught.getMessage());
 					setModalText("Erro ao criar Dispositivo").openModal();
+					sendBtn.setEnabled(true);
 				}
 
 				@Override
@@ -186,5 +159,10 @@ public class DeviceEditorView extends BaseComposite {
 			}.execute(0);
 		}
 
+	}
+
+	@Override
+	protected String getModalTitle() {
+		return "Dispositivo";
 	}
 }
