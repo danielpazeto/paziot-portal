@@ -2,11 +2,11 @@ package com.pazeto.iot.client.ui.views;
 
 import gwt.material.design.client.constants.IconPosition;
 import gwt.material.design.client.constants.IconType;
-import gwt.material.design.client.ui.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,17 +35,17 @@ import com.pazeto.iot.client.websocket.UserClientWebSocket.MessageJavasCriptHand
 import com.pazeto.iot.shared.Constants.DEVICE_STATUS;
 import com.pazeto.iot.shared.vo.IoPort;
 
-public class ListIoPortStatusTable extends BaseComposite {
+public class ListIoPortStatusView extends BaseComposite {
 
-	static ListIoPortStatusTable uniqueInstance;
+	static ListIoPortStatusView uniqueInstance;
 	private static IoPortServiceAsync portService = GWT
 			.create(IoPortService.class);
 
 	// static UserClientWebSocket websocket;
 
-	public static ListIoPortStatusTable getInstance() {
+	public static ListIoPortStatusView getInstance() {
 		if (uniqueInstance == null) {
-			uniqueInstance = new ListIoPortStatusTable();
+			uniqueInstance = new ListIoPortStatusView();
 		}
 		refresh();
 		return uniqueInstance;
@@ -53,7 +53,7 @@ public class ListIoPortStatusTable extends BaseComposite {
 
 	static HashMap<String, MCheckBox> switchersIoMap = new HashMap<String, MCheckBox>();
 
-	private static void refresh() {
+	static void refresh() {
 		// if (!websocket.isConnected()) {
 		// GWT.log("webscoket not connected.. Trying connect..");
 		// connectWebsocket();
@@ -101,26 +101,16 @@ public class ListIoPortStatusTable extends BaseComposite {
 						@Override
 						public void onValueChange(
 								ValueChangeEvent<Boolean> event) {
-							JSONObject responseJson = new JSONObject();
-							JSONObject value = new JSONObject();
-							value.put(
-									"ioNumber",
-									new JSONNumber(Double.parseDouble(ioPort
-											.getiONumber())));
-							if (event.getValue()) {
-								value.put("value", new JSONString("1"));
-							} else {
-								value.put("value", new JSONString("0"));
-							}
-							JSONArray arrayValues = new JSONArray();
-							arrayValues.set(0, value);
-							responseJson.put("values", arrayValues);
-							responseJson.put("chipId",
-									new JSONString(ioPort.getDeviceId()));
+							String responseJson;
+							responseJson = UserClientWebSocket.makeMessage(
+									ioPort, event.getValue() ? "1" : "0");
+
 							UserClientWebSocket.getInstance().sendMessage(
 									responseJson.toString());
 							requestDeviceStatus();
+
 						}
+
 					};
 				}
 
@@ -136,7 +126,7 @@ public class ListIoPortStatusTable extends BaseComposite {
 	static VerticalPanel vPinsStatusPanel;
 	static VerticalPanel vRootPanel;
 
-	public ListIoPortStatusTable() {
+	public ListIoPortStatusView() {
 		vRootPanel = new VerticalPanel();
 		UserClientWebSocket.getInstance().addMessageHandler(messageFromServer);
 		vPinsStatusPanel = new VerticalPanel();

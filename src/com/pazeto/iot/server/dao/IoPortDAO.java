@@ -6,6 +6,9 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pazeto.iot.shared.HibernateUtil;
 import com.pazeto.iot.shared.dto.IoPortDTO;
 import com.pazeto.iot.shared.vo.Device;
@@ -21,7 +24,7 @@ public class IoPortDAO {
 			session.beginTransaction();
 			String hql = "FROM IoPortDTO as p WHERE p.deviceId = :deviceId";
 			Query query = session.createQuery(hql);
-			System.out.println("filtering by : "+dev.getChipId());
+			System.out.println("filtering by : " + dev.getChipId());
 			query.setString("deviceId", dev.getChipId());
 			List<?> results = query.list();
 			if (results.size() >= 1) {
@@ -35,7 +38,24 @@ public class IoPortDAO {
 		} finally {
 			session.getTransaction().commit();
 		}
+	}
 
+	public IoPort getPortById(String id) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			session.beginTransaction();
+			String hql = "FROM IoPortDTO as p WHERE p.id = :id";
+			Query query = session.createQuery(hql);
+			System.out.println("filtering by : " + id);
+			query.setString("id", id);
+			List<?> results = query.list();
+			if (results.size() >= 1) {
+				return new IoPort((IoPortDTO) results.get(0));
+			}
+			return null;
+		} finally {
+			session.getTransaction().commit();
+		}
 	}
 
 	public String persistIoPort(IoPort port) {
@@ -56,6 +76,25 @@ public class IoPortDAO {
 			session.getTransaction().commit();
 		}
 
+	}
+	
+	
+	/**
+	 * BIG WORKAROUND there is the same method in the client side, because the libs JSON 
+	 * @param v
+	 * @return
+	 * @throws JSONException
+	 */
+	public String makeMessage(IoPort port, String v) throws JSONException {
+		JSONObject responseJson = new JSONObject();
+		JSONObject value = new JSONObject();
+		value.put("ioNumber", port.getiONumber());
+		value.put("value", v);
+		JSONArray arrayValues = new JSONArray();
+		arrayValues.put(0, value);
+		responseJson.put("values", arrayValues);
+		responseJson.put("chipId", port.getDeviceId());
+		return responseJson.toString();
 	}
 
 }

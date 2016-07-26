@@ -53,7 +53,7 @@ public class UserConnectionWebSocket {
 						jsonToDevice.put("values",
 								jsonMessage.getJSONArray("values"));
 						HandleConnectedDevices.sendMessageToDevice(cid,
-								jsonToDevice);
+								jsonToDevice.toString());
 					} else if (jsonMessage.has("status")) {
 						JSONObject jsonToDevice = new JSONObject(message);
 						jsonToDevice.put("status", jsonMessage.get("status"));
@@ -64,7 +64,7 @@ public class UserConnectionWebSocket {
 										+ "para "
 										+ jsonMessage.get("status"));
 						HandleConnectedDevices.sendMessageToDevice(cid,
-								jsonToDevice);
+								jsonToDevice.toString());
 					}
 				} else {
 					// send message back to user warning it that chipId is
@@ -78,7 +78,7 @@ public class UserConnectionWebSocket {
 
 			} else {
 				GWT.log("Unexpected Json Format!!");
-//				throw new JsonException("Unexpected Json Format!!");
+				// throw new JsonException("Unexpected Json Format!!");
 			}
 
 		} catch (JSONException e) {

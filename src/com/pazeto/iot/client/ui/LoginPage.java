@@ -15,7 +15,7 @@ import com.googlecode.mgwt.ui.client.widget.panel.Panel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.LoginService;
 import com.pazeto.iot.client.services.LoginServiceAsync;
-import com.pazeto.iot.client.ui.views.UserInfoForm;
+import com.pazeto.iot.client.ui.views.UserPopupForm;
 import com.pazeto.iot.shared.Util;
 import com.pazeto.iot.shared.vo.User;
 
@@ -136,7 +136,7 @@ public class LoginPage extends BaseComposite {
 		public void onClick(ClickEvent event) {
 			// open my pop to new user
 			GWT.log("NEW NEW NEW");
-			UserInfoForm.getInstance().center();
+			UserPopupForm.getInstance().center();
 		}
 
 	}

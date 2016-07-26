@@ -29,11 +29,10 @@ public class HandleConnectedDevices {
 		}
 	}
 
-	public static void sendMessageToDevice(String cid, JSONObject values)
+	public static void sendMessageToDevice(String cid, String values)
 			throws Exception {
 		if (deviceIsConnected(cid)) {
-			connecteDevices.get(cid).getBasicRemote()
-					.sendText(values.toString());
+			connecteDevices.get(cid).getBasicRemote().sendText(values);
 		} else {
 			throw new Exception("Device" + cid + "isn't connected!");
 		}

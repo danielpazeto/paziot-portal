@@ -7,14 +7,14 @@ import com.pazeto.iot.shared.dto.EventDTO;
 public class Event {
 
 	public enum ENTITIES { // WHO
-		USER, DEVICE, IO_PORT;
+		USER, DEVICE, IO_PORT,SCHEDULE;
 		public String toString() {
 			return this.name();
 		};
 	}
 
 	public enum TYPE_EVENT { // WHAT
-		CHANGE_PINTOUT_VALUE(0), CONNECTED(1), DISCONNECTED(2);
+		CHANGE_PINTOUT_VALUE(0), CONNECTED(1), DISCONNECTED(2),SCHEDULE_STATUS(3);
 
 		TYPE_EVENT(int code) {
 			this.code = code;

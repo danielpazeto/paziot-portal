@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.pazeto.iot.shared.Constants;
 import com.pazeto.iot.shared.Util;
+import com.pazeto.iot.shared.vo.IoPort;
 
 public class UserClientWebSocket extends WebSocket {
 
@@ -71,6 +75,24 @@ public class UserClientWebSocket extends WebSocket {
 		responseJson.put("chipId", new JSONString(chipId));
 		responseJson.put("status", new JSONString(chipId));
 		UserClientWebSocket.getInstance().sendMessage(responseJson.toString());
+	}
+	
+	/**
+	 * BIG WORKAROUND there is the same method in the server side, because the libs JSON 
+	 * @param v
+	 * @return
+	 * @throws JSONException
+	 */
+	public static String makeMessage(IoPort port, String v) throws JSONException {
+		JSONObject responseJson = new JSONObject();
+		JSONObject value = new JSONObject();
+		value.put("ioNumber", new JSONString(port.getiONumber()));
+		value.put("value", new JSONString(v));
+		JSONArray arrayValues = new JSONArray();
+		arrayValues.set(0, value);
+		responseJson.put("values", arrayValues);
+		responseJson.put("chipId", new JSONString(port.getDeviceId()));
+		return responseJson.toString();
 	}
 
 }

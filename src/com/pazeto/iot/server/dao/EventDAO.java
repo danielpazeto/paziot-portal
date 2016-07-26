@@ -12,6 +12,8 @@ import com.pazeto.iot.shared.HibernateUtil;
 import com.pazeto.iot.shared.dto.EventDTO;
 import com.pazeto.iot.shared.vo.Event.ENTITIES;
 import com.pazeto.iot.shared.vo.Event.TYPE_EVENT;
+import com.pazeto.iot.shared.vo.Schedule;
+import com.pazeto.iot.shared.vo.Schedule.SCHEDULE_RUN_STATUS;
 
 public class EventDAO {
 
@@ -85,5 +87,17 @@ public class EventDAO {
 		evConnection.setType(TYPE_EVENT.DISCONNECTED.name());
 		evConnection.setDate(new Date());
 		saveEvent(Arrays.asList(evConnection));
+	}
+
+	public static void saveScheduledRunned(Schedule schedule,
+			SCHEDULE_RUN_STATUS executed) {
+		EventDTO evConnection = new EventDTO();
+		evConnection.setRequester(ENTITIES.SCHEDULE.name());
+		evConnection.setOwnId(String.valueOf(schedule.getId()));
+		evConnection.setType(TYPE_EVENT.SCHEDULE_STATUS.name());
+		evConnection.setDate(new Date());
+		evConnection.setValue(schedule.getHour() + ":" + schedule.getMinute());
+		saveEvent(Arrays.asList(evConnection));
+
 	}
 }

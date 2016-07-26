@@ -3,9 +3,9 @@ package com.pazeto.iot.client.ui;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.pazeto.iot.client.ui.views.DeviceEditorView;
-import com.pazeto.iot.client.ui.views.ListIoPortStatusTable;
-import com.pazeto.iot.client.ui.views.ListIoPortTable;
-import com.pazeto.iot.client.ui.views.SchedulesTable;
+import com.pazeto.iot.client.ui.views.ListIoPortStatusView;
+import com.pazeto.iot.client.ui.views.ListIoPortView;
+import com.pazeto.iot.client.ui.views.ListSchedulesView;
 import com.pazeto.iot.shared.vo.Device;
 
 public class DevicePage extends BaseComposite {
@@ -64,9 +64,9 @@ public class DevicePage extends BaseComposite {
 		deviceTabPanel.clear();
 
 		addTab(DeviceTabs.PROFILE, DeviceEditorView.getInstance());
-		addTab(DeviceTabs.PORTS, ListIoPortTable.getInstance());
-		addTab(DeviceTabs.STATUS, ListIoPortStatusTable.getInstance());
-		addTab(DeviceTabs.SCHEDULE, SchedulesTable.getInstance());
+		addTab(DeviceTabs.PORTS, ListIoPortView.getInstance());
+		addTab(DeviceTabs.STATUS, ListIoPortStatusView.getInstance());
+		addTab(DeviceTabs.SCHEDULE, ListSchedulesView.getInstance());
 	}
 
 	private static void addTab(DeviceTabs tab, BaseComposite page) {

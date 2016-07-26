@@ -15,7 +15,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/postgresql-9.4.1208.jre7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-material-1.5.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-charts-0.9.10.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-material-1.5.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-material-addins-1.5.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

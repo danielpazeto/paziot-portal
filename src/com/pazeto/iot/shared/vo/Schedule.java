@@ -1,13 +1,28 @@
 package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.pazeto.iot.shared.dto.ScheduleDTO;
 
 public class Schedule implements Serializable {
 
 	public enum FREQUENCIES {
-		DAILY, MONDAY, TUERSDAY, WEDNESDAY, THURSDAY, FRIDAY;
+		SUNDAY, MONDAY, TUERSDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, DAILY;
+
+		public static List<String> getFrquenciesNames() {
+			List<String> frequencyNames = new ArrayList<String>();
+			for (FREQUENCIES category : FREQUENCIES.values()) {
+				frequencyNames.add(category.name());
+			}
+			return frequencyNames;
+		}
+	}
+
+	public enum SCHEDULE_RUN_STATUS {
+		EXECUTED, DEVICE_DISCONNECTED, ERROR_ON_SERVER;
+
 	}
 
 	public Schedule() {

@@ -1,7 +1,9 @@
 package com.pazeto.iot.client.ui.views;
 
+import gwt.material.design.addins.client.sideprofile.MaterialSideProfile;
 import gwt.material.design.client.constants.IconType;
 import gwt.material.design.client.constants.SideNavType;
+import gwt.material.design.client.ui.MaterialButton;
 import gwt.material.design.client.ui.MaterialIcon;
 import gwt.material.design.client.ui.MaterialLink;
 import gwt.material.design.client.ui.MaterialNavBar;
@@ -18,9 +20,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.pazeto.iot.client.services.CustomAsyncCall;
 import com.pazeto.iot.client.services.DeviceService;
@@ -54,11 +54,9 @@ public class MenuView extends BaseComposite {
 		return uniqueInstance;
 	}
 
-	private VerticalPanel profileItemMenu = new VerticalPanel();
-//	private static VerticalPanel devicesItemMenu = new VerticalPanel();
-//	private VerticalPanel reportsItemMenu = new VerticalPanel();
+	private MaterialSideProfile profileItemMenu = new MaterialSideProfile();
 	MaterialIcon iconNewDevice = new MaterialIcon(IconType.ADD_CIRCLE);
-	
+
 	private MaterialNavBar navTopBar = new MaterialNavBar();
 	private MaterialSideNav sideNav = new MaterialSideNav(SideNavType.PUSH);
 
@@ -68,13 +66,13 @@ public class MenuView extends BaseComposite {
 					messageFromServer);
 		}
 		navTopBar.setActivates("navSideMenu");
-//		navTopBar.setType(NavBarType.FIXED);
+		// navTopBar.setType(NavBarType.FIXED);
 		navTopBar.addStyleName("top-bar-menu");
 		sideNav.setId("navSideMenu");
 		sideNav.setWidth(200);
 		navTopBar.add(sideNav);
 		sideNav.setCloseOnClick(true);
-		
+
 		buildProfileItemsMenu();
 		buildDevicesItemsMenu();
 		MaterialNavBrand brand = new MaterialNavBrand();
@@ -91,6 +89,7 @@ public class MenuView extends BaseComposite {
 			public void onClick(ClickEvent event) {
 				UiViewHandler.getInstance().openDevicePage(null,
 						DeviceTabs.PROFILE);
+				sideNav.hide();
 			}
 		});
 
@@ -98,7 +97,8 @@ public class MenuView extends BaseComposite {
 	}
 
 	private void buildProfileItemsMenu() {
-		profileItemMenu.add(new Button("Logout", new ClickHandler() {
+		MaterialButton logoutBtn = new MaterialButton();
+		logoutBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -121,43 +121,51 @@ public class MenuView extends BaseComposite {
 
 				}.execute();
 			}
-		}));
+		});
+		logoutBtn.setText("Logout");
 
-		HorizontalPanel hpUserWebScoketConnection = new HorizontalPanel();
-		hpUserWebScoketConnection.add(new Label("Websocket de Usuário"));
 		DeviceMenuItemWidget iconStatus = new DeviceMenuItemWidget();
+		logoutBtn.add(iconStatus);
 		if (Util.getUserLogged() != null)
 			iconStatus.setStatus(UserClientWebSocket.getInstance()
 					.isConnected());
-		hpUserWebScoketConnection.add(iconStatus);
-		profileItemMenu.add(hpUserWebScoketConnection);
+		iconStatus.setText("Olá " + Util.getUserLogged().getName());
+		profileItemMenu.add(iconStatus);
+		profileItemMenu.add(logoutBtn);
 		profileItemMenu.setWidth("100%");
 		profileItemMenu.setHeight("100%");
+		sideNav.add(profileItemMenu);
 
 	}
+
+	private VerticalPanel userDeviceWidget = new VerticalPanel();
 
 	public void loadMyDevicesItemMenu() {
 		new CustomAsyncCall<ArrayList<Device>>() {
 
 			@Override
 			public void onSuccess(ArrayList<Device> result) {
-				sideNav.clear();
+				userDeviceWidget.clear();
 				HorizontalPanel hPanelTop = new HorizontalPanel();
 				hPanelTop.add(iconNewDevice);
 				hPanelTop.add(makeRefreshButton());
 				hPanelTop.setWidth("100%");
-				sideNav.add(hPanelTop);
+				userDeviceWidget.add(hPanelTop);
 				deviceStatusMenuIcon.clear();
 				if (result != null && result.size() > 0) {
 					GWT.log(String.valueOf(result.size()));
 					for (Device device : result) {
-						sideNav.add(createMenuDeviceItem(device));
+						userDeviceWidget.add(createMenuDeviceItem(device));
 						UserClientWebSocket.getInstance().requestDeviceStatus(
 								device.getChipId());
 					}
 				} else {
-					sideNav.add(new MaterialLink("Nenhum disp. adicionado"));
+					userDeviceWidget.add(new MaterialLink(
+							"Nenhum disp. adicionado"));
 				}
+				userDeviceWidget.setWidth("100%");
+				userDeviceWidget.setHeight("100%");
+				sideNav.add(userDeviceWidget);
 			}
 
 			@Override
@@ -171,7 +179,7 @@ public class MenuView extends BaseComposite {
 	}
 
 	private static DeviceMenuItemWidget createMenuDeviceItem(final Device dev) {
-		
+
 		DeviceMenuItemWidget deviceMenuItem = new DeviceMenuItemWidget();
 		deviceMenuItem.setText(dev.getName());
 		deviceMenuItem.setDeviceDisconnected();
@@ -229,5 +237,5 @@ public class MenuView extends BaseComposite {
 	protected String getModalTitle() {
 		return "Menu";
 	}
-	
+
 }

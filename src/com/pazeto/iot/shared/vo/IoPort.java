@@ -1,13 +1,26 @@
 package com.pazeto.iot.shared.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import com.pazeto.iot.shared.dto.IoPortDTO;
 
 public class IoPort implements Serializable {
 
 	public static enum PORT_TYPE {
 		DIGITAL_INPUT, DIGITAL_OUTPUT, ANALOG_OUTPUT, ANALOG_INPUT;
+
+		public static List<String> getTypeNames() {
+			List<String> categoryNames = new ArrayList<String>();
+			for (PORT_TYPE category : PORT_TYPE.values()) {
+				categoryNames.add(category.name());
+			}
+			return categoryNames;
+		}
 	}
 
 	private String id;
@@ -23,7 +36,7 @@ public class IoPort implements Serializable {
 		this.deviceId = port.getDeviceId();
 		setDescription(port.getDescription());
 	}
-	
+
 	public IoPort(IoPort port) {
 		this.id = port.getId();
 		this.iONumber = port.getiONumber();
@@ -31,12 +44,12 @@ public class IoPort implements Serializable {
 		this.deviceId = port.getDeviceId();
 		setDescription(port.getDescription());
 	}
-	
+
 	public IoPort() {
 	}
 
 	public String getId() {
-		return getDeviceId() + "-" +getiONumber();
+		return getDeviceId() + "-" + getiONumber();
 	}
 
 	public void setId(String id) {
@@ -74,4 +87,5 @@ public class IoPort implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 }
